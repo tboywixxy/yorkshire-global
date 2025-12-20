@@ -4,7 +4,7 @@ import Container from "@/components/Container";
 import SectionHeading from "@/components/SectionHeading";
 import CTA from "@/components/CTA";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 const cases = [
   {
@@ -33,23 +33,21 @@ const cases = [
   },
 ];
 
-// ✅ Parent + child variants = smoother, consistent stagger
-const gridVariants = {
+// ✅ Type them as Variants so TS doesn't widen literals like "spring" -> string
+const gridVariants: Variants = {
   hidden: {},
   show: {
     transition: {
-      // slower + smoother stagger
       staggerChildren: 0.12,
       delayChildren: 0.06,
     },
   },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 28,
-    // optional: adds a nicer “soft” entrance; remove if you don’t want it
     filter: "blur(6px)",
   },
   show: {
@@ -57,7 +55,6 @@ const cardVariants = {
     y: 0,
     filter: "blur(0px)",
     transition: {
-      // use a gentle spring for natural feel (less “fast snap”)
       type: "spring",
       stiffness: 140,
       damping: 22,
@@ -69,7 +66,7 @@ const cardVariants = {
 export default function CaseStudiesPage() {
   return (
     <>
-      {/* ✅ Top hero image (same as About/Services/Industries) */}
+      {/* ✅ Top hero image */}
       <section className="-mt-14">
         <div className="relative h-[34vh] min-h-[300px] w-full overflow-hidden">
           <Image
@@ -81,34 +78,26 @@ export default function CaseStudiesPage() {
             className="object-cover"
           />
 
-          {/* overlays for readability under transparent navbar */}
           <div className="absolute inset-0 bg-black/25" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/30 to-black/10" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/15 to-transparent" />
 
-          {/* ✅ Company + Page name (bottom-left) */}
           <div className="absolute bottom-4 left-4 z-20 pl-12">
             <motion.span
               className="inline-block select-none text-sm sm:text-base font-serif font-semibold text-white/90 tracking-wide"
               initial={false}
               whileHover={{ scale: 1.07 }}
-              transition={{
-                type: "spring",
-                stiffness: 420,
-                damping: 26,
-                mass: 0.6,
-              }}
+              transition={{ type: "spring", stiffness: 420, damping: 26, mass: 0.6 }}
             >
               Yorkshire Global Consulting Inc. - Case Studies
             </motion.span>
           </div>
 
-          {/* spacer so navbar sits on top nicely */}
           <div className="relative z-10 h-full pt-14" />
         </div>
       </section>
 
-      {/* ✅ Main section (with scroll reveal) */}
+      {/* ✅ Main section */}
       <section className="py-12 sm:py-14 section-tint">
         <Container>
           <SectionHeading
@@ -116,33 +105,27 @@ export default function CaseStudiesPage() {
             subtitle="High-level examples of how we support secure, structured delivery."
           />
 
-          {/* ✅ Stagger from parent for smoother timing */}
           <motion.div
             className="mt-8 grid gap-6 lg:grid-cols-3"
             variants={gridVariants}
             initial="hidden"
             whileInView="show"
-            // ✅ This is important: reveals earlier + feels smoother when scrolling
             viewport={{
               once: true,
               amount: 0.18,
-              // reveal begins slightly before the grid is fully in view
               margin: "0px 0px -12% 0px",
             }}
           >
             {cases.map((c) => (
-              <motion.article
-                key={c.title}
-                className="card-img"
-                variants={cardVariants}
-              >
+              <motion.article key={c.title} className="card-img" variants={cardVariants}>
                 {/* image */}
-                <div className="card-img__media">
-                  <img
+                <div className="card-img__media relative">
+                  <Image
                     src={c.image}
                     alt={c.title}
-                    loading="lazy"
-                    className="card-img__photo"
+                    fill
+                    sizes="(min-width: 1024px) 33vw, 100vw"
+                    className="card-img__photo object-cover"
                   />
                   <div className="card-img__overlay" />
                   <div className="absolute left-4 top-4">
@@ -161,9 +144,7 @@ export default function CaseStudiesPage() {
                   </p>
 
                   <div className="mt-5 border-t border-[rgb(var(--border))] pt-4">
-                    <p className="text-xs font-semibold text-[rgb(var(--foreground))]">
-                      Outcome
-                    </p>
+                    <p className="text-xs font-semibold text-[rgb(var(--foreground))]">Outcome</p>
                     <p className="mt-1 text-sm font-medium text-[rgb(var(--foreground))]">
                       {c.result}
                     </p>

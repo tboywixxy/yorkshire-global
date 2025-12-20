@@ -95,6 +95,8 @@ const ACCENTS: Accent[] = [
   },
 ];
 
+const FALLBACK_ACCENT: Accent = ACCENTS[0];
+
 function accentForIndex(i: number) {
   return ACCENTS[i % ACCENTS.length];
 }
@@ -198,16 +200,10 @@ export default function CapabilitiesSection() {
 
     const isFromLeft = fromCenterX < centerX;
 
-    const startX = isFromLeft
-      ? fromRect.right - gridRect.left
-      : fromRect.left - gridRect.left;
-
+    const startX = isFromLeft ? fromRect.right - gridRect.left : fromRect.left - gridRect.left;
     const startY = fromCenterY;
 
-    const endX = isFromLeft
-      ? centerRect.left - gridRect.left
-      : centerRect.right - gridRect.left;
-
+    const endX = isFromLeft ? centerRect.left - gridRect.left : centerRect.right - gridRect.left;
     const endY = centerY;
 
     const dx = Math.abs(endX - startX);
@@ -236,7 +232,9 @@ export default function CapabilitiesSection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
-  const activeAccent = active ? accentMap[active.title] : null;
+  // ✅ FIX: activeAccent is NEVER null now
+  const activeAccent: Accent =
+    (active ? accentMap[active.title] : undefined) ?? FALLBACK_ACCENT;
 
   const DesktopCard = ({
     cap,
@@ -282,7 +280,7 @@ export default function CapabilitiesSection() {
           subtitle="World-class expertise across the full lifecycle—from strategy to hands-on execution."
         />
 
-        {/* ✅ MOBILE: simple cards (no click-to-view, no center panel) */}
+        {/* ✅ MOBILE: simple cards */}
         <div className="mt-8 grid gap-4 lg:hidden">
           {capabilities.map((cap, idx) => {
             const a = accentForIndex(idx);
@@ -295,7 +293,6 @@ export default function CapabilitiesSection() {
                   <p className="text-sm font-semibold text-[rgb(var(--foreground))]">
                     {cap.title}
                   </p>
-                  {/* subtle muted tag (unique per card) */}
                   <span
                     className="shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold"
                     style={{ backgroundColor: a.chipBg, color: a.text }}
@@ -312,9 +309,8 @@ export default function CapabilitiesSection() {
           })}
         </div>
 
-        {/* ✅ DESKTOP: click-to-view layout + animated line */}
+        {/* ✅ DESKTOP */}
         <div ref={gridRef} className="relative mt-8 hidden lg:block">
-          {/* animated connecting line */}
           <svg
             className="pointer-events-none absolute inset-0 z-[5]"
             width={svgBox.w}
@@ -323,7 +319,8 @@ export default function CapabilitiesSection() {
             preserveAspectRatio="none"
           >
             <AnimatePresence>
-              {active && pathD && activeAccent ? (
+              {/* ✅ FIX: remove "activeAccent ?" check (always exists now) */}
+              {active && pathD ? (
                 <motion.path
                   key={active.title}
                   d={pathD}
@@ -368,7 +365,7 @@ export default function CapabilitiesSection() {
                 "flex items-center justify-center",
               ].join(" ")}
               style={
-                activeAccent
+                active
                   ? {
                       boxShadow: `0 0 0 2px ${activeAccent.ring}, 0 10px 25px rgba(0,0,0,0.06)`,
                       borderColor: activeAccent.border,
