@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+/* ✅ Tailwind v4: enable `dark:` utilities when <html class="dark"> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Design Tokens (edit here when client gives colors) ---------- */
+:root {
+  /* Base surfaces */
+  --background: 255 255 255;
+  --foreground: 15 23 42;      /* slate-900 */
+  --muted: 100 116 139;        /* slate-500 */
+  --card: 255 255 255;
+  --border: 226 232 240;       /* slate-200 */
+
+  /* Brand: Blue + Orange (primary + accent) */
+  --primary: 29 78 216;        /* blue-700 */
+  --primary-foreground: 255 255 255;
+
+  --accent: 234 88 12;         /* orange-600 */
+  --accent-foreground: 255 255 255;
+
+  --ring: 29 78 216;           /* focus ring follows primary */
+
+  color-scheme: light;
+}
+
+.dark {
+  --background: 2 6 23;        /* slate-950 */
+  --foreground: 226 232 240;   /* slate-200 */
+  --muted: 148 163 184;        /* slate-400 */
+  --card: 15 23 42;            /* slate-900 */
+  --border: 51 65 85;          /* slate-700 */
+
+  --primary: 96 165 250;       /* blue-400 */
+  --primary-foreground: 2 6 23;
+
+  --accent: 251 146 60;        /* orange-400 */
+  --accent-foreground: 2 6 23;
+
+  --ring: 96 165 250;
+
+  color-scheme: dark;
+}
+
+body {
+  background: rgb(var(--background));
+  color: rgb(var(--foreground));
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+.container-pad { @apply px-4 sm:px-6 lg:px-8; }
+
+/* ---------- Reusable UI classes (no hardcoded colors in components) ---------- */
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold shadow-sm transition;
+    @apply focus:outline-none focus-visible:ring-2;
+    --tw-ring-color: rgb(var(--ring));
+  }
+
+  .btn-primary {
+    background: rgb(var(--primary));
+    color: rgb(var(--primary-foreground));
+  }
+  .btn-primary:hover { opacity: 0.95; }
+
+  .btn-accent {
+    background: rgb(var(--accent));
+    color: rgb(var(--accent-foreground));
+  }
+  .btn-accent:hover { opacity: 0.95; }
+
+  .btn-ghost {
+    @apply ring-1 shadow-none;
+    background: color-mix(in srgb, rgb(var(--card)) 85%, transparent);
+    color: rgb(var(--foreground));
+    --tw-ring-color: color-mix(in srgb, rgb(var(--border)) 80%, transparent);
+  }
+  .btn-ghost:hover {
+    background: color-mix(in srgb, rgb(var(--card)) 70%, transparent);
+  }
+
+  /* Chips */
+  .chip {
+    @apply inline-flex items-center rounded-full px-4 py-2 text-xs font-medium ring-1 backdrop-blur;
+    color: rgb(var(--primary-foreground));
+    background: color-mix(in srgb, rgb(var(--primary)) 22%, transparent);
+    --tw-ring-color: color-mix(in srgb, rgb(var(--primary)) 35%, transparent);
+  }
+
+  /* Nav links */
+  .navlink {
+    @apply rounded-xl px-3 py-2 text-sm transition;
+    color: rgb(var(--foreground));
+  }
+  .navlink:hover {
+    background: color-mix(in srgb, rgb(var(--foreground)) 6%, transparent);
+  }
+  .navlink-active {
+    background: rgb(var(--primary));
+    color: rgb(var(--primary-foreground));
+  }
+
+  /* Cards */
+  .card-simple {
+    @apply border bg-[rgb(var(--card))] border-[rgb(var(--border))] shadow-sm;
+    @apply transition hover:-translate-y-1 hover:shadow-md;
+    @apply rounded-md;
+  }
+
+  /* ✅ Image-top card (NO group / group-hover in @apply for Tailwind v4) */
+  .card-img {
+    @apply overflow-hidden border bg-[rgb(var(--card))] border-[rgb(var(--border))] shadow-sm;
+    @apply transition hover:-translate-y-1 hover:shadow-md;
+    @apply rounded-md;
+  }
+
+  .card-img__media { @apply relative h-44 w-full overflow-hidden; }
+
+  .card-img__photo {
+    @apply h-full w-full object-cover transition-transform duration-500;
+  }
+
+  .card-img__overlay {
+    @apply absolute inset-0 transition-colors duration-300;
+    background: rgba(0, 0, 0, 0);
+  }
+
+  /* ✅ Replace group-hover with normal hover selectors */
+  .card-img:hover .card-img__photo {
+    transform: scale(1.05);
+  }
+
+  .card-img:hover .card-img__overlay {
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  .card-body { @apply p-6; }
+
+  /* Section tint */
+  .section-tint {
+    background: color-mix(in srgb, rgb(var(--background)) 92%, rgb(var(--primary)) 8%);
+  }
+  
+}
