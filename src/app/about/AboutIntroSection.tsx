@@ -22,13 +22,10 @@ export default function AboutIntroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/10" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/15 to-transparent" />
 
-<div className="absolute bottom-4 left-4 z-20 pl-12">
-  <HeroCornerBrand text="Yorkshire Global Consulting Inc. - About" />
-</div>
+        <div className="absolute bottom-4 left-4 z-20 pl-12">
+          <HeroCornerBrand text="Yorkshire Global Consulting Inc. - About" />
+        </div>
 
-
-
-        {/* spacer so navbar doesn't overlap (keeps image to the very top) */}
         <div className="relative z-10 h-full pt-14" />
       </div>
 

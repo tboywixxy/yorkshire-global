@@ -1,4 +1,6 @@
+// components/Footer.tsx
 import Link from "next/link";
+import Image from "next/image";
 import Container from "@/components/Container";
 
 export default function Footer() {
@@ -13,17 +15,30 @@ export default function Footer() {
       <Container className="py-8 sm:py-10">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <div className="flex items-center gap-2 font-semibold">
-              <span
-                className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-sm font-bold"
-                style={{
-                  background: "rgb(var(--primary))",
-                  color: "rgb(var(--primary-foreground))",
-                }}
-              >
-                YG
+            {/* ✅ Logo aligned normally (no negative margins, no push) */}
+            <div className="flex items-center justify-start">
+              {/* ✅ Bigger wrapper = bigger logo */}
+              <span className="relative block h-16 w-[300px] sm:h-20 sm:w-[380px] lg:h-24 lg:w-[520px]">
+                {/* Light mode logo */}
+                <Image
+                  src="/logo1.png"
+                  alt="Yorkshire Global Consulting Inc. logo"
+                  fill
+                  quality={100}
+                  sizes="(min-width: 1024px) 520px, (min-width: 640px) 380px, 300px"
+                  className="absolute inset-0 object-contain object-left opacity-100 dark:opacity-0 transition-opacity duration-200"
+                />
+
+                {/* Dark mode logo */}
+                <Image
+                  src="/logo-w1.png"
+                  alt="Yorkshire Global Consulting Inc. logo"
+                  fill
+                  quality={100}
+                  sizes="(min-width: 1024px) 520px, (min-width: 640px) 380px, 300px"
+                  className="absolute inset-0 object-contain object-left opacity-0 dark:opacity-100 transition-opacity duration-200"
+                />
               </span>
-              Yorkshire Global Consulting Inc.
             </div>
 
             <p className="mt-3 text-sm text-[rgb(var(--muted))]">
@@ -85,9 +100,7 @@ export default function Footer() {
             color: "rgb(var(--muted))",
           }}
         >
-          <p>
-            © {new Date().getFullYear()} Yorkshire Global Consulting Inc. All rights reserved.
-          </p>
+          <p>© {new Date().getFullYear()} Yorkshire Global Consulting Inc. All rights reserved.</p>
         </div>
       </Container>
     </footer>

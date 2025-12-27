@@ -2,15 +2,18 @@
 
 import Container from "@/components/Container";
 import SectionHeading from "@/components/SectionHeading";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 
 type FormState = {
   fullName: string;
   email: string;
   phone: string;
-  organization: string; // Company Name (optional)
+  organization: string;
   service: string;
   message: string;
+
+  // anti-bot honeypot (should stay empty)
+  companyWebsite: string;
 };
 
 function CanadaFlagIcon({ className = "" }: { className?: string }) {
@@ -29,6 +32,30 @@ function CanadaFlagIcon({ className = "" }: { className?: string }) {
   );
 }
 
+const LIMITS = {
+  fullNameMax: 80,
+  emailMax: 120,
+  phoneMax: 24,
+  orgMax: 60,
+  messageWordsMax: 200, // ✅ good for contact forms
+  messageCharsSoftMax: 1400,
+};
+
+// ✅ blocks bots that submit instantly
+const MIN_SECONDS_BEFORE_SUBMIT = 3;
+
+function countWords(text: string) {
+  const trimmed = text.trim();
+  if (!trimmed) return 0;
+  return trimmed.split(/\s+/).filter(Boolean).length;
+}
+
+function looksLikeEmail(value: string) {
+  const v = value.trim();
+  if (!v) return false;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+}
+
 export default function ContactPage() {
   const serviceOptions = useMemo(
     () => [
@@ -42,6 +69,8 @@ export default function ContactPage() {
     []
   );
 
+  const startedAtRef = useRef<number>(typeof window !== "undefined" ? Date.now() : 0);
+
   const [form, setForm] = useState<FormState>({
     fullName: "",
     email: "",
@@ -49,18 +78,83 @@ export default function ContactPage() {
     organization: "",
     service: serviceOptions[0],
     message: "",
+    companyWebsite: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((p) => ({ ...p, [key]: value }));
+    setErrors((p) => {
+      const next = { ...p };
+      delete next[key as string];
+      delete next.form;
+      return next;
+    });
   }
 
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setSubmitted(true);
+  const messageWordCount = countWords(form.message);
+  const messageTooLong =
+    messageWordCount > LIMITS.messageWordsMax || form.message.length > LIMITS.messageCharsSoftMax;
 
+  // ✅ you requested ALL fields required
+  const allRequiredFilled =
+    form.fullName.trim().length > 0 &&
+    form.email.trim().length > 0 &&
+    form.phone.trim().length > 0 &&
+    form.organization.trim().length > 0 &&
+    form.service.trim().length > 0 &&
+    form.message.trim().length > 0;
+
+  const emailValid = looksLikeEmail(form.email);
+
+  const canSubmit = allRequiredFilled && emailValid && !messageTooLong && !submitting;
+
+  function validate() {
+    const next: Record<string, string> = {};
+
+    if (!form.fullName.trim()) next.fullName = "Full name is required.";
+    else if (form.fullName.trim().length > LIMITS.fullNameMax)
+      next.fullName = `Keep your name under ${LIMITS.fullNameMax} characters.`;
+
+    if (!form.email.trim()) next.email = "Email is required.";
+    else if (form.email.trim().length > LIMITS.emailMax)
+      next.email = `Keep your email under ${LIMITS.emailMax} characters.`;
+    else if (!looksLikeEmail(form.email)) next.email = "Please enter a valid email address.";
+
+    if (!form.phone.trim()) next.phone = "Phone number is required.";
+    else if (form.phone.trim().length > LIMITS.phoneMax)
+      next.phone = `Keep your phone under ${LIMITS.phoneMax} characters.`;
+
+    if (!form.organization.trim()) next.organization = "Company name is required.";
+    else if (form.organization.trim().length > LIMITS.orgMax)
+      next.organization = `Keep company name under ${LIMITS.orgMax} characters.`;
+
+    if (!form.service.trim()) next.service = "Please choose a service.";
+
+    if (!form.message.trim()) next.message = "Message is required.";
+    else if (messageWordCount > LIMITS.messageWordsMax)
+      next.message = `Please keep your message to ${LIMITS.messageWordsMax} words or fewer.`;
+    else if (form.message.length > LIMITS.messageCharsSoftMax)
+      next.message = `Please keep your message under ${LIMITS.messageCharsSoftMax} characters.`;
+
+    // ✅ Honeypot: if filled, block (bots often fill everything)
+    if (form.companyWebsite.trim()) next.form = "Submission blocked.";
+
+    // ✅ Speed check: if submitted too fast, block
+    const elapsedMs = Date.now() - startedAtRef.current;
+    if (elapsedMs < MIN_SECONDS_BEFORE_SUBMIT * 1000) {
+      next.form = "Submission blocked.";
+    }
+
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  }
+
+  function resetForm() {
+    startedAtRef.current = Date.now(); // reset timing window
     setForm({
       fullName: "",
       email: "",
@@ -68,9 +162,32 @@ export default function ContactPage() {
       organization: "",
       service: serviceOptions[0],
       message: "",
+      companyWebsite: "",
     });
+  }
 
-    window.setTimeout(() => setSubmitted(false), 4500);
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    // ✅ fast honeypot gate
+    if (form.companyWebsite.trim()) {
+      setErrors({ form: "Submission blocked." });
+      return;
+    }
+
+    if (!validate()) return;
+
+    setSubmitting(true);
+    try {
+      // TODO: replace with your real API call
+      await new Promise((r) => setTimeout(r, 500));
+
+      setSubmitted(true);
+      resetForm();
+      window.setTimeout(() => setSubmitted(false), 4500);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   const LocationPill = () => (
@@ -82,7 +199,6 @@ export default function ContactPage() {
 
   return (
     <section className="relative overflow-hidden -mt-14 pt-[6.75rem] pb-12 sm:pt-[7.75rem] sm:pb-14 text-white">
-      {/* ✅ Background image starts from the very top (behind navbar) */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div
           className="absolute inset-0 scale-110 bg-cover bg-center"
@@ -102,7 +218,6 @@ export default function ContactPage() {
         />
 
         <div className="mt-8 grid gap-7 lg:grid-cols-2">
-          {/* LEFT: Contact Form (slightly reduced size) */}
           <div className="border border-white/10 bg-white/10 backdrop-blur-xl p-5 shadow-[0_20px_80px_rgba(0,0,0,0.35)] sm:p-7">
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -126,55 +241,109 @@ export default function ContactPage() {
               </div>
             ) : null}
 
+            {errors.form ? (
+              <div className="mt-5 border border-red-400/30 bg-red-400/10 p-4 text-sm text-white">
+                ⚠️ {errors.form}
+              </div>
+            ) : null}
+
             <form onSubmit={onSubmit} className="mt-5 space-y-3.5">
+              {/* ✅ GHOST FIELD / HONEYPOT (not visible to humans, bots often fill it) */}
+              <div
+                aria-hidden="true"
+                className="absolute left-[-10000px] top-auto h-[1px] w-[1px] overflow-hidden"
+              >
+                <label className="text-sm font-medium text-white">Company Website</label>
+                <input
+                  value={form.companyWebsite}
+                  onChange={(e) => update("companyWebsite", e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
               <div className="grid gap-3.5 sm:grid-cols-2">
                 <div>
                   <label className="text-sm font-medium text-white">Full Name</label>
                   <input
                     value={form.fullName}
-                    onChange={(e) => update("fullName", e.target.value)}
+                    onChange={(e) => update("fullName", e.target.value.slice(0, LIMITS.fullNameMax))}
                     required
+                    maxLength={LIMITS.fullNameMax}
                     className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-white/40 focus:bg-white/15"
                     placeholder="Your name"
+                    autoComplete="name"
                   />
+                  <div className="mt-1 flex items-center justify-between text-xs text-white/65">
+                    <span className="text-red-200">{errors.fullName ?? ""}</span>
+                    <span>
+                      {form.fullName.length}/{LIMITS.fullNameMax}
+                    </span>
+                  </div>
                 </div>
 
                 <div>
                   <label className="text-sm font-medium text-white">Email Address</label>
                   <input
                     value={form.email}
-                    onChange={(e) => update("email", e.target.value)}
+                    onChange={(e) => update("email", e.target.value.slice(0, LIMITS.emailMax))}
                     required
                     type="email"
+                    inputMode="email"
+                    maxLength={LIMITS.emailMax}
                     className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-white/40 focus:bg-white/15"
                     placeholder="you@company.com"
+                    autoComplete="email"
                   />
+                  <div className="mt-1 flex items-center justify-between text-xs text-white/65">
+                    <span className="text-red-200">{errors.email ?? ""}</span>
+                    <span>
+                      {form.email.length}/{LIMITS.emailMax}
+                    </span>
+                  </div>
                 </div>
               </div>
 
               <div className="grid gap-3.5 sm:grid-cols-2">
                 <div>
-                  <label className="text-sm font-medium text-white">
-                    Phone Number <span className="text-white/70">(optional)</span>
-                  </label>
+                  <label className="text-sm font-medium text-white">Phone Number</label>
                   <input
                     value={form.phone}
-                    onChange={(e) => update("phone", e.target.value)}
+                    onChange={(e) => update("phone", e.target.value.slice(0, LIMITS.phoneMax))}
+                    required
+                    inputMode="tel"
+                    maxLength={LIMITS.phoneMax}
                     className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-white/40 focus:bg-white/15"
                     placeholder="+1 ..."
+                    autoComplete="tel"
                   />
+                  <div className="mt-1 flex items-center justify-between text-xs text-white/65">
+                    <span className="text-red-200">{errors.phone ?? ""}</span>
+                    <span>
+                      {form.phone.length}/{LIMITS.phoneMax}
+                    </span>
+                  </div>
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-white">
-                    Company Name <span className="text-white/70">(optional)</span>
-                  </label>
+                  <label className="text-sm font-medium text-white">Company Name</label>
                   <input
                     value={form.organization}
-                    onChange={(e) => update("organization", e.target.value)}
+                    onChange={(e) =>
+                      update("organization", e.target.value.slice(0, LIMITS.orgMax))
+                    }
+                    required
+                    maxLength={LIMITS.orgMax}
                     className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-white/40 focus:bg-white/15"
                     placeholder="Company / Organization"
+                    autoComplete="organization"
                   />
+                  <div className="mt-1 flex items-center justify-between text-xs text-white/65">
+                    <span className="text-red-200">{errors.organization ?? ""}</span>
+                    <span>
+                      {form.organization.length}/{LIMITS.orgMax}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -183,6 +352,7 @@ export default function ContactPage() {
                 <select
                   value={form.service}
                   onChange={(e) => update("service", e.target.value)}
+                  required
                   className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white outline-none transition focus:border-white/40 focus:bg-white/15"
                 >
                   {serviceOptions.map((opt) => (
@@ -191,6 +361,7 @@ export default function ContactPage() {
                     </option>
                   ))}
                 </select>
+                <div className="mt-1 text-xs text-red-200">{errors.service ?? ""}</div>
               </div>
 
               <div>
@@ -203,16 +374,28 @@ export default function ContactPage() {
                   required
                   rows={6}
                   className="mt-2 w-full resize-none border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-white/40 focus:bg-white/15"
-                  placeholder="Tell us how we can support your business. Our team will respond within 24 hours."
+                  placeholder="Describe what you need help with (scope, timeline, goal)."
                 />
+                <div className="mt-1 flex flex-wrap items-center justify-between gap-2 text-xs text-white/65">
+                  <span className="text-red-200">{errors.message ?? ""}</span>
+                  <span className={messageTooLong ? "text-red-200" : "text-white/65"}>
+                    {messageWordCount}/{LIMITS.messageWordsMax} words
+                  </span>
+                </div>
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <button
                   type="submit"
-                  className="inline-flex w-full justify-center bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 shadow-sm transition hover:opacity-95 sm:w-auto"
+                  disabled={!canSubmit}
+                  className={[
+                    "inline-flex w-full justify-center px-5 py-2.5 text-sm font-semibold shadow-sm transition sm:w-auto",
+                    canSubmit
+                      ? "bg-white text-slate-900 hover:opacity-95"
+                      : "cursor-not-allowed bg-white/50 text-slate-900/70",
+                  ].join(" ")}
                 >
-                  Submit
+                  {submitting ? "Submitting..." : "Submit"}
                 </button>
 
                 <p className="text-xs text-white/75">
@@ -224,6 +407,11 @@ export default function ContactPage() {
                 <LocationPill />
               </div>
             </form>
+
+            {/* <p className="mt-4 text-xs text-white/60">
+              Note: Honeypot + timing stops most spam bots. For high protection, add Turnstile /
+              reCAPTCHA and verify server-side (that’s the real “can’t be bypassed” step).
+            </p> */}
           </div>
 
           {/* RIGHT: What happens next */}
