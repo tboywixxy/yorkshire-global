@@ -1,3 +1,4 @@
+// app/about/SectorsSection.tsx
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -21,7 +22,6 @@ function Spinner({ label = "Loading sector details…" }: { label?: string }) {
 }
 
 export default function SectorsSection() {
-  // ✅ more reliable Unsplash photos (different IDs; consistent)
   const sectors: Sector[] = useMemo(
     () => [
       {
@@ -70,19 +70,14 @@ export default function SectorsSection() {
     []
   );
 
-  // current “displayed” sector
   const [active, setActive] = useState<Sector>(sectors[0]);
-  // current “selected highlight” in left list
   const [selectedName, setSelectedName] = useState<string>(sectors[0].name);
 
-  // brief loading spinner when switching
   const [isLoading, setIsLoading] = useState(false);
   const switchTimerRef = useRef<number | null>(null);
 
-  // auto-rotate every 20s
   const autoTimerRef = useRef<number | null>(null);
 
-  // cleanup timers
   useEffect(() => {
     return () => {
       if (switchTimerRef.current) window.clearTimeout(switchTimerRef.current);
@@ -98,7 +93,6 @@ export default function SectorsSection() {
     if (autoTimerRef.current) window.clearInterval(autoTimerRef.current);
 
     autoTimerRef.current = window.setInterval(() => {
-      // if currently “loading”, skip this tick so we don’t stack transitions
       if (isLoading) return;
 
       const currentIdx = sectors.findIndex((s) => s.name === selectedName);
@@ -115,20 +109,16 @@ export default function SectorsSection() {
   const handleSelect = (s: Sector, opts?: { fromAuto?: boolean }) => {
     if (s.name === selectedName) return;
 
-    // highlight immediately like your Services page
     setSelectedName(s.name);
     setIsLoading(true);
 
     if (switchTimerRef.current) window.clearTimeout(switchTimerRef.current);
 
-    // ✅ brief spinner (tune: 500–900ms feels good)
     switchTimerRef.current = window.setTimeout(() => {
       setActive(s);
       setIsLoading(false);
     }, 700);
 
-    // If user clicks, we still keep auto-rotate running (it will continue from the new selection)
-    // If you want to PAUSE auto-rotate after user clicks for a while, tell me and I’ll add it.
     void opts;
   };
 
@@ -145,9 +135,7 @@ export default function SectorsSection() {
           <div className="lg:col-span-4">
             <div className="border border-[rgb(var(--border))] bg-[rgb(var(--card))] shadow-sm">
               <div className="border-b border-[rgb(var(--border))] p-5">
-                <p className="text-sm font-semibold text-[rgb(var(--foreground))]">
-                  Sectors
-                </p>
+                <p className="text-sm font-semibold text-[rgb(var(--foreground))]">Sectors</p>
                 <p className="mt-1 text-sm text-[rgb(var(--muted))]">
                   Click a sector to view details. (Auto-rotates every 20s)
                 </p>
@@ -176,11 +164,8 @@ export default function SectorsSection() {
                         <p className="text-sm font-semibold text-[rgb(var(--foreground))]">
                           {s.name}
                         </p>
-                        <p className="mt-1 text-xs text-[rgb(var(--muted))]">
-                          View details →
-                        </p>
+                        <p className="mt-1 text-xs text-[rgb(var(--muted))]">View details →</p>
 
-                        {/* optional tiny progress hint (very subtle) */}
                         {selected ? (
                           <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-[rgb(var(--border))]">
                             <div
@@ -202,7 +187,6 @@ export default function SectorsSection() {
             <div className="relative border border-[rgb(var(--border))] bg-[rgb(var(--card))] shadow-sm overflow-hidden">
               {/* image */}
               <div className="relative h-56 sm:h-72 w-full overflow-hidden">
-                {/* fade transition when active changes */}
                 <div key={active.imageUrl} className="absolute inset-0">
                   <Image
                     src={active.imageUrl}
@@ -212,16 +196,12 @@ export default function SectorsSection() {
                     className="object-cover"
                     priority={indexOfSelected === 0}
                   />
-                  {/* subtle overlay for readability */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/10 to-transparent" />
                 </div>
               </div>
 
               {/* content */}
-              <div
-                key={active.name}
-                className="p-6 sm:p-8 transition-all duration-300"
-              >
+              <div key={active.name} className="p-6 sm:p-8 transition-all duration-300">
                 <div className="flex items-center gap-2">
                   <span className="chip">Sector</span>
                   <span className="text-xs text-[rgb(var(--muted))]">
@@ -232,14 +212,12 @@ export default function SectorsSection() {
                 <p className="mt-3 text-lg font-semibold text-[rgb(var(--foreground))]">
                   {active.name}
                 </p>
-                <p className="mt-2 text-sm text-[rgb(var(--muted))]">
-                  {active.description}
-                </p>
+                <p className="mt-2 text-sm text-[rgb(var(--muted))]">{active.description}</p>
 
                 <div className="mt-5 border-t border-[rgb(var(--border))] pt-4">
                   <p className="text-sm text-[rgb(var(--muted))]">
-                    We focus on measurable outcomes, operational efficiency, and secure
-                    digital ecosystems tailored to the realities of this sector.
+                    We focus on measurable outcomes, operational efficiency, and secure digital
+                    ecosystems tailored to the realities of this sector.
                   </p>
                 </div>
               </div>
@@ -255,7 +233,6 @@ export default function SectorsSection() {
         </div>
       </Container>
 
-      {/* tiny keyframes for optional micro-bar */}
       <style jsx global>{`
         @keyframes grow {
           from {

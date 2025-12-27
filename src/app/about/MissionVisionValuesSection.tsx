@@ -1,3 +1,4 @@
+// app/about/MissionVisionValuesSection.tsx
 "use client";
 
 import React, { useMemo, useState } from "react";
@@ -23,12 +24,8 @@ function ValuesSlider({ items }: { items: ValueItem[] }) {
     <div className="mt-10 border-t border-[rgb(var(--border))] pt-10">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold text-[rgb(var(--foreground))]">
-            Our Values
-          </p>
-          <p className="mt-1 text-xs text-[rgb(var(--muted))]">
-            Swipe or use the arrows
-          </p>
+          <p className="text-sm font-semibold text-[rgb(var(--foreground))]">Our Values</p>
+          <p className="mt-1 text-xs text-[rgb(var(--muted))]">Swipe or use the arrows</p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -64,12 +61,8 @@ function ValuesSlider({ items }: { items: ValueItem[] }) {
           transition={{ duration: 0.35, ease: "easeOut" }}
           className="border border-[rgb(var(--border))] bg-[color-mix(in_srgb,rgb(var(--background))_96%,rgb(var(--primary))_4%)] p-6"
         >
-          <p className="text-base font-semibold text-[rgb(var(--foreground))]">
-            {active.title}
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-[rgb(var(--muted))]">
-            {active.body}
-          </p>
+          <p className="text-base font-semibold text-[rgb(var(--foreground))]">{active.title}</p>
+          <p className="mt-2 text-sm leading-relaxed text-[rgb(var(--muted))]">{active.body}</p>
         </motion.div>
 
         <div className="mt-4 flex items-center gap-2">
@@ -131,32 +124,30 @@ export default function MissionVisionValuesSection() {
             subtitle="Yorkshire Global Consulting Inc. is an Ontario-based consulting firm focused on helping organizations become more secure, efficient, and operationally strong."
           />
 
-{/* ✅ Mission (top-left) + Vision (below-right) */}
-<div className="mt-8 grid gap-8 lg:grid-cols-2">
-  {/* Mission - row 1, col 1 */}
-  <div className="border-l-2 border-[rgb(var(--primary))] pl-5 lg:col-start-1 lg:row-start-1">
-    <p className="text-xs font-semibold tracking-widest text-[rgb(var(--muted))]">
-      OUR MISSION
-    </p>
-    <p className="mt-3 text-xl font-semibold leading-snug text-[rgb(var(--foreground))] sm:text-2xl">
-      To help organizations build secure systems, make informed decisions, and
-      deliver impactful results through structured processes and reliable
-      execution.
-    </p>
-  </div>
+          {/* ✅ Mission (top-left) + Vision (below-right) */}
+          <div className="mt-8 grid gap-8 lg:grid-cols-2">
+            {/* Mission - row 1, col 1 */}
+            <div className="border-l-2 border-[rgb(var(--primary))] pl-5 lg:col-start-1 lg:row-start-1">
+              <p className="text-xs font-semibold tracking-widest text-[rgb(var(--muted))]">
+                OUR MISSION
+              </p>
+              <p className="mt-3 text-xl font-semibold leading-snug text-[rgb(var(--foreground))] sm:text-2xl">
+                To help organizations build secure systems, make informed decisions, and deliver
+                impactful results through structured processes and reliable execution.
+              </p>
+            </div>
 
-  {/* Vision - row 2, col 2 (below, still right) */}
-  <div className="border-l-2 border-[rgb(var(--accent))] pl-5 lg:col-start-2 lg:row-start-2 lg:text-right lg:border-l-0 lg:border-r-2 lg:pr-5">
-    <p className="text-xs font-semibold tracking-widest text-[rgb(var(--muted))]">
-      OUR VISION
-    </p>
-    <p className="mt-3 text-xl font-semibold leading-snug text-[rgb(var(--foreground))] sm:text-2xl">
-      To be a trusted consulting partner known for integrity, quality, and
-      measurable outcomes.
-    </p>
-  </div>
-</div>
-
+            {/* Vision - row 2, col 2 */}
+            <div className="border-l-2 border-[rgb(var(--accent))] pl-5 lg:col-start-2 lg:row-start-2 lg:text-right lg:border-l-0 lg:border-r-2 lg:pr-5">
+              <p className="text-xs font-semibold tracking-widest text-[rgb(var(--muted))]">
+                OUR VISION
+              </p>
+              <p className="mt-3 text-xl font-semibold leading-snug text-[rgb(var(--foreground))] sm:text-2xl">
+                To be a trusted consulting partner known for integrity, quality, and measurable
+                outcomes.
+              </p>
+            </div>
+          </div>
 
           {/* ✅ Values slider below */}
           <ValuesSlider items={values} />

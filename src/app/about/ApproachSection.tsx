@@ -1,3 +1,6 @@
+// app/about/ApproachSection.tsx
+"use client";
+
 import Container from "@/components/Container";
 import SectionHeading from "@/components/SectionHeading";
 
@@ -35,9 +38,7 @@ export default function ApproachSection() {
         <div className="mt-8 border border-[rgb(var(--border))] bg-[rgb(var(--card))]/90 backdrop-blur-md p-6 shadow-sm sm:p-10">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-semibold text-[rgb(var(--foreground))]">
-                How we work
-              </p>
+              <p className="text-sm font-semibold text-[rgb(var(--foreground))]">How we work</p>
               <p className="mt-1 text-sm text-[rgb(var(--muted))]">
                 A simple, repeatable process that keeps delivery clear and accountable.
               </p>
@@ -84,11 +85,7 @@ export default function ApproachSection() {
 
       {/* BOTTOM SECTION DIVIDER */}
       <div aria-hidden className="pointer-events-none absolute bottom-0 left-0 right-0">
-        <svg
-          viewBox="0 0 1440 120"
-          className="block h-[90px] w-full"
-          preserveAspectRatio="none"
-        >
+        <svg viewBox="0 0 1440 120" className="block h-[90px] w-full" preserveAspectRatio="none">
           <path
             d="M0,64 C240,120 480,20 720,64 C960,108 1200,120 1440,64 L1440,120 L0,120 Z"
             fill="rgb(var(--background))"

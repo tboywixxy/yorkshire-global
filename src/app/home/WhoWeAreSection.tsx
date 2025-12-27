@@ -4,7 +4,7 @@ import SectionHeading from "@/components/SectionHeading";
 
 export default function WhoWeAreSection() {
   return (
-    <section className="-mt-[35px] py-14 sm:-mt-[45px] sm:py-16 relative z-30">
+    <section className="-mt-[35px] py-14 sm:-mt-[45px] sm:py-16 relative z-30" aria-label="Who we are">
       <Container>
         <SectionHeading
           title="Who We Are"
@@ -31,7 +31,12 @@ export default function WhoWeAreSection() {
           ].map((c) => (
             <article key={c.title} className="card-img">
               <div className="card-img__media">
-                <img src={c.img} alt={c.title} className="card-img__photo" loading="lazy" />
+                <img
+                  src={c.img}
+                  alt={`${c.title} - Yorkshire Global Consulting Inc.`}
+                  className="card-img__photo"
+                  loading="lazy"
+                />
                 <div className="card-img__overlay" />
               </div>
               <div className="card-body">

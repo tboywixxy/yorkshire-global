@@ -79,8 +79,11 @@ export default function HeroSlider() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index]);
 
+  // ✅ SEO: ensure only ONE H1 on the page (use H1 only on first slide)
+  const HeadlineTag = index === 0 ? ("h1" as const) : ("h2" as const);
+
   return (
-    <section className="relative overflow-hidden -mt-14">
+    <section className="relative overflow-hidden -mt-14" aria-label="Hero">
       <div className="relative h-[72vh] min-h-[520px] sm:h-[70vh] sm:min-h-[520px] md:h-[66vh] md:min-h-[520px] w-full">
         <div className="absolute inset-0 bg-black" />
 
@@ -95,7 +98,7 @@ export default function HeroSlider() {
           >
             <Image
               src={active.image}
-              alt="Hero background"
+              alt={`${active.headline} background image`}
               fill
               priority={index === 0}
               sizes="100vw"
@@ -108,9 +111,10 @@ export default function HeroSlider() {
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/75 via-black/40 to-black/10" />
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/70 via-black/25 to-transparent" />
 
+        {/* preload next image */}
         <Image src={next.image} alt="" width={10} height={10} className="hidden" />
 
-        {/* ✅ ARROWS: now positioned near the viewport edges (NOT inside Container) */}
+        {/* ARROWS */}
         <div className="absolute inset-0 z-[30] pointer-events-none">
           <button
             type="button"
@@ -119,9 +123,7 @@ export default function HeroSlider() {
             className={[
               "pointer-events-auto cursor-pointer",
               "group absolute top-1/2 -translate-y-1/2",
-              // ✅ closer to screen edges
               "left-2 sm:left-3 md:left-4 lg:left-5 xl:left-6",
-              // ✅ compact size
               "h-9 w-9 sm:h-10 sm:w-10 lg:h-10 lg:w-10 rounded-full",
               "border border-white/15 bg-white/10 backdrop-blur-md",
               "shadow-[0_10px_30px_rgba(0,0,0,0.25)]",
@@ -140,7 +142,6 @@ export default function HeroSlider() {
             className={[
               "pointer-events-auto cursor-pointer",
               "group absolute top-1/2 -translate-y-1/2",
-              // ✅ closer to screen edges
               "right-2 sm:right-3 md:right-4 lg:right-5 xl:right-6",
               "h-9 w-9 sm:h-10 sm:w-10 lg:h-10 lg:w-10 rounded-full",
               "border border-white/15 bg-white/10 backdrop-blur-md",
@@ -156,7 +157,6 @@ export default function HeroSlider() {
 
         {/* content */}
         <Container className="relative z-20 flex h-full items-center pt-16 sm:pt-16 md:pt-14 pb-10 sm:pb-10">
-          {/* ✅ SAFE ZONE: add left padding so the left arrow never overlaps text */}
           <div className="max-w-[40rem] w-full pr-2 sm:pr-0 pl-12 sm:pl-14 md:pl-20 lg:pl-24 xl:pl-0">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
@@ -166,13 +166,13 @@ export default function HeroSlider() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
               >
-              <p className="chip text-[11px] sm:text-xs text-white">
+                <p className="chip text-[11px] sm:text-xs text-white">
                   Ontario, Canada • Serving multiple industries
                 </p>
 
-                <h1 className="mt-3 text-2xl font-semibold tracking-tight text-white sm:mt-4 sm:text-4xl md:text-5xl">
+                <HeadlineTag className="mt-3 text-2xl font-semibold tracking-tight text-white sm:mt-4 sm:text-4xl md:text-5xl">
                   {active.headline}
-                </h1>
+                </HeadlineTag>
 
                 <p className="mt-2 text-sm font-medium text-white/90 sm:mt-3 sm:text-base md:text-lg">
                   {active.tagline}
@@ -203,7 +203,7 @@ export default function HeroSlider() {
               </motion.div>
             </AnimatePresence>
 
-            <div className="mt-6 flex items-center gap-2 sm:mt-8">
+            <div className="mt-6 flex items-center gap-2 sm:mt-8" aria-label="Hero slide indicators">
               {slides.map((_, i) => (
                 <button
                   key={i}

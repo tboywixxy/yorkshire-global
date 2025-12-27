@@ -1,3 +1,6 @@
+// app/about/AboutIntroSection.tsx
+"use client";
+
 import Image from "next/image";
 import Container from "@/components/Container";
 import SectionHeading from "@/components/SectionHeading";
@@ -39,18 +42,15 @@ export default function AboutIntroSection() {
                 <span className="font-serif text-lg sm:text-xl font-semibold text-[rgb(var(--foreground))]">
                   Yorkshire Global Consulting Inc.
                 </span>{" "}
-                is a premium, Canadian-based consulting firm in Ontario delivering
-                world-class expertise across{" "}
+                is a premium, Canadian-based consulting firm in Ontario delivering world-class
+                expertise across{" "}
                 <span className="font-medium text-[rgb(var(--primary))]">technology</span>,{" "}
                 <span className="font-medium text-[rgb(var(--accent))]">cybersecurity</span>,{" "}
                 <span className="font-medium text-[rgb(var(--primary))]">
                   business process reengineering
                 </span>
                 ,{" "}
-                <span className="font-medium text-[rgb(var(--accent))]">
-                  business analysis
-                </span>
-                ,{" "}
+                <span className="font-medium text-[rgb(var(--accent))]">business analysis</span>,{" "}
                 <span className="font-medium text-[rgb(var(--primary))]">
                   project management
                 </span>
@@ -68,11 +68,10 @@ export default function AboutIntroSection() {
           {/* Left */}
           <div className="border border-[rgb(var(--border))] bg-[rgb(var(--card))] p-6 shadow-sm lg:col-span-2">
             <p className="text-sm leading-relaxed text-[rgb(var(--muted))]">
-              We help organizations modernize, scale, and secure their operations
-              through strategic guidance, digital transformation, and hands-on
-              execution. We bring together expertise in secure development, risk
-              management, and delivery discipline to support organizations in an
-              evolving technological landscape.
+              We help organizations modernize, scale, and secure their operations through
+              strategic guidance, digital transformation, and hands-on execution. We bring
+              together expertise in secure development, risk management, and delivery
+              discipline to support organizations in an evolving technological landscape.
             </p>
 
             <div className="mt-6 border border-[rgb(var(--border))] bg-[color-mix(in_srgb,rgb(var(--background))_92%,rgb(var(--primary))_8%)] p-5">
@@ -80,10 +79,9 @@ export default function AboutIntroSection() {
                 What makes us different
               </p>
               <p className="mt-2 text-sm text-[rgb(var(--muted))]">
-                Our team brings deep industry experience and a global
-                perspective—so we deliver measurable results, operational
-                efficiency, and secure digital ecosystems for the modern
-                enterprise.
+                Our team brings deep industry experience and a global perspective—so we
+                deliver measurable results, operational efficiency, and secure digital
+                ecosystems for the modern enterprise.
               </p>
 
               <div className="mt-4 relative h-44 w-full overflow-hidden border border-[rgb(var(--border))]">
@@ -125,9 +123,7 @@ export default function AboutIntroSection() {
               </div>
 
               <div className="mt-5 border-t border-[rgb(var(--border))] pt-5">
-                <p className="text-sm font-semibold text-[rgb(var(--foreground))]">
-                  Our focus
-                </p>
+                <p className="text-sm font-semibold text-[rgb(var(--foreground))]">Our focus</p>
 
                 <ul className="mt-3 space-y-2 text-sm text-[rgb(var(--muted))]">
                   <li>• Security-first delivery</li>

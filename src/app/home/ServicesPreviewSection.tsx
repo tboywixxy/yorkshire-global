@@ -44,7 +44,6 @@ export default function ServicesPreviewSection() {
     []
   );
 
-  // ✅ Multi-open state
   const [openSet, setOpenSet] = useState<Set<number>>(new Set());
 
   const toggle = (idx: number) => {
@@ -57,11 +56,10 @@ export default function ServicesPreviewSection() {
   };
 
   return (
-    <section className="relative py-14 sm:py-16 section-tint overflow-hidden">
+    <section className="relative py-14 sm:py-16 section-tint overflow-hidden" aria-label="Core services">
       <Container>
         <SectionHeading title="Our Core Services" subtitle="A preview of what we deliver." />
 
-        {/* ✅ Prevent other cards stretching to same height */}
         <div className="grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s, idx) => {
             const isOpen = openSet.has(idx);
@@ -71,11 +69,10 @@ export default function ServicesPreviewSection() {
                 <div className="p-6 flex items-start justify-between gap-4">
                   <p className="text-sm font-semibold">{s.title}</p>
 
-                  {/* ✅ Only this button toggles this card */}
                   <button
                     type="button"
                     onClick={() => toggle(idx)}
-                    aria-label={isOpen ? "Collapse details" : "Expand details"}
+                    aria-label={isOpen ? `Collapse ${s.title}` : `Expand ${s.title}`}
                     aria-expanded={isOpen}
                     className="shrink-0"
                   >
@@ -106,7 +103,6 @@ export default function ServicesPreviewSection() {
                   </button>
                 </div>
 
-                {/* Details for this card only */}
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
@@ -133,12 +129,10 @@ export default function ServicesPreviewSection() {
         </div>
       </Container>
 
-      {/* Divider BELOW services section */}
       <div className="absolute inset-x-0 bottom-0 z-10">
         <SectionDivider className="h-[72px] sm:h-[90px] md:h-[100px]" />
       </div>
 
-      {/* Spacer so divider doesn't cover content */}
       <div className="h-[72px] sm:h-[90px] md:h-[100px]" />
     </section>
   );

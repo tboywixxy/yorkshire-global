@@ -8,7 +8,7 @@ type DragState = {
   isDown: boolean;
   startX: number;
   lastX: number;
-  velocity: number; // px/frame-ish
+  velocity: number;
 };
 
 export default function IndustriesSection() {
@@ -24,15 +24,14 @@ export default function IndustriesSection() {
     []
   );
 
-  // Duplicate for seamless loop
   const items = useMemo(() => [...industries, ...industries, ...industries], [industries]);
 
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
 
   const rafRef = useRef<number | null>(null);
-  const wRef = useRef<number>(0); // width of ONE set
-  const xRef = useRef<number>(0); // translateX
+  const wRef = useRef<number>(0);
+  const xRef = useRef<number>(0);
   const [isHovering, setIsHovering] = useState(false);
 
   const dragRef = useRef<DragState>({
@@ -42,18 +41,13 @@ export default function IndustriesSection() {
     velocity: 0,
   });
 
-  // Tune these
-  const BASE_SPEED = 0.55; // marquee speed (px/frame). 0.35–0.9 typical
-  const FRICTION = 0.92; // inertia decay (0.88–0.96)
-  const DRAG_MULT = 1.0; // drag sensitivity
+  const BASE_SPEED = 0.55;
+  const FRICTION = 0.92;
+  const DRAG_MULT = 1.0;
 
-  // Measure one set width (we'll loop across that)
   const measure = () => {
     const track = trackRef.current;
     if (!track) return;
-
-    // We built 3 sets; get width of first third by dividing total by 3
-    // (works because we duplicated evenly)
     wRef.current = track.scrollWidth / 3;
   };
 
@@ -69,19 +63,14 @@ export default function IndustriesSection() {
       const track = trackRef.current;
       if (!track) return;
 
-      // inertia after drag
       const drag = dragRef.current;
-
-      // If dragging, don't auto-advance; user controls movement
       const isDragging = drag.isDown;
 
       if (!isDragging) {
-        // add base marquee speed unless hovering
         if (!isHovering) {
           xRef.current -= BASE_SPEED;
         }
 
-        // apply inertia velocity (glide)
         if (Math.abs(drag.velocity) > 0.01) {
           xRef.current -= drag.velocity;
           drag.velocity *= FRICTION;
@@ -90,9 +79,7 @@ export default function IndustriesSection() {
         }
       }
 
-      // Seamless loop using modulo on ONE-set width
       const W = wRef.current || 1;
-      // keep x within [-W, 0] range for stable values
       if (xRef.current <= -W) xRef.current += W;
       if (xRef.current > 0) xRef.current -= W;
 
@@ -125,10 +112,7 @@ export default function IndustriesSection() {
     const dx = (e.clientX - dragRef.current.lastX) * DRAG_MULT;
     dragRef.current.lastX = e.clientX;
 
-    // update translate (dragging right should move content right -> increase x)
     xRef.current += dx;
-
-    // velocity for inertia (opposite direction because we subtract in tick)
     dragRef.current.velocity = -dx;
   };
 
@@ -143,12 +127,11 @@ export default function IndustriesSection() {
   };
 
   return (
-    <section className="-mt-[10px] py-14 sm:py-16">
+    <section className="-mt-[10px] py-14 sm:py-16" aria-label="Industries we serve">
       <Container>
         <SectionHeading title="Industries We Serve" />
 
         <div className="relative mt-6">
-          {/* Fades */}
           <div
             className="pointer-events-none absolute left-0 top-0 z-10 h-full w-12"
             style={{
@@ -164,7 +147,6 @@ export default function IndustriesSection() {
             }}
           />
 
-          {/* Viewport */}
           <div
             ref={viewportRef}
             className={[
@@ -178,8 +160,9 @@ export default function IndustriesSection() {
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
             onPointerCancel={onPointerUp}
+            role="region"
+            aria-label="Industries marquee"
           >
-            {/* Track (GPU translate) */}
             <div
               ref={trackRef}
               className="flex flex-nowrap gap-4 will-change-transform"
@@ -208,14 +191,12 @@ export default function IndustriesSection() {
                     Tailored support for security, clarity, and delivery.
                   </p>
 
-                  {/* tiny “progress line” accent */}
                   <div className="mt-4 h-px w-16 bg-[rgb(var(--foreground))]/15" />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* tiny hint */}
           <p className="mt-3 text-xs text-[rgb(var(--muted))]">
             Tip: Hover to pause • Drag to scrub
           </p>

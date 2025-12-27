@@ -1,3 +1,4 @@
+// app/about/CapabilitiesSection.tsx
 "use client";
 
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
@@ -232,9 +233,7 @@ export default function CapabilitiesSection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
-  // ✅ FIX: activeAccent is NEVER null now
-  const activeAccent: Accent =
-    (active ? accentMap[active.title] : undefined) ?? FALLBACK_ACCENT;
+  const activeAccent: Accent = (active ? accentMap[active.title] : undefined) ?? FALLBACK_ACCENT;
 
   const DesktopCard = ({
     cap,
@@ -319,7 +318,6 @@ export default function CapabilitiesSection() {
             preserveAspectRatio="none"
           >
             <AnimatePresence>
-              {/* ✅ FIX: remove "activeAccent ?" check (always exists now) */}
               {active && pathD ? (
                 <motion.path
                   key={active.title}
@@ -396,10 +394,7 @@ export default function CapabilitiesSection() {
                       <div className="mb-3 flex justify-center">
                         <span
                           className="inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold"
-                          style={{
-                            backgroundColor: activeAccent.chipBg,
-                            color: activeAccent.text,
-                          }}
+                          style={{ backgroundColor: activeAccent.chipBg, color: activeAccent.text }}
                         >
                           Selected
                         </span>
