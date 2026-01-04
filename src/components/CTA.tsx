@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import Container from "@/components/Container";
+import Container from "@/src/components/Container";
 
 export default function CTA({
   title,

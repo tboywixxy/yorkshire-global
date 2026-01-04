@@ -1,6 +1,6 @@
 // app/about/page.tsx
 import type { Metadata } from "next";
-import CTA from "@/components/CTA";
+import CTA from "@/src/components/CTA";
 import AboutIntroSection from "./AboutIntroSection";
 import MissionVisionValuesSection from "./MissionVisionValuesSection";
 import CapabilitiesSection from "./CapabilitiesSection";

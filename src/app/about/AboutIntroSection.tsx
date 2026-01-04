@@ -2,9 +2,9 @@
 "use client";
 
 import Image from "next/image";
-import Container from "@/components/Container";
-import SectionHeading from "@/components/SectionHeading";
-import HeroCornerBrand from "@/components/HeroCornerBrand";
+import Container from "@/src/components/Container";
+import SectionHeading from "@/src/components/SectionHeading";
+import HeroCornerBrand from "@/src/components/HeroCornerBrand";
 
 export default function AboutIntroSection() {
   return (

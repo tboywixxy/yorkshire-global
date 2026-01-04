@@ -2,9 +2,9 @@
 
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
-import Container from "@/components/Container";
-import SectionHeading from "@/components/SectionHeading";
-import SectionDivider from "@/components/SectionDivider";
+import Container from "@/src/components/Container";
+import SectionHeading from "@/src/components/SectionHeading";
+import SectionDivider from "@/src/components/SectionDivider";
 import { motion, AnimatePresence } from "framer-motion";
 
 type ServiceItem = {

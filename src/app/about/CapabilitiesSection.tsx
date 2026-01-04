@@ -2,8 +2,8 @@
 "use client";
 
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import Container from "@/components/Container";
-import SectionHeading from "@/components/SectionHeading";
+import Container from "@/src/components/Container";
+import SectionHeading from "@/src/components/SectionHeading";
 import { motion, AnimatePresence } from "framer-motion";
 
 type Capability = {

@@ -1,6 +1,6 @@
 import React from "react";
-import Container from "@/components/Container";
-import SectionHeading from "@/components/SectionHeading";
+import Container from "@/src/components/Container";
+import SectionHeading from "@/src/components/SectionHeading";
 
 export default function WhoWeAreSection() {
   return (

@@ -5,8 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Container from "@/components/Container";
-import SectionDivider from "@/components/SectionDivider";
+import Container from "@/src/components/Container";
+import SectionDivider from "@/src/components/SectionDivider";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Slide = {

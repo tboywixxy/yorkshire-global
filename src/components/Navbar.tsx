@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import ThemeToggle from "@/components/ThemeToggle";
+import ThemeToggle from "@/src/components/ThemeToggle";
 
 const navItems = [
   { href: "/", label: "Home" },

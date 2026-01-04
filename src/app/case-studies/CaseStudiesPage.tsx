@@ -1,9 +1,9 @@
 // app/case-studies/CaseStudiesPage.tsx
 "use client";
 
-import Container from "@/components/Container";
-import SectionHeading from "@/components/SectionHeading";
-import CTA from "@/components/CTA";
+import Container from "@/src/components/Container";
+import SectionHeading from "@/src/components/SectionHeading";
+import CTA from "@/src/components/CTA";
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
 

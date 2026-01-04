@@ -1,8 +1,8 @@
 // app/contact/ContactPage.tsx
 "use client";
 
-import Container from "@/components/Container";
-import SectionHeading from "@/components/SectionHeading";
+import Container from "@/src/components/Container";
+import SectionHeading from "@/src/components/SectionHeading";
 import React, { useMemo, useRef, useState } from "react";
 
 type FormState = {

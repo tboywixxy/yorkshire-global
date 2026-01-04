@@ -1,12 +1,13 @@
-// app/layout.tsx
+// src/app/layout.tsx
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-import ThemeProvider from "@/components/ThemeProvider";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import RouteLoadingOverlay from "@/components/RouteLoadingOverlay"; // ✅ add
+import ThemeProvider from "@/src/components/ThemeProvider";
+import Navbar from "@/src/components/Navbar";
+import Footer from "@/src/components/Footer";
+import RouteLoadingOverlay from "@/src/components/RouteLoadingOverlay";
+import FirstLoadSplash from "@/src/components/FirstLoadSplash"; // ✅ NEW
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +21,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider>
+          {/* ✅ shows ONLY once per tab session (first site open) */}
+          <FirstLoadSplash />
+
           <Navbar />
-          <RouteLoadingOverlay /> {/* ✅ add */}
+
+          {/* ✅ shows only when your overlay logic decides there's real loading */}
+          <RouteLoadingOverlay />
+
           <main className="min-h-[60vh] pt-14">{children}</main>
           <Footer />
         </ThemeProvider>

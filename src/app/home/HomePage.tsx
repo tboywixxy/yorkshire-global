@@ -1,6 +1,6 @@
 import React from "react";
 import Script from "next/script";
-import CTA from "@/components/CTA";
+import CTA from "@/src/components/CTA";
 
 import HeroSlider from "./HeroSlider";
 import WhoWeAreSection from "./WhoWeAreSection";
