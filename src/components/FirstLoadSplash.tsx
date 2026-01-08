@@ -17,7 +17,7 @@ export default function FirstLoadSplash() {
     sessionStorage.setItem(KEY, "1");
 
     // Optional: keep visible briefly so it feels intentional
-    const t = window.setTimeout(() => setShow(false), 700);
+    const t = window.setTimeout(() => setShow(false), 200);
     return () => window.clearTimeout(t);
   }, []);
 
