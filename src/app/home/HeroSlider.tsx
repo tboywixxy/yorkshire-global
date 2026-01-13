@@ -29,7 +29,7 @@ export default function HeroSlider() {
       },
       {
         image:
-          "https://images.unsplash.com/photo-1526378722484-bd91ca387e72?auto=format&fit=crop&w=2000&q=80",
+          "https://images.unsplash.com/photo-1623479322729-28b25c16b011?auto=format&fit=crop&w=2000&q=80",
         headline: "Security-first delivery",
         tagline: "Resilience built into your work",
         description:
@@ -37,7 +37,7 @@ export default function HeroSlider() {
       },
       {
         image:
-          "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=2000&q=80",
+          "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=2000&q=80",
         headline: "Clear analysis. Reliable execution.",
         tagline: "From requirements to results",
         description:
@@ -79,19 +79,18 @@ export default function HeroSlider() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index]);
 
-  // ✅ SEO: ensure only ONE H1 on the page (use H1 only on first slide)
   const HeadlineTag = index === 0 ? ("h1" as const) : ("h2" as const);
 
   return (
     <section className="relative overflow-hidden -mt-14" aria-label="Hero">
       <div className="relative h-[72vh] min-h-[520px] sm:h-[70vh] sm:min-h-[520px] md:h-[66vh] md:min-h-[520px] w-full">
-        <div className="absolute inset-0 bg-black" />
+        <div className="absolute inset-0 bg-black -z-10" />
 
         <AnimatePresence mode="sync" initial={false}>
           <motion.div
             key={active.image}
             className="absolute inset-0 z-0"
-            initial={{ opacity: 0, scale: 1.01 }}
+            initial={{ opacity: 0, scale: 1.02 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
@@ -102,14 +101,16 @@ export default function HeroSlider() {
               fill
               priority={index === 0}
               sizes="100vw"
-              className="object-cover"
+              // ✅ Fill the whole container
+              className="object-cover object-[center_30%]"
             />
           </motion.div>
         </AnimatePresence>
 
-        <div className="absolute inset-0 z-10 bg-black/35" />
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/75 via-black/40 to-black/10" />
-        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/70 via-black/25 to-transparent" />
+        {/* ✅ lighter overlays */}
+        <div className="absolute inset-0 z-10 bg-black/10" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/35 via-black/15 to-black/0" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
 
         {/* preload next image */}
         <Image src={next.image} alt="" width={10} height={10} className="hidden" />
@@ -181,8 +182,8 @@ export default function HeroSlider() {
                 <p className="mt-3 text-sm leading-relaxed text-white/85 sm:mt-4 sm:text-sm md:text-base">
                   {active.description}{" "}
                   <span className="hidden md:inline">
-                    With expertise in secure development, cybersecurity, business analysis,
-                    and project management, we deliver solutions that drive lasting results.
+                    With expertise in secure development, cybersecurity, business analysis, and project management,
+                    we deliver solutions that drive lasting results.
                   </span>
                 </p>
 

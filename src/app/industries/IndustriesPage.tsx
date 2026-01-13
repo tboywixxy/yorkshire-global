@@ -7,6 +7,9 @@ import CTA from "@/src/components/CTA";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
+const HERO_URL =
+  "https://images.unsplash.com/photo-1740908900906-a51032597559?auto=format&fit=crop&w=2400&q=80";
+
 type Industry = {
   title: string;
   body: string;
@@ -89,36 +92,38 @@ const MEDIA_SHAPE = "rounded-2xl sm:rounded-3xl";
 export default function IndustriesPage() {
   return (
     <>
-      {/* HERO */}
+      {/* HERO (edge-to-edge, fills screen) */}
       <section className="-mt-14" aria-label="Industries hero">
-        <div className="relative h-[34vh] min-h-[300px] w-full overflow-hidden">
-          <Image
-            src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=2000&q=80"
-            alt="Industries hero background"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
+        <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden">
+          <div className="relative h-[44vh] min-h-[360px] w-full">
+            <Image
+              src={HERO_URL}
+              alt="Industries hero background"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-[center_70%]"
+            />
 
-          <div className="absolute inset-0 bg-black/25" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/30 to-black/10" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/15 to-transparent" />
+            <div className="absolute inset-0 bg-black/15" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-transparent" />
 
-          <div className="absolute inset-x-0 bottom-4 z-20">
-            <Container>
-              <motion.span
-                className="inline-block select-none text-sm sm:text-base font-serif font-semibold text-white/90 tracking-wide"
-                initial={false}
-                whileHover={{ scale: 1.04 }}
-                transition={{ type: "spring", stiffness: 340, damping: 24, mass: 0.7 }}
-              >
-                Yorkshire Global Consulting Inc. - Industries
-              </motion.span>
-            </Container>
+            <div className="absolute inset-x-0 bottom-4 z-20">
+              <Container>
+                <motion.span
+                  className="inline-block select-none text-sm sm:text-base font-serif font-semibold text-white/90 tracking-wide"
+                  initial={false}
+                  whileHover={{ scale: 1.04 }}
+                  transition={{ type: "spring", stiffness: 340, damping: 24, mass: 0.7 }}
+                >
+                  Yorkshire Global Consulting Inc. — Industries
+                </motion.span>
+              </Container>
+            </div>
+
+            <div className="relative z-10 h-full pt-14" />
           </div>
-
-          <div className="relative z-10 h-full pt-14" />
         </div>
       </section>
 
@@ -146,12 +151,11 @@ export default function IndustriesPage() {
                   className={[
                     "relative overflow-hidden",
                     "border border-black/10 dark:border-white/10",
-                    "bg-transparent", // ✅ no card background
-                    "shadow-none", // ✅ keep light (optional)
+                    "bg-transparent",
+                    "shadow-none",
                     item.cardShapeClass,
                   ].join(" ")}
                 >
-                  {/* ✅ keep the soft accents but they’re transparent-based (no solid bg) */}
                   <div
                     aria-hidden
                     className={[
@@ -173,7 +177,6 @@ export default function IndustriesPage() {
                           "border border-black/10 dark:border-white/10",
                           "shadow-md",
                           MEDIA_SHAPE,
-                          "will-change-transform",
                         ].join(" ")}
                       >
                         <Image
@@ -185,33 +188,13 @@ export default function IndustriesPage() {
                           decoding="async"
                           className="h-[210px] w-full object-cover sm:h-[240px] lg:h-[320px]"
                         />
-                        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
-
-                        <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/85 px-3 py-1 text-[11px] font-semibold text-black/80 dark:bg-black/35 dark:text-white/85">
-                          <span className="h-1.5 w-1.5 rounded-full bg-black/50 dark:bg-white/70" />
-                          Industry Focus
-                        </div>
+                        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
                       </div>
                     </div>
 
                     {/* TEXT */}
                     <div className={["lg:col-span-7", isLeft ? "lg:order-2" : "lg:order-1"].join(" ")}>
                       <div className={["relative", isLeft ? "" : "lg:text-right"].join(" ")}>
-                        <div
-                          className={[
-                            "mb-3 flex items-center gap-3",
-                            isLeft ? "justify-start" : "justify-start lg:justify-end",
-                          ].join(" ")}
-                        >
-                          <span className="text-[11px] font-semibold text-[rgb(var(--muted))]">
-                            {String(idx + 1).padStart(2, "0")}
-                          </span>
-                          <span className="h-px w-10 bg-[rgb(var(--border))]" />
-                          <span className="text-[11px] font-semibold tracking-wide text-[rgb(var(--muted))]">
-                            {isLeft ? "Delivery-ready" : "Risk-aware"}
-                          </span>
-                        </div>
-
                         <h2 className="text-xl font-semibold tracking-tight text-[rgb(var(--foreground))] sm:text-2xl">
                           {item.title}
                         </h2>
@@ -225,23 +208,6 @@ export default function IndustriesPage() {
                         >
                           {item.body}
                         </p>
-
-                        <div
-                          className={[
-                            "mt-4 flex flex-wrap gap-2",
-                            isLeft ? "justify-start" : "justify-start lg:justify-end",
-                          ].join(" ")}
-                        >
-                          <span className="rounded-full border border-black/10 bg-white/80 px-3 py-1 text-[12px] font-medium text-black/70 dark:border-white/10 dark:bg-white/5 dark:text-white/80">
-                            Security
-                          </span>
-                          <span className="rounded-full border border-black/10 bg-white/80 px-3 py-1 text-[12px] font-medium text-black/70 dark:border-white/10 dark:bg-white/5 dark:text-white/80">
-                            Delivery
-                          </span>
-                          <span className="rounded-full border border-black/10 bg-white/80 px-3 py-1 text-[12px] font-medium text-black/70 dark:border-white/10 dark:bg-white/5 dark:text-white/80">
-                            Process
-                          </span>
-                        </div>
 
                         <div
                           className={[
