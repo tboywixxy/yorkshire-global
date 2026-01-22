@@ -8,7 +8,7 @@ function escapeHtml(s: string) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
-
+ 
 export type ContactPayload = {
   fullName: string;
   email: string;

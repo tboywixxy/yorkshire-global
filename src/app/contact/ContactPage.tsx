@@ -4,6 +4,7 @@
 import Container from "@/src/components/Container";
 import SectionHeading from "@/src/components/SectionHeading";
 import React, { useMemo, useRef, useState } from "react";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 type FormState = {
   fullName: string;
@@ -62,13 +63,7 @@ type PopupState =
   | { open: false }
   | { open: true; type: "success" | "error"; title: string; message: string };
 
-function Popup({
-  state,
-  onClose,
-}: {
-  state: PopupState;
-  onClose: () => void;
-}) {
+function Popup({ state, onClose }: { state: PopupState; onClose: () => void }) {
   if (!state.open) return null;
 
   const isSuccess = state.type === "success";
@@ -149,6 +144,9 @@ export default function ContactPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [popup, setPopup] = useState<PopupState>({ open: false });
 
+  // ✅ CAPTCHA token
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
+
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((p) => ({ ...p, [key]: value }));
     setErrors((p) => {
@@ -160,29 +158,24 @@ export default function ContactPage() {
   }
 
   function sanitizePhone(value: string) {
-  // allow digits, spaces, parentheses, hyphen, and ONE leading +
-  let v = value.replace(/[^\d+\s()-]/g, ""); // removes letters and other symbols
+    // allow digits, spaces, parentheses, hyphen, and ONE leading +
+    let v = value.replace(/[^\d+\s()-]/g, ""); // removes letters and other symbols
+    // keep only one '+' and only at the start
+    v = v.replace(/\+/g, (m, offset) => (offset === 0 ? "+" : ""));
+    return v;
+  }
 
-  // keep only one '+' and only at the start
-  v = v.replace(/\+/g, (m, offset) => (offset === 0 ? "+" : ""));
-
-  // optional: limit length (since you already cap it)
-  return v;
-}
-
-function looksLikePhone(value: string) {
-  // must contain only allowed chars AND at least 7 digits
-  if (!/^\+?[\d\s()-]+$/.test(value.trim())) return false;
-  const digits = value.replace(/\D/g, "");
-  return digits.length >= 7 && digits.length <= 15;
-}
-
+  function looksLikePhone(value: string) {
+    // must contain only allowed chars AND at least 7 digits
+    if (!/^\+?[\d\s()-]+$/.test(value.trim())) return false;
+    const digits = value.replace(/\D/g, "");
+    return digits.length >= 7 && digits.length <= 15;
+  }
 
   const messageWordCount = countWords(form.message);
   const messageTooLong =
     messageWordCount > LIMITS.messageWordsMax || form.message.length > LIMITS.messageCharsSoftMax;
 
-  // ✅ fields required — BUT email validity will be checked only on submit
   const allRequiredFilled =
     form.fullName.trim().length > 0 &&
     form.email.trim().length > 0 &&
@@ -191,7 +184,6 @@ function looksLikePhone(value: string) {
     form.service.trim().length > 0 &&
     form.message.trim().length > 0;
 
-  // ✅ button should be clickable even if email is invalid
   const canSubmit = allRequiredFilled && !messageTooLong && !submitting;
 
   function validate() {
@@ -206,11 +198,11 @@ function looksLikePhone(value: string) {
       next.email = `Keep your email under ${LIMITS.emailMax} characters.`;
     else if (!looksLikeEmail(form.email)) next.email = "Please enter a valid email address.";
 
-if (!form.phone.trim()) next.phone = "Phone number is required.";
-else if (form.phone.trim().length > LIMITS.phoneMax)
-  next.phone = `Keep your phone under ${LIMITS.phoneMax} characters.`;
-else if (!looksLikePhone(form.phone))
-  next.phone = "Phone must contain only numbers (and optional + country code).";
+    if (!form.phone.trim()) next.phone = "Phone number is required.";
+    else if (form.phone.trim().length > LIMITS.phoneMax)
+      next.phone = `Keep your phone under ${LIMITS.phoneMax} characters.`;
+    else if (!looksLikePhone(form.phone))
+      next.phone = "Phone must contain only numbers (and optional + country code).";
 
     if (!form.organization.trim()) next.organization = "Company name is required.";
     else if (form.organization.trim().length > LIMITS.orgMax)
@@ -248,10 +240,24 @@ else if (!looksLikePhone(form.phone))
       message: "",
       companyWebsite: "",
     });
+
+    // ✅ reset captcha token too
+    setTurnstileToken("");
   }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    // ✅ captcha required
+    if (!turnstileToken) {
+      setPopup({
+        open: true,
+        type: "error",
+        title: "Verification needed",
+        message: "Please complete the verification and try again.",
+      });
+      return;
+    }
 
     // quick honeypot
     if (form.companyWebsite.trim()) {
@@ -265,7 +271,6 @@ else if (!looksLikePhone(form.phone))
       return;
     }
 
-    // ✅ if email invalid, show the prompt (error) and stop submit
     if (!looksLikeEmail(form.email)) {
       setErrors((p) => ({ ...p, email: "Please enter a valid email address." }));
       setPopup({
@@ -301,6 +306,7 @@ else if (!looksLikePhone(form.phone))
           message: form.message,
           companyWebsite: form.companyWebsite,
           startedAt: startedAtRef.current,
+          turnstileToken, // ✅ send captcha token to backend
         }),
       });
 
@@ -456,19 +462,17 @@ else if (!looksLikePhone(form.phone))
                 <div className="grid gap-3.5 sm:grid-cols-2">
                   <div>
                     <label className="text-sm font-medium text-white">Phone Number</label>
-                      <input
-                        value={form.phone}
-                        onChange={(e) =>
-                          update("phone", sanitizePhone(e.target.value).slice(0, LIMITS.phoneMax))
-                        }
-                        required
-                        inputMode="tel"
-                        maxLength={LIMITS.phoneMax}
-                        aria-invalid={!!errors.phone}
-                        className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-white/40 focus:bg-white/15"
-                        placeholder="+1 416 555 0123"
-                        autoComplete="tel"
-                      />
+                    <input
+                      value={form.phone}
+                      onChange={(e) => update("phone", sanitizePhone(e.target.value).slice(0, LIMITS.phoneMax))}
+                      required
+                      inputMode="tel"
+                      maxLength={LIMITS.phoneMax}
+                      aria-invalid={!!errors.phone}
+                      className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-white/40 focus:bg-white/15"
+                      placeholder="+1 416 555 0123"
+                      autoComplete="tel"
+                    />
                     <div className="mt-1 flex items-center justify-between text-xs text-white/65">
                       <span className="text-red-200">{errors.phone ?? ""}</span>
                       <span>
@@ -517,9 +521,7 @@ else if (!looksLikePhone(form.phone))
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-white">
-                    Message / Project Description
-                  </label>
+                  <label className="text-sm font-medium text-white">Message / Project Description</label>
                   <textarea
                     value={form.message}
                     onChange={(e) => update("message", e.target.value)}
@@ -535,6 +537,16 @@ else if (!looksLikePhone(form.phone))
                       {messageWordCount}/{LIMITS.messageWordsMax} words
                     </span>
                   </div>
+                </div>
+
+                {/* ✅ Turnstile CAPTCHA */}
+                <div className="pt-2">
+                  <Turnstile
+                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                    onSuccess={(token) => setTurnstileToken(token)}
+                    onExpire={() => setTurnstileToken("")}
+                    onError={() => setTurnstileToken("")}
+                  />
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -569,9 +581,7 @@ else if (!looksLikePhone(form.phone))
                   <h2 className="text-base font-semibold tracking-tight text-white sm:text-lg">
                     What happens next?
                   </h2>
-                  <p className="mt-2 text-sm text-white/85">
-                    Clear steps, fast response, and structured delivery.
-                  </p>
+                  <p className="mt-2 text-sm text-white/85">Clear steps, fast response, and structured delivery.</p>
                 </div>
 
                 <div className="hidden sm:block">
@@ -603,9 +613,7 @@ else if (!looksLikePhone(form.phone))
                   <CanadaFlagIcon className="h-4 w-6" />
                   Ontario, Canada
                 </p>
-                <p className="mt-4 text-sm text-white/85">
-                  We work remotely with clients across multiple industries.
-                </p>
+                <p className="mt-4 text-sm text-white/85">We work remotely with clients across multiple industries.</p>
               </div>
 
               <div className="sm:hidden mt-6">
