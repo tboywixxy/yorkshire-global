@@ -4,7 +4,7 @@
 import Container from "@/src/components/Container";
 import SectionHeading from "@/src/components/SectionHeading";
 import React, { useMemo, useRef, useState } from "react";
-import { Turnstile, useTurnstile } from "@marsidev/react-turnstile";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 type FormState = {
   fullName: string;
