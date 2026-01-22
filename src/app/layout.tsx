@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: "Yorkshire Global Consulting Inc.",
   description: "Secure • Analyze • Deliver • Transform",
   verification: {
-    google: "google6aa9af19aae5cbd3",
+    google: "TZraOvyzjSNOtYZbMUeRzj_Txj86RW-DJYNBJ0T1PWE",
   },
 };
 
