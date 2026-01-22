@@ -14,6 +14,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Yorkshire Global Consulting Inc.",
   description: "Secure • Analyze • Deliver • Transform",
+  verification: {
+    google: "google6aa9af19aae5cbd3",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
