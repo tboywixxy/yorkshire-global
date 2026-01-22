@@ -4,7 +4,7 @@
 import Container from "@/src/components/Container";
 import SectionHeading from "@/src/components/SectionHeading";
 import React, { useMemo, useRef, useState } from "react";
-import { Turnstile } from "@marsidev/react-turnstile";
+import { Turnstile, useTurnstile } from "@marsidev/react-turnstile";
 
 type FormState = {
   fullName: string;
@@ -146,6 +146,7 @@ export default function ContactPage() {
 
   // ✅ CAPTCHA token
   const [turnstileToken, setTurnstileToken] = useState<string>("");
+  const turnstileRef = useRef<HTMLDivElement>(null);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((p) => ({ ...p, [key]: value }));
@@ -243,6 +244,11 @@ export default function ContactPage() {
 
     // ✅ reset captcha token too
     setTurnstileToken("");
+    
+    // ✅ reset Turnstile widget so user must verify again
+    if (typeof window !== "undefined" && window.turnstile) {
+      window.turnstile.reset();
+    }
   }
 
   async function onSubmit(e: React.FormEvent) {
@@ -540,7 +546,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* ✅ Turnstile CAPTCHA */}
-                <div className="pt-2">
+                <div className="pt-2" ref={turnstileRef}>
                   <Turnstile
                     siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
                     onSuccess={(token) => setTurnstileToken(token)}
