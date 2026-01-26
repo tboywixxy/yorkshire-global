@@ -1,7 +1,6 @@
-// src/app/[locale]/contact/page.tsx
 import type { Metadata } from "next";
 import Script from "next/script";
-import ContactPage from "@/src/app/[locale]/contact/ContactPage";
+import ContactPage from "./ContactPage";
 
 export const metadata: Metadata = {
   title: "Contact | Yorkshire Global Consulting Inc.",
@@ -14,14 +13,14 @@ export const metadata: Metadata = {
       "Request a consultation for cybersecurity, secure delivery, and structured execution. Ontario, Canada.",
     url: "/contact",
     siteName: "Yorkshire Global Consulting Inc.",
-    type: "website",
+    type: "website"
   },
   twitter: {
     card: "summary_large_image",
     title: "Contact | Yorkshire Global Consulting Inc.",
     description:
-      "Request a consultation for cybersecurity, secure delivery, and structured execution. Ontario, Canada.",
-  },
+      "Request a consultation for cybersecurity, secure delivery, and structured execution. Ontario, Canada."
+  }
 };
 
 export default function Page() {
@@ -33,8 +32,8 @@ export default function Page() {
     isPartOf: {
       "@type": "WebSite",
       name: "Yorkshire Global Consulting Inc.",
-      url: "https://YOUR_DOMAIN.com",
-    },
+      url: "https://YOUR_DOMAIN.com"
+    }
   };
 
   const breadcrumb = {
@@ -42,8 +41,8 @@ export default function Page() {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://YOUR_DOMAIN.com/" },
-      { "@type": "ListItem", position: 2, name: "Contact", item: "https://YOUR_DOMAIN.com/contact" },
-    ],
+      { "@type": "ListItem", position: 2, name: "Contact", item: "https://YOUR_DOMAIN.com/contact" }
+    ]
   };
 
   return (

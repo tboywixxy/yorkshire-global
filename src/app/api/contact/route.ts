@@ -4,7 +4,11 @@ import nodemailer from "nodemailer";
 import path from "path";
 import fs from "fs/promises";
 
-import { ownerEmailTemplate, ackEmailTemplate, type ContactPayload } from "@/src/email/contactTemplates";
+import {
+  ownerEmailTemplate,
+  ackEmailTemplate,
+  type ContactPayload,
+} from "@/src/email/contactTemplates";
 
 const MIN_SECONDS_BEFORE_SUBMIT = 3;
 
@@ -12,7 +16,37 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // ✅ repeat anti-bot checks server-side
+    // ✅ 1) Turnstile verification (CAPTCHA)
+    const token = String(body.turnstileToken || "").trim();
+    if (!token) {
+      return NextResponse.json({ error: "Verification required." }, { status: 400 });
+    }
+
+    const ip =
+      req.headers.get("cf-connecting-ip") ||
+      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      undefined;
+
+    const formData = new FormData();
+    formData.append("secret", process.env.TURNSTILE_SECRET_KEY!);
+    formData.append("response", token);
+    if (ip) formData.append("remoteip", ip);
+
+    const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body: formData,
+    });
+
+    const verify = await verifyRes.json();
+
+    if (!verify?.success) {
+      return NextResponse.json(
+        { error: "Verification failed. Please try again." },
+        { status: 403 }
+      );
+    }
+
+    // ✅ 2) repeat anti-bot checks server-side
     if (body.companyWebsite?.trim()) {
       return NextResponse.json({ error: "Submission blocked." }, { status: 400 });
     }
@@ -23,7 +57,7 @@ export async function POST(req: Request) {
       }
     }
 
-    // ✅ required fields
+    // ✅ 3) required fields
     const required = ["fullName", "email", "phone", "organization", "service", "message"];
     for (const k of required) {
       if (!String(body[k] ?? "").trim()) {
