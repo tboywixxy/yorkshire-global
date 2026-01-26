@@ -8,7 +8,7 @@ function escapeHtml(s: string) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
- 
+
 export type ContactPayload = {
   fullName: string;
   email: string;
@@ -18,15 +18,15 @@ export type ContactPayload = {
   message: string;
 };
 
-// ✅ Brighter dark theme (closer to light)
+// ✅ LIGHT MODE THEME (single theme — no dark mode)
 const BRAND = {
-  bg: "#111827", // slate-900-ish (brighter than before)
-  card: "#162235", // slightly brighter card
-  border: "rgba(255,255,255,0.14)",
-  text: "rgba(255,255,255,0.88)",
-  muted: "rgba(255,255,255,0.70)",
-  white: "#ffffff",
-  accent: "#8CB4FF",
+  pageBg: "#f6f7fb",        // very light grey background
+  cardBg: "#ffffff",        // white card
+  border: "#e5e7eb",        // light grey border
+  text: "#111827",          // slate-900
+  muted: "#4b5563",         // slate-600
+  subtle: "#6b7280",        // slate-500
+  accent: "#2563eb",        // blue-600
 };
 
 function shell({
@@ -61,12 +61,12 @@ function shell({
     </style>
   </head>
 
-  <body style="margin:0;padding:0;background:${BRAND.bg};font-family:Arial,Helvetica,sans-serif;">
+  <body style="margin:0;padding:0;background:${BRAND.pageBg};font-family:Arial,Helvetica,sans-serif;">
     <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">
       ${escapeHtml(preheader)}
     </div>
 
-    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:${BRAND.bg};padding:24px 12px;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:${BRAND.pageBg};padding:24px 12px;">
       <tr>
         <td align="center" class="pad-sm">
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="640" class="container" style="width:640px;max-width:640px;">
@@ -86,7 +86,7 @@ function shell({
                     </td>
 
                     <!-- desktop only location -->
-                    <td class="hide-sm" align="right" style="padding:0;color:${BRAND.muted};font-size:12px;vertical-align:middle;">
+                    <td class="hide-sm" align="right" style="padding:0;color:${BRAND.subtle};font-size:12px;vertical-align:middle;">
                       Ontario, Canada
                     </td>
                   </tr>
@@ -96,21 +96,21 @@ function shell({
 
             <!-- MOBILE LOCATION (below logo, centered) -->
             <tr class="show-sm">
-              <td class="show-sm center-sm" style="padding:0 0 10px 0;color:${BRAND.muted};font-size:12px;">
+              <td class="show-sm center-sm" style="padding:0 0 10px 0;color:${BRAND.subtle};font-size:12px;">
                 Ontario, Canada
               </td>
             </tr>
 
             <!-- CARD -->
             <tr>
-              <td style="background:${BRAND.card};border:1px solid ${BRAND.border};padding:20px;">
+              <td style="background:${BRAND.cardBg};border:1px solid ${BRAND.border};padding:20px;">
                 ${bodyHtml}
               </td>
             </tr>
 
             <!-- FOOTER -->
             <tr>
-              <td style="padding:14px 6px 0 6px;color:${BRAND.muted};font-size:12px;line-height:1.5;">
+              <td style="padding:14px 6px 0 6px;color:${BRAND.subtle};font-size:12px;line-height:1.5;">
                 © ${new Date().getFullYear()} Yorkshire Global Consulting Inc.
               </td>
             </tr>
@@ -127,7 +127,7 @@ export function ownerEmailTemplate(p: ContactPayload) {
   const messageHtml = escapeHtml(p.message).replace(/\n/g, "<br/>");
 
   const bodyHtml = `
-    <h1 style="margin:0 0 8px 0;color:${BRAND.white};font-size:18px;line-height:1.3;">
+    <h1 style="margin:0 0 8px 0;color:${BRAND.text};font-size:18px;line-height:1.3;">
       New contact form submission
     </h1>
     <p style="margin:0 0 16px 0;color:${BRAND.muted};font-size:13px;line-height:1.6;">
@@ -153,12 +153,12 @@ export function ownerEmailTemplate(p: ContactPayload) {
 
     <p style="margin:0 0 8px 0;color:${BRAND.muted};font-size:13px;">Message</p>
 
-    <div style="background:rgba(255,255,255,0.06);border:1px solid ${BRAND.border};padding:14px;color:${BRAND.white};font-size:13px;line-height:1.7;">
+    <div style="background:#f9fafb;border:1px solid ${BRAND.border};padding:14px;color:${BRAND.text};font-size:13px;line-height:1.7;">
       ${messageHtml}
     </div>
 
-    <p style="margin:14px 0 0 0;color:${BRAND.muted};font-size:12px;">
-      Tip: hit <b style="color:${BRAND.white};">Reply</b> to respond to the sender.
+    <p style="margin:14px 0 0 0;color:${BRAND.subtle};font-size:12px;">
+      Tip: hit <b style="color:${BRAND.text};">Reply</b> to respond to the sender.
     </p>
   `;
 
@@ -184,23 +184,23 @@ export function ackEmailTemplate(p: Pick<ContactPayload, "fullName" | "service" 
   const subject = "We received your message";
 
   const bodyHtml = `
-    <h1 style="margin:0 0 8px 0;color:${BRAND.white};font-size:18px;line-height:1.3;">
+    <h1 style="margin:0 0 8px 0;color:${BRAND.text};font-size:18px;line-height:1.3;">
       Thanks — we got your message
     </h1>
     <p style="margin:0 0 14px 0;color:${BRAND.text};font-size:13px;line-height:1.7;">
-      Hi <b style="color:${BRAND.white};">${escapeHtml(p.fullName)}</b>,<br/><br/>
-      We’ve received your inquiry and will respond within <b style="color:${BRAND.white};">24 hours</b>.
+      Hi <b style="color:${BRAND.text};">${escapeHtml(p.fullName)}</b>,<br/><br/>
+      We’ve received your inquiry and will respond within <b style="color:${BRAND.text};">24 hours</b>.
     </p>
 
-    <div style="background:rgba(255,255,255,0.06);border:1px solid ${BRAND.border};padding:14px;">
+    <div style="background:#f9fafb;border:1px solid ${BRAND.border};padding:14px;">
       <div style="color:${BRAND.muted};font-size:12px;margin-bottom:8px;">Summary</div>
-      <div style="color:${BRAND.white};font-size:13px;line-height:1.6;">
+      <div style="color:${BRAND.text};font-size:13px;line-height:1.6;">
         <div><span style="color:${BRAND.muted};">Service:</span> ${escapeHtml(p.service)}</div>
         <div><span style="color:${BRAND.muted};">Company:</span> ${escapeHtml(p.organization)}</div>
       </div>
     </div>
 
-    <p style="margin:14px 0 0 0;color:${BRAND.muted};font-size:12px;line-height:1.6;">
+    <p style="margin:14px 0 0 0;color:${BRAND.subtle};font-size:12px;line-height:1.6;">
       Yorkshire Global Consulting Inc.
     </p>
   `;
@@ -226,7 +226,7 @@ function row(label: string, valueHtml: string) {
       <td style="padding:8px 0;color:${BRAND.muted};font-size:13px;width:140px;vertical-align:top;">
         ${label}
       </td>
-      <td style="padding:8px 0;color:${BRAND.white};font-size:13px;vertical-align:top;">
+      <td style="padding:8px 0;color:${BRAND.text};font-size:13px;vertical-align:top;">
         ${valueHtml}
       </td>
     </tr>

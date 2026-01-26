@@ -3,7 +3,6 @@
 import React, { useMemo, useRef, useState } from "react";
 import Container from "@/src/components/Container";
 import SectionHeading from "@/src/components/SectionHeading";
-import { Turnstile } from "@marsidev/react-turnstile";
 import { useTranslations } from "next-intl";
 
 type FormState = {
@@ -22,12 +21,7 @@ type PopupState =
 
 function CanadaFlagIcon({ className = "" }: { className?: string }) {
   return (
-    <svg
-      className={className}
-      viewBox="0 0 640 320"
-      aria-hidden="true"
-      focusable="false"
-    >
+    <svg className={className} viewBox="0 0 640 320" aria-hidden="true" focusable="false">
       <rect width="640" height="320" fill="#ffffff" />
       <rect x="0" y="0" width="160" height="320" fill="#d80621" />
       <rect x="480" y="0" width="160" height="320" fill="#d80621" />
@@ -47,7 +41,7 @@ const LIMITS = {
   phoneMax: 24,
   orgMax: 60,
   messageWordsMax: 200,
-  messageCharsSoftMax: 1400
+  messageCharsSoftMax: 1400,
 };
 
 const MIN_SECONDS_BEFORE_SUBMIT = 3;
@@ -79,7 +73,7 @@ function looksLikePhone(value: string) {
 function Popup({
   state,
   onClose,
-  closeLabel
+  closeLabel,
 }: {
   state: PopupState;
   onClose: () => void;
@@ -105,7 +99,7 @@ function Popup({
               "flex h-10 w-10 shrink-0 items-center justify-center border text-sm font-semibold",
               isSuccess
                 ? "border-emerald-400/30 bg-emerald-400/10 text-emerald-200"
-                : "border-red-400/30 bg-red-400/10 text-red-200"
+                : "border-red-400/30 bg-red-400/10 text-red-200",
             ].join(" ")}
             aria-hidden
           >
@@ -142,7 +136,7 @@ export default function ContactPage() {
       { value: "businessAnalysis", label: t("services.businessAnalysis") },
       { value: "projectManagement", label: t("services.projectManagement") },
       { value: "strategy", label: t("services.strategy") },
-      { value: "other", label: t("services.other") }
+      { value: "other", label: t("services.other") },
     ],
     [t]
   );
@@ -156,16 +150,12 @@ export default function ContactPage() {
     organization: "",
     service: serviceOptions[0]?.value ?? "ssdlc",
     message: "",
-    companyWebsite: ""
+    companyWebsite: "",
   });
 
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [popup, setPopup] = useState<PopupState>({ open: false });
-
-  // CAPTCHA token + key for reset
-  const [turnstileToken, setTurnstileToken] = useState<string>("");
-  const [turnstileKey, setTurnstileKey] = useState<number>(0);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((p) => ({ ...p, [key]: value }));
@@ -179,8 +169,7 @@ export default function ContactPage() {
 
   const messageWordCount = countWords(form.message);
   const messageTooLong =
-    messageWordCount > LIMITS.messageWordsMax ||
-    form.message.length > LIMITS.messageCharsSoftMax;
+    messageWordCount > LIMITS.messageWordsMax || form.message.length > LIMITS.messageCharsSoftMax;
 
   const allRequiredFilled =
     form.fullName.trim().length > 0 &&
@@ -221,8 +210,10 @@ export default function ContactPage() {
     else if (form.message.length > LIMITS.messageCharsSoftMax)
       next.message = t("errors.messageCharsMax", { max: LIMITS.messageCharsSoftMax });
 
+    // honeypot
     if (form.companyWebsite.trim()) next.form = t("errors.blocked");
 
+    // minimum seconds check
     const elapsedMs = Date.now() - startedAtRef.current;
     if (elapsedMs < MIN_SECONDS_BEFORE_SUBMIT * 1000) next.form = t("errors.blocked");
 
@@ -239,33 +230,19 @@ export default function ContactPage() {
       organization: "",
       service: serviceOptions[0]?.value ?? "ssdlc",
       message: "",
-      companyWebsite: ""
+      companyWebsite: "",
     });
-
-    setTurnstileToken("");
-    setTurnstileKey((k) => k + 1); // forces Turnstile remount/reset
   }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-
-    // captcha required
-    if (!turnstileToken) {
-      setPopup({
-        open: true,
-        type: "error",
-        title: t("popup.verificationTitle"),
-        message: t("popup.verificationMessage")
-      });
-      return;
-    }
 
     if (!validate()) {
       setPopup({
         open: true,
         type: "error",
         title: t("popup.fixFormTitle"),
-        message: t("popup.fixFormMessage")
+        message: t("popup.fixFormMessage"),
       });
       return;
     }
@@ -284,8 +261,7 @@ export default function ContactPage() {
           message: form.message,
           companyWebsite: form.companyWebsite,
           startedAt: startedAtRef.current,
-          turnstileToken
-        })
+        }),
       });
 
       const data = await res.json().catch(() => ({}));
@@ -296,7 +272,7 @@ export default function ContactPage() {
           open: true,
           type: "error",
           title: t("popup.failedTitle"),
-          message: data?.error ?? t("popup.failedMessage")
+          message: data?.error ?? t("popup.failedMessage"),
         });
         return;
       }
@@ -305,7 +281,7 @@ export default function ContactPage() {
         open: true,
         type: "success",
         title: t("popup.successTitle"),
-        message: t("popup.successMessage")
+        message: t("popup.successMessage"),
       });
 
       resetForm();
@@ -315,7 +291,7 @@ export default function ContactPage() {
         open: true,
         type: "error",
         title: t("popup.failedTitle"),
-        message: t("popup.networkFailedMessage")
+        message: t("popup.networkFailedMessage"),
       });
     } finally {
       setSubmitting(false);
@@ -331,11 +307,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <Popup
-        state={popup}
-        onClose={() => setPopup({ open: false })}
-        closeLabel={t("popup.close")}
-      />
+      <Popup state={popup} onClose={() => setPopup({ open: false })} closeLabel={t("popup.close")} />
 
       <section className="relative overflow-hidden -mt-14 pt-[6.75rem] pb-12 sm:pt-[7.75rem] sm:pb-14 text-white">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
@@ -343,7 +315,7 @@ export default function ContactPage() {
             className="absolute inset-0 scale-110 bg-cover bg-center"
             style={{
               backgroundImage:
-                "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2400&q=80')"
+                "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2400&q=80')",
             }}
           />
           <div className="absolute inset-0 bg-black/40" />
@@ -365,10 +337,7 @@ export default function ContactPage() {
                   </h2>
                   <p className="mt-1 text-sm text-white/85">
                     {t("contactFormBlurbA")}{" "}
-                    <span className="font-semibold text-white">
-                      {t("contactFormBlurbB")}
-                    </span>
-                    .
+                    <span className="font-semibold text-white">{t("contactFormBlurbB")}</span>.
                   </p>
                 </div>
 
@@ -383,19 +352,13 @@ export default function ContactPage() {
                 </div>
               ) : null}
 
-              <form
-                onSubmit={onSubmit}
-                className="mt-5 space-y-3.5"
-                aria-label={t("formAriaLabel")}
-              >
+              <form onSubmit={onSubmit} className="mt-5 space-y-3.5" aria-label={t("formAriaLabel")}>
                 {/* honeypot */}
                 <div
                   aria-hidden="true"
                   className="absolute left-[-10000px] top-auto h-[1px] w-[1px] overflow-hidden"
                 >
-                  <label className="text-sm font-medium text-white">
-                    {t("honeypotLabel")}
-                  </label>
+                  <label className="text-sm font-medium text-white">{t("honeypotLabel")}</label>
                   <input
                     value={form.companyWebsite}
                     onChange={(e) => update("companyWebsite", e.target.value)}
@@ -406,14 +369,10 @@ export default function ContactPage() {
 
                 <div className="grid gap-3.5 sm:grid-cols-2">
                   <div>
-                    <label className="text-sm font-medium text-white">
-                      {t("labels.fullName")}
-                    </label>
+                    <label className="text-sm font-medium text-white">{t("labels.fullName")}</label>
                     <input
                       value={form.fullName}
-                      onChange={(e) =>
-                        update("fullName", e.target.value.slice(0, LIMITS.fullNameMax))
-                      }
+                      onChange={(e) => update("fullName", e.target.value.slice(0, LIMITS.fullNameMax))}
                       required
                       maxLength={LIMITS.fullNameMax}
                       aria-invalid={!!errors.fullName}
@@ -430,14 +389,10 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium text-white">
-                      {t("labels.email")}
-                    </label>
+                    <label className="text-sm font-medium text-white">{t("labels.email")}</label>
                     <input
                       value={form.email}
-                      onChange={(e) =>
-                        update("email", e.target.value.slice(0, LIMITS.emailMax))
-                      }
+                      onChange={(e) => update("email", e.target.value.slice(0, LIMITS.emailMax))}
                       required
                       type="email"
                       inputMode="email"
@@ -458,16 +413,11 @@ export default function ContactPage() {
 
                 <div className="grid gap-3.5 sm:grid-cols-2">
                   <div>
-                    <label className="text-sm font-medium text-white">
-                      {t("labels.phone")}
-                    </label>
+                    <label className="text-sm font-medium text-white">{t("labels.phone")}</label>
                     <input
                       value={form.phone}
                       onChange={(e) =>
-                        update(
-                          "phone",
-                          sanitizePhone(e.target.value).slice(0, LIMITS.phoneMax)
-                        )
+                        update("phone", sanitizePhone(e.target.value).slice(0, LIMITS.phoneMax))
                       }
                       required
                       inputMode="tel"
@@ -486,9 +436,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium text-white">
-                      {t("labels.company")}
-                    </label>
+                    <label className="text-sm font-medium text-white">{t("labels.company")}</label>
                     <input
                       value={form.organization}
                       onChange={(e) =>
@@ -511,9 +459,7 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-white">
-                    {t("labels.service")}
-                  </label>
+                  <label className="text-sm font-medium text-white">{t("labels.service")}</label>
                   <select
                     value={form.service}
                     onChange={(e) => update("service", e.target.value)}
@@ -531,9 +477,7 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-white">
-                    {t("labels.message")}
-                  </label>
+                  <label className="text-sm font-medium text-white">{t("labels.message")}</label>
                   <textarea
                     value={form.message}
                     onChange={(e) => update("message", e.target.value)}
@@ -546,23 +490,9 @@ export default function ContactPage() {
                   <div className="mt-1 flex flex-wrap items-center justify-between gap-2 text-xs text-white/65">
                     <span className="text-red-200">{errors.message ?? ""}</span>
                     <span className={messageTooLong ? "text-red-200" : "text-white/65"}>
-                      {t("counters.words", {
-                        count: messageWordCount,
-                        max: LIMITS.messageWordsMax
-                      })}
+                      {t("counters.words", { count: messageWordCount, max: LIMITS.messageWordsMax })}
                     </span>
                   </div>
-                </div>
-
-                {/* Turnstile CAPTCHA */}
-                <div className="pt-2">
-                  <Turnstile
-                    key={turnstileKey}
-                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-                    onSuccess={(token) => setTurnstileToken(token)}
-                    onExpire={() => setTurnstileToken("")}
-                    onError={() => setTurnstileToken("")}
-                  />
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -573,7 +503,7 @@ export default function ContactPage() {
                       "inline-flex w-full justify-center px-5 py-2.5 text-sm font-semibold shadow-sm transition sm:w-auto",
                       canSubmit
                         ? "bg-white text-slate-900 hover:opacity-95"
-                        : "cursor-not-allowed bg-white/50 text-slate-900/70"
+                        : "cursor-not-allowed bg-white/50 text-slate-900/70",
                     ].join(" ")}
                   >
                     {submitting ? t("submit.submitting") : t("submit.submit")}
