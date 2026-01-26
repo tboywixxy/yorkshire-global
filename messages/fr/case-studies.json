@@ -1,0 +1,40 @@
+{
+  "CaseStudies": {
+    "hero": {
+      "ariaLabel": "Héros des études de cas",
+      "imageAlt": "Arrière-plan héros des études de cas",
+      "kicker": "Yorkshire Global Consulting Inc. — Études de cas"
+    },
+    "content": {
+      "ariaLabel": "Contenu des études de cas",
+      "headingTitle": "Études de cas",
+      "headingSubtitle": "Exemples de haut niveau montrant comment nous assurons une livraison sécurisée et structurée."
+    },
+    "card": {
+      "chip": "Étude de cas",
+      "outcomeLabel": "Résultat",
+      "imageAlt": "Image : {title}"
+    },
+    "cases": [
+      {
+        "title": "Étude de cas 1 — Mise en place d’un SSDLC",
+        "body": "Une entreprise technologique devait renforcer son processus de développement. Nous avons mis en place un cadre SSDLC, introduit des pratiques de codage sécurisé et intégré des analyses automatisées dans leur pipeline.",
+        "result": "Résilience améliorée et cycles de livraison plus rapides."
+      },
+      {
+        "title": "Étude de cas 2 — Réduction des risques de cybersécurité",
+        "body": "Un client du secteur financier devait corriger des constats récurrents d’audit. Nous avons amélioré les contrôles, mis à jour les politiques et renforcé la sécurité cloud.",
+        "result": "Audit de conformité réussi et exposition au risque réduite."
+      },
+      {
+        "title": "Étude de cas 3 — Redressement de projet",
+        "body": "Un déploiement majeur risquait l’échec. Nous avons stabilisé le projet, corrigé le planning, redéfini les exigences et livré selon un plan révisé.",
+        "result": "Mise en production réussie et retours positifs des parties prenantes."
+      }
+    ],
+    "cta": {
+      "title": "Envie de résultats comme ceux-ci ?",
+      "subtitle": "Parlez-nous de votre projet et nous proposerons un plan clair pour avancer."
+    }
+  }
+}

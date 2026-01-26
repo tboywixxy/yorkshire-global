@@ -1,0 +1,101 @@
+{
+  "Home": {
+    "hero": {
+      "kicker": "Ontario, Kanada • Für mehrere Branchen",
+      "desktopSuffix": "Mit Expertise in sicherer Entwicklung, Cybersicherheit, Business Analysis und Projektmanagement liefern wir Lösungen mit nachhaltiger Wirkung.",
+      "buttons": {
+        "learnMore": "Mehr erfahren",
+        "services": "Unsere Leistungen",
+        "contact": "Kontakt"
+      },
+      "slides": [
+        {
+          "headline": "Yorkshire Global Consulting Inc.",
+          "tagline": "Sichern • Analysieren • Liefern • Transformieren",
+          "description": "Wir helfen Organisationen, Systeme zu stärken, Abläufe zu optimieren und Projekte sicher umzusetzen."
+        },
+        {
+          "headline": "Security-first Delivery",
+          "tagline": "Resilienz in Ihrer Umsetzung",
+          "description": "Von sicheren Entwicklungspraktiken bis zu Governance und Compliance reduzieren wir Risiken und verbessern Ergebnisse."
+        },
+        {
+          "headline": "Klare Analyse. Zuverlässige Umsetzung.",
+          "tagline": "Von Anforderungen zu Ergebnissen",
+          "description": "Business Analysis und Projektmanagement, die Stakeholder ausrichten und messbaren Nutzen liefern."
+        }
+      ],
+      "aria": {
+        "hero": "Hero",
+        "prev": "Vorherige Folie",
+        "next": "Nächste Folie",
+        "indicators": "Folie-Indikatoren",
+        "goto": "Zur Folie {n} wechseln",
+        "backgroundAlt": "{headline} Hintergrundbild"
+      }
+    },
+
+    "who": {
+      "aria": { "section": "Wer wir sind" },
+      "headingTitle": "Wer wir sind",
+      "headingSubtitle": "Yorkshire Global Consulting Inc. ist ein Professional-Services-Unternehmen mit Sitz in Ontario, Kanada. Wir unterstützen Organisationen branchenübergreifend dabei, Software sicher zu entwickeln, Risiken zu managen, Business-Bedarf zu analysieren und komplexe Projekte umzusetzen. Unsere Arbeit basiert auf Praxiserfahrung, bewährten Methoden und einem klaren Commitment zum Kundenerfolg.",
+      "cardAlt": "{title} - Yorkshire Global Consulting Inc.",
+      "cards": [
+        { "title": "Praxiserfahrung", "text": "Verankert in realer Delivery — mit strukturierten Methoden, die über Teams skalieren." },
+        { "title": "Bewährte Methoden", "text": "Security-, Analyse-, Governance- und Delivery-Praktiken, ausgerichtet auf Outcomes." },
+        { "title": "Kundenerfolg", "text": "Klare Kommunikation und Verantwortung — damit Projekte sicher vorankommen." }
+      ]
+    },
+
+    "services": {
+      "aria": {
+        "section": "Kernleistungen",
+        "expand": "{title} erweitern",
+        "collapse": "{title} einklappen"
+      },
+      "headingTitle": "Unsere Kernleistungen",
+      "headingSubtitle": "Ein kurzer Überblick über unser Delivery.",
+      "exploreBtn": "Unsere Leistungen ansehen",
+      "items": [
+        {
+          "title": "Secure Software Development Lifecycle (SSDLc)",
+          "detail": "Wir integrieren Sicherheit in jede Phase: Secure Coding, Threat Modeling, Code Reviews, DevSecOps-Integration, sichere Architekturberatung und Aufbau eines vollständigen SSDLc-Programms."
+        },
+        {
+          "title": "Cybersicherheits-Services",
+          "detail": "Risiko- und Schwachstellenanalysen, Security Policies, Cloud- und Infrastruktur-Reviews, Governance & Compliance, Incident Readiness und Awareness-Trainings."
+        },
+        {
+          "title": "Business Analysis",
+          "detail": "Anforderungsaufnahme, Workflow-Analyse, Gap Assessments, Prozessverbesserung, Dokumentation (BRD/FRD, Use Cases, User Stories) und Stakeholder-Management."
+        },
+        {
+          "title": "Projektmanagement",
+          "detail": "End-to-End Management, PMO-Aufbau, Agile/Waterfall/Hybrid, Planung und Ressourcen, Risiko- und Issue-Management, Vendor-Koordination und Projekt-Rescue."
+        },
+        {
+          "title": "Business- & Strategie-Beratung",
+          "detail": "Strategische Planung, operative Verbesserung, digitale Transformation, Change Management, Business Continuity und Performance-Messframeworks."
+        }
+      ]
+    },
+
+    "industries": {
+      "aria": {
+        "section": "Branchen, die wir bedienen",
+        "marquee": "Branchen-Laufband"
+      },
+      "headingTitle": "Branchen, die wir bedienen",
+      "cardSubtitle": "Individuelle Unterstützung für Sicherheit, Klarheit und Umsetzung.",
+      "tip": "Tipp: Hover = Pause • Ziehen zum Scrubben",
+      "items": [
+        "Gesundheitswesen",
+        "Finanzen",
+        "Technologie & SaaS",
+        "Öffentlicher Sektor",
+        "Gaming & digitale Unterhaltung",
+        "Kleine und mittlere Unternehmen"
+      ]
+    }
+  }
+}

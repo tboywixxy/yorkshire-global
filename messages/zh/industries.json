@@ -1,0 +1,50 @@
+{
+  "Industries": {
+    "hero": {
+      "ariaLabel": "行业页头",
+      "imageAlt": "行业页头背景图",
+      "kicker": "Yorkshire Global Consulting Inc. — 行业"
+    },
+    "content": {
+      "ariaLabel": "行业内容",
+      "headingTitle": "行业",
+      "headingSubtitle": "我们会根据您的行业环境、约束条件与交付需求调整方法。"
+    },
+    "industries": [
+      {
+        "title": "医疗健康",
+        "body": "支持安全系统、合规要求、数字化流程与运营效率提升。",
+        "imageAlt": "医疗系统与临床工作流程"
+      },
+      {
+        "title": "金融",
+        "body": "帮助金融机构管理风险、强化安全并提升流程清晰度。",
+        "imageAlt": "金融服务与风险管理"
+      },
+      {
+        "title": "科技与 SaaS",
+        "body": "提供安全开发、技术项目交付与规模化运营方面的指导。",
+        "imageAlt": "科技与 SaaS 产品交付"
+      },
+      {
+        "title": "公共部门",
+        "body": "为政府机构提供流程改进、风险管理与结构化项目执行支持。",
+        "imageAlt": "公共部门交付与治理"
+      },
+      {
+        "title": "游戏与数字娱乐",
+        "body": "安全应用开发、系统稳定性、数据分析与流程优化。",
+        "imageAlt": "游戏与数字娱乐系统"
+      },
+      {
+        "title": "中小企业",
+        "body": "以可负担、可扩展的方式提升技术能力、流程与项目交付。",
+        "imageAlt": "中小企业团队与运营"
+      }
+    ],
+    "cta": {
+      "title": "有特殊行业需求？",
+      "subtitle": "我们会根据您的标准、风险与交付周期定制合作方式。"
+    }
+  }
+}

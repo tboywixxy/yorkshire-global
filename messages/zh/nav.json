@@ -1,0 +1,16 @@
+{
+  "Nav": {
+    "home": "首页",
+    "about": "关于我们",
+    "services": "服务",
+    "industries": "行业",
+    "caseStudies": "案例研究",
+    "contact": "联系",
+    "contactCta": "联系我们",
+    "ariaHome": "返回首页",
+    "ariaOpenMenu": "打开菜单",
+    "ariaCloseMenu": "关闭菜单",
+    "logoAlt": "Yorkshire Global Consulting Inc. 标志",
+    "switchTo": "切换语言到 {lang}"
+  }
+}

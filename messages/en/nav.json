@@ -1,0 +1,16 @@
+{
+  "Nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "industries": "Industries",
+    "caseStudies": "Case Studies",
+    "contact": "Contact",
+    "contactCta": "Contact Us",
+    "ariaHome": "Go to homepage",
+    "ariaOpenMenu": "Open menu",
+    "ariaCloseMenu": "Close menu",
+    "logoAlt": "Yorkshire Global Consulting Inc. logo",
+    "switchTo": "Switch language to {lang}"
+  }
+}

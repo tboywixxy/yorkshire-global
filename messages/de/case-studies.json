@@ -1,0 +1,40 @@
+{
+  "CaseStudies": {
+    "hero": {
+      "ariaLabel": "Fallstudien-Hero",
+      "imageAlt": "Hero-Hintergrund der Fallstudien",
+      "kicker": "Yorkshire Global Consulting Inc. — Fallstudien"
+    },
+    "content": {
+      "ariaLabel": "Fallstudien-Inhalt",
+      "headingTitle": "Fallstudien",
+      "headingSubtitle": "Beispiele auf hoher Ebene, wie wir sichere und strukturierte Lieferung unterstützen."
+    },
+    "card": {
+      "chip": "Fallstudie",
+      "outcomeLabel": "Ergebnis",
+      "imageAlt": "Bild: {title}"
+    },
+    "cases": [
+      {
+        "title": "Fallstudie 1 — SSDLC-Implementierung",
+        "body": "Ein Technologieunternehmen benötigte einen sichereren Entwicklungsprozess. Wir haben ein SSDLC-Framework eingeführt, Secure-Coding-Praktiken etabliert und automatisierte Scans in die Pipeline integriert.",
+        "result": "Höhere Resilienz und schnellere Release-Zyklen."
+      },
+      {
+        "title": "Fallstudie 2 — Reduktion von Cybersicherheitsrisiken",
+        "body": "Ein Finanzkunde musste wiederkehrende Audit-Findings beheben. Wir haben Kontrollen verbessert, Richtlinien aktualisiert und die Cloud-Sicherheitslage gestärkt.",
+        "result": "Compliance-Audit bestanden und Risikoexposition reduziert."
+      },
+      {
+        "title": "Fallstudie 3 — Projektrettung",
+        "body": "Ein großes System-Rollout war gefährdet. Wir haben das Projekt stabilisiert, den Zeitplan korrigiert, Anforderungen neu definiert und nach einem überarbeiteten Plan geliefert.",
+        "result": "Erfolgreiche Umsetzung und positives Stakeholder-Feedback."
+      }
+    ],
+    "cta": {
+      "title": "Möchten Sie ähnliche Ergebnisse?",
+      "subtitle": "Erzählen Sie uns von Ihrem Projekt – wir skizzieren einen klaren Plan für die nächsten Schritte."
+    }
+  }
+}

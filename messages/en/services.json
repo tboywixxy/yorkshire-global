@@ -1,0 +1,66 @@
+{
+  "Services": {
+    "hero": {
+      "ariaLabel": "Services hero",
+      "imageAlt": "Services hero background",
+      "kicker": "Yorkshire Global Consulting Inc. — Services"
+    },
+    "content": {
+      "ariaLabel": "Services content",
+      "headingTitle": "Services",
+      "headingSubtitle": "Security-first consulting and delivery support — from secure development to governance, analysis, and execution."
+    },
+    "loading": "Loading service details…",
+    "list": {
+      "title": "Service Areas",
+      "subtitle": "Select a service to view details.",
+      "ariaLabel": "Service list",
+      "viewDetails": "View details →",
+      "itemAria": "View service: {title}"
+    },
+    "detail": {
+      "chip": "Service",
+      "kicker": "Security-first • Execution-focused",
+      "outcomeLabel": "Expected Outcome",
+      "ctaPrimary": "Request a consultation",
+      "ctaSecondary": "View case studies"
+    },
+    "highlights": [
+      { "k": "Delivery", "v": "Structured execution" },
+      { "k": "Security", "v": "Risk-led approach" },
+      { "k": "Clarity", "v": "Clear artifacts & docs" }
+    ],
+    "services": [
+      {
+        "title": "Secure Software Development Lifecycle (SSDLC)",
+        "body": "We help organizations integrate security into every stage of software development. Our services include secure coding practices, threat modeling, code reviews, DevSecOps integration, secure architecture guidance, and full SSDLC program setup.",
+        "outcome": "Stronger applications built with security at their core."
+      },
+      {
+        "title": "Cybersecurity Services",
+        "body": "We support organizations in strengthening their cybersecurity posture through risk and vulnerability assessments, security policy development, cloud and infrastructure security review, governance and compliance support, incident readiness planning, and security awareness training.",
+        "outcome": "Reduced risk, improved resilience, and better security governance."
+      },
+      {
+        "title": "Business Analysis",
+        "body": "We translate business needs into clear requirements that drive successful projects. Services include requirements gathering, process and workflow analysis, gap assessments, process improvement, documentation (BRDs, FRDs, use cases, user stories), and stakeholder management.",
+        "outcome": "Greater clarity, reduced rework, and smoother execution."
+      },
+      {
+        "title": "Project Management",
+        "body": "Our project managers help organizations deliver initiatives with structure and discipline. Services include full lifecycle management, PMO setup, Agile/Waterfall/Hybrid delivery, scheduling, resource planning, risk/issue management, vendor coordination, and project recovery.",
+        "outcome": "Projects delivered on time, within budget, and aligned to goals."
+      },
+      {
+        "title": "Business & Strategy Consulting",
+        "body": "We help organizations strengthen operations and prepare for growth. Services include strategic planning, operational improvement, digital transformation guidance, change management, business continuity planning, and performance measurement frameworks.",
+        "outcome": "Better decisions, stronger operations, and sustainable performance."
+      }
+    ],
+    "cta": {
+      "title": "Not sure which service fits?",
+      "subtitle": "Describe your situation and we’ll suggest the best starting point.",
+      "buttonText": "Request a consultation"
+    }
+  }
+}

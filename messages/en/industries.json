@@ -1,0 +1,50 @@
+{
+  "Industries": {
+    "hero": {
+      "ariaLabel": "Industries hero",
+      "imageAlt": "Industries hero background",
+      "kicker": "Yorkshire Global Consulting Inc. — Industries"
+    },
+    "content": {
+      "ariaLabel": "Industries content",
+      "headingTitle": "Industries",
+      "headingSubtitle": "We adapt our approach to your environment, constraints, and delivery needs."
+    },
+    "industries": [
+      {
+        "title": "Healthcare",
+        "body": "Supporting secure systems, compliance, digital workflows, and operational efficiency.",
+        "imageAlt": "Healthcare systems and clinical workflows"
+      },
+      {
+        "title": "Finance",
+        "body": "Helping financial organizations manage risk, strengthen security, and improve process clarity.",
+        "imageAlt": "Financial services and risk management"
+      },
+      {
+        "title": "Technology & SaaS",
+        "body": "Guidance in secure development, technical project delivery, and scaling operations.",
+        "imageAlt": "Technology and SaaS product delivery"
+      },
+      {
+        "title": "Public Sector",
+        "body": "Process improvement, risk management, and structured project execution for government bodies.",
+        "imageAlt": "Public sector delivery and governance"
+      },
+      {
+        "title": "Gaming & Digital Entertainment",
+        "body": "Secure application development, system stability, analytics, and workflow optimization.",
+        "imageAlt": "Gaming and digital entertainment systems"
+      },
+      {
+        "title": "Small and Medium Enterprises",
+        "body": "Affordable, scalable consulting to strengthen technology, processes, and project delivery.",
+        "imageAlt": "Small business teams and operations"
+      }
+    ],
+    "cta": {
+      "title": "Have a unique industry requirement?",
+      "subtitle": "We’ll tailor the engagement to your standards, risks, and delivery timeline."
+    }
+  }
+}

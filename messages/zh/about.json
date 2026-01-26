@@ -1,0 +1,114 @@
+{
+  "About": {
+    "intro": {
+      "heroImageAlt": "关于 Yorkshire Global Consulting",
+      "heroKicker": "Yorkshire Global Consulting Inc. — 关于我们",
+      "headingTitle": "关于我们",
+      "headingSubtitleAfterBrand": "是一家位于加拿大安大略省的高端咨询公司，提供世界级专业能力，覆盖",
+      "highlights": [
+        "技术咨询",
+        "网络安全",
+        "业务流程再造",
+        "业务分析",
+        "项目管理",
+        "企业级解决方案部署"
+      ],
+      "and": "以及",
+      "leftBody": "我们通过战略指导、数字化转型与落地执行，帮助组织实现现代化、规模化与更高安全性。我们融合安全开发、风险管理与交付纪律，支持组织在不断演进的技术环境中稳健前行。",
+      "differentTitle": "我们的不同之处",
+      "differentBody": "团队拥有深厚行业经验与全球视角——为现代企业交付可衡量的结果、运营效率与安全的数字生态。",
+      "teamImageAlt": "团队协作",
+      "rightImageAlt": "网络安全与技术",
+      "focusTitle": "我们的重点",
+      "focusPoints": [
+        "安全优先的交付",
+        "现代化与数字化转型",
+        "运营效率与治理",
+        "企业级部署与执行"
+      ],
+      "tags": ["安大略", "加拿大", "全球视角"]
+    },
+
+    "mvv": {
+      "headingTitle": "我们是谁",
+      "headingSubtitle": "Yorkshire Global Consulting Inc. 是一家位于安大略省的咨询公司，专注帮助组织变得更安全、更高效、更具运营韧性。",
+      "missionLabel": "我们的使命",
+      "visionLabel": "我们的愿景",
+      "missionText": "通过结构化流程与可靠执行，帮助组织构建安全系统、做出明智决策并交付有影响力的成果。",
+      "visionText": "成为以诚信、质量与可衡量成果著称的可信赖咨询伙伴。",
+      "valuesTitle": "我们的价值观",
+      "valuesSubtitle": "滑动或使用箭头",
+      "prevAria": "上一条价值观",
+      "nextAria": "下一条价值观",
+      "dotAria": "跳转到 {title}",
+      "values": [
+        { "title": "卓越", "body": "以最高专业标准要求自己——强调质量、严谨与可靠交付。" },
+        { "title": "诚信", "body": "在每次合作中保持透明与责任，以清晰沟通与担当建立信任。" },
+        { "title": "安全优先", "body": "在技术与流程中优先考虑韧性，在促进增长的同时降低风险。" },
+        { "title": "客户承诺", "body": "关注价值、清晰与长期成功——确保方案可落地、可衡量、可持续。" },
+        { "title": "持续成长", "body": "与新技术和行业实践共同进化——不断改进我们的建议、建设与交付方式。" }
+      ]
+    },
+
+    "capabilities": {
+      "headingTitle": "我们交付什么",
+      "headingSubtitle": "覆盖全生命周期的世界级能力——从战略到落地执行。",
+      "focusChip": "重点",
+      "selectedChip": "已选择",
+      "centerEmptyTitle": "点击查看详情",
+      "centerEmptySubtitle": "选择左侧或右侧的能力项，在此查看说明。",
+      "clearSelection": "清除选择",
+      "items": [
+        { "title": "技术咨询", "description": "帮助你选择正确的技术方向、架构与交付方式，更快达成业务目标。" },
+        { "title": "网络安全与风险管理", "description": "安全评估、控制与治理，降低暴露面并保持团队效率。" },
+        { "title": "业务流程再造（BPR）", "description": "端到端重塑流程，消除瓶颈、提升速度并改善运营质量。" },
+        { "title": "业务分析", "description": "将业务需求转化为清晰的需求、用户故事与可执行路线图。" },
+        { "title": "项目管理", "description": "结构化计划、交付跟踪与干系人管理，确保按期且控预算。" },
+        { "title": "企业级解决方案部署", "description": "结合变更管理、培训与可衡量采用率，实施并推广企业工具。" },
+        { "title": "数字化转型", "description": "以务实、分阶段的转型计划，现代化流程、数据与客户体验。" },
+        { "title": "治理与运营改进", "description": "通过清晰的 KPI、制度与执行节奏，强化决策与绩效管理。" }
+      ]
+    },
+
+    "approach": {
+      "headingTitle": "我们的方法",
+      "headingSubtitle": "务实、结构化、结果导向——为清晰与执行而设计。",
+      "boxTitle": "我们如何工作",
+      "boxSubtitle": "简单可复制的流程，让交付清晰且可追责。",
+      "badge": "4 步 • 端到端执行",
+      "steps": ["调研", "方案设计", "协作", "交付"],
+      "points": [
+        "我们评估每个挑战背后的真实需求。",
+        "我们制定清晰、可执行的解决方案。",
+        "我们与关键干系人协同推进。",
+        "我们以精准与负责的方式交付。"
+      ]
+    },
+
+    "sectors": {
+      "headingTitle": "我们支持的行业",
+      "headingSubtitle": "以全球视角与交付纪律，支持多个行业客户。",
+      "listTitle": "行业",
+      "listSubtitle": "点击行业查看详情。（每 20 秒自动轮播）",
+      "listAria": "行业列表",
+      "itemAria": "查看行业：{name}",
+      "viewDetails": "查看详情 →",
+      "chip": "行业",
+      "kicker": "结果 • 效率 • 安全",
+      "footerNote": "我们关注可衡量成果、运营效率与安全的数字生态，并结合该行业的现实情况进行定制。",
+      "loading": "正在加载行业详情…",
+      "items": [
+        { "name": "医疗健康", "description": "数字化系统提升患者体验、优化运营，并强化合规要求。" },
+        { "name": "金融", "description": "为支付、数据分析、风险管理与数字银行体验打造安全可靠的平台。" },
+        { "name": "科技", "description": "产品战略、可扩展架构与执行支持，让交付更快且稳定。" },
+        { "name": "零售", "description": "全渠道体验、库存可视化与客户洞察，提升转化与留存。" },
+        { "name": "物流", "description": "追踪、路径规划与运营工具，提升交付表现、控制成本并实现实时可视化。" },
+        { "name": "政府", "description": "服务现代化、数字身份与流程改进，提升可达性、透明度与效率。" }
+      ]
+    },
+    "cta": {
+      "title": "想了解我们如何支持你的团队吗？",
+      "subtitle": "告诉我们你正在做什么，我们会回复下一步建议。"
+    }
+  }
+}

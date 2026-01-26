@@ -1,0 +1,101 @@
+{
+  "Home": {
+    "hero": {
+      "kicker": "Ontario, Canada • Plusieurs secteurs servis",
+      "desktopSuffix": "Avec une expertise en développement sécurisé, cybersécurité, analyse métier et gestion de projet, nous livrons des solutions qui créent des résultats durables.",
+      "buttons": {
+        "learnMore": "En savoir plus",
+        "services": "Nos services",
+        "contact": "Nous contacter"
+      },
+      "slides": [
+        {
+          "headline": "Yorkshire Global Consulting Inc.",
+          "tagline": "Sécuriser • Analyser • Livrer • Transformer",
+          "description": "Nous aidons les organisations à renforcer leurs systèmes, fluidifier leurs opérations et exécuter leurs projets avec confiance."
+        },
+        {
+          "headline": "Delivery orienté sécurité",
+          "tagline": "La résilience intégrée à votre travail",
+          "description": "Des pratiques de développement sécurisé à la gouvernance et la conformité, nous réduisons les risques et améliorons les résultats."
+        },
+        {
+          "headline": "Analyse claire. Exécution fiable.",
+          "tagline": "Des besoins aux résultats",
+          "description": "Analyse métier et gestion de projet pour aligner les parties prenantes et livrer une valeur mesurable."
+        }
+      ],
+      "aria": {
+        "hero": "Hero",
+        "prev": "Diapositive précédente",
+        "next": "Diapositive suivante",
+        "indicators": "Indicateurs des diapositives",
+        "goto": "Aller à la diapositive {n}",
+        "backgroundAlt": "Image de fond : {headline}"
+      }
+    },
+
+    "who": {
+      "aria": { "section": "Qui nous sommes" },
+      "headingTitle": "Qui nous sommes",
+      "headingSubtitle": "Yorkshire Global Consulting Inc. est un cabinet de services professionnels basé en Ontario, Canada. Nous accompagnons des organisations de différents secteurs en améliorant la façon dont elles construisent des logiciels, gèrent les risques, analysent les besoins métier et livrent des projets complexes. Notre approche repose sur l’expérience terrain, des méthodes éprouvées et un engagement fort envers la réussite client.",
+      "cardAlt": "{title} - Yorkshire Global Consulting Inc.",
+      "cards": [
+        { "title": "Expérience terrain", "text": "Ancrée dans la livraison réelle, avec des méthodes structurées qui s’adaptent aux équipes." },
+        { "title": "Méthodes éprouvées", "text": "Pratiques de sécurité, d’analyse, de gouvernance et de delivery orientées résultats." },
+        { "title": "Succès client", "text": "Communication claire et responsabilité — pour faire avancer les projets avec confiance." }
+      ]
+    },
+
+    "services": {
+      "aria": {
+        "section": "Services clés",
+        "expand": "Déployer {title}",
+        "collapse": "Réduire {title}"
+      },
+      "headingTitle": "Nos services clés",
+      "headingSubtitle": "Un aperçu de ce que nous livrons.",
+      "exploreBtn": "Découvrir nos services",
+      "items": [
+        {
+          "title": "Cycle de vie de développement logiciel sécurisé (SSDLc)",
+          "detail": "Nous aidons à intégrer la sécurité à chaque étape : pratiques de code sécurisé, threat modeling, revues de code, intégration DevSecOps, conseils d’architecture sécurisée et mise en place complète d’un programme SSDLc."
+        },
+        {
+          "title": "Services de cybersécurité",
+          "detail": "Évaluations de risques et vulnérabilités, politiques de sécurité, revue de sécurité cloud et infrastructure, gouvernance et conformité, préparation aux incidents et sensibilisation."
+        },
+        {
+          "title": "Analyse métier",
+          "detail": "Recueil des besoins, analyse des workflows, gap assessment, amélioration de processus, documentation (BRD/FRD, use cases, user stories) et gestion des parties prenantes."
+        },
+        {
+          "title": "Gestion de projet",
+          "detail": "Gestion de bout en bout, mise en place de PMO, delivery Agile/Waterfall/Hybride, planification, ressources, risques et issues, coordination fournisseurs et redressement de projets."
+        },
+        {
+          "title": "Conseil business & stratégie",
+          "detail": "Planification stratégique, amélioration opérationnelle, transformation digitale, conduite du changement, continuité d’activité et cadres de mesure de performance."
+        }
+      ]
+    },
+
+    "industries": {
+      "aria": {
+        "section": "Secteurs servis",
+        "marquee": "Défilement des secteurs"
+      },
+      "headingTitle": "Secteurs que nous servons",
+      "cardSubtitle": "Un accompagnement adapté pour la sécurité, la clarté et l’exécution.",
+      "tip": "Astuce : Survolez pour mettre en pause • Glissez pour parcourir",
+      "items": [
+        "Santé",
+        "Finance",
+        "Technologie & SaaS",
+        "Secteur public",
+        "Gaming & divertissement digital",
+        "PME"
+      ]
+    }
+  }
+}

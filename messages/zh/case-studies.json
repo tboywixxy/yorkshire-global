@@ -1,0 +1,40 @@
+{
+  "CaseStudies": {
+    "hero": {
+      "ariaLabel": "案例研究页头",
+      "imageAlt": "案例研究页头背景图",
+      "kicker": "Yorkshire Global Consulting Inc. — 案例研究"
+    },
+    "content": {
+      "ariaLabel": "案例研究内容",
+      "headingTitle": "案例研究",
+      "headingSubtitle": "展示我们如何支持安全、结构化交付的高层次示例。"
+    },
+    "card": {
+      "chip": "案例",
+      "outcomeLabel": "结果",
+      "imageAlt": "{title} 图片"
+    },
+    "cases": [
+      {
+        "title": "案例 1 — SSDLC 落地实施",
+        "body": "某科技公司需要更安全的开发流程。我们建立 SSDLC 框架，引入安全编码实践，并将自动化扫描集成到流水线中。",
+        "result": "韧性提升，发布周期更快。"
+      },
+      {
+        "title": "案例 2 — 网络安全风险降低",
+        "body": "某金融客户需要解决反复出现的审计问题。我们完善控制措施、更新政策，并加强云安全态势。",
+        "result": "通过合规审计并降低风险暴露。"
+      },
+      {
+        "title": "案例 3 — 项目挽救与交付",
+        "body": "某大型系统上线面临失败风险。我们稳定项目、修正进度、重新定义需求，并按修订计划成功交付。",
+        "result": "成功上线并获得积极反馈。"
+      }
+    ],
+    "cta": {
+      "title": "想要类似的结果？",
+      "subtitle": "告诉我们您的项目，我们会给出清晰的推进计划。"
+    }
+  }
+}

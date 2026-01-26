@@ -1,0 +1,171 @@
+{
+  "About": {
+    "intro": {
+      "heroImageAlt": "About Yorkshire Global Consulting",
+      "heroKicker": "Yorkshire Global Consulting Inc. — About",
+      "headingTitle": "About Us",
+      "headingSubtitleAfterBrand": "is a premium, Canadian-based consulting firm in Ontario delivering world-class expertise across",
+      "highlights": [
+        "technology",
+        "cybersecurity",
+        "business process reengineering",
+        "business analysis",
+        "project management",
+        "enterprise solution deployment"
+      ],
+      "and": "and",
+      "leftBody": "We help organizations modernize, scale, and secure their operations through strategic guidance, digital transformation, and hands-on execution. We bring together expertise in secure development, risk management, and delivery discipline to support organizations in an evolving technological landscape.",
+      "differentTitle": "What makes us different",
+      "differentBody": "Our team brings deep industry experience and a global perspective—so we deliver measurable results, operational efficiency, and secure digital ecosystems for the modern enterprise.",
+      "teamImageAlt": "Team collaboration",
+      "rightImageAlt": "Cybersecurity and technology",
+      "focusTitle": "Our focus",
+      "focusPoints": [
+        "Security-first delivery",
+        "Modernization & digital transformation",
+        "Operational efficiency & governance",
+        "Enterprise deployment & execution"
+      ],
+      "tags": ["Ontario", "Canada", "Global perspective"]
+    },
+
+    "mvv": {
+      "headingTitle": "Who We Are",
+      "headingSubtitle": "Yorkshire Global Consulting Inc. is an Ontario-based consulting firm focused on helping organizations become more secure, efficient, and operationally strong.",
+      "missionLabel": "OUR MISSION",
+      "visionLabel": "OUR VISION",
+      "missionText": "To help organizations build secure systems, make informed decisions, and deliver impactful results through structured processes and reliable execution.",
+      "visionText": "To be a trusted consulting partner known for integrity, quality, and measurable outcomes.",
+      "valuesTitle": "Our Values",
+      "valuesSubtitle": "Swipe or use the arrows",
+      "prevAria": "Previous value",
+      "nextAria": "Next value",
+      "dotAria": "Go to {title}",
+      "values": [
+        {
+          "title": "Excellence",
+          "body": "We hold our work to the highest professional standards—focused on quality, rigor, and dependable delivery."
+        },
+        {
+          "title": "Integrity",
+          "body": "We act transparently and responsibly in every engagement, building trust through clear communication and accountability."
+        },
+        {
+          "title": "Security First",
+          "body": "We prioritize resilience in all technology and business processes, reducing risk while enabling growth."
+        },
+        {
+          "title": "Client Commitment",
+          "body": "We focus on value, clarity, and long-term success—ensuring solutions are practical, measurable, and sustainable."
+        },
+        {
+          "title": "Continuous Growth",
+          "body": "We evolve with emerging technologies and industry practices—always improving how we advise, build, and deliver."
+        }
+      ]
+    },
+
+    "capabilities": {
+      "headingTitle": "What We Deliver",
+      "headingSubtitle": "World-class expertise across the full lifecycle—from strategy to hands-on execution.",
+      "focusChip": "Focus",
+      "selectedChip": "Selected",
+      "centerEmptyTitle": "Click to see details",
+      "centerEmptySubtitle": "Select a capability on the left or right to view the description here.",
+      "clearSelection": "Clear selection",
+      "items": [
+        {
+          "title": "Technology Consulting",
+          "description": "We help you choose the right technology direction, architecture, and delivery approach to hit business goals faster."
+        },
+        {
+          "title": "Cybersecurity & Risk Management",
+          "description": "Security assessments, controls, and governance that reduce exposure while keeping teams productive."
+        },
+        {
+          "title": "Business Process Reengineering (BPR)",
+          "description": "Redesign workflows end-to-end to remove bottlenecks, improve speed, and increase operational quality."
+        },
+        {
+          "title": "Business Analysis",
+          "description": "Translate business needs into clear requirements, user stories, and roadmaps that teams can execute."
+        },
+        {
+          "title": "Project Management",
+          "description": "Structured planning, delivery tracking, and stakeholder management to keep projects on time and on budget."
+        },
+        {
+          "title": "Enterprise Solution Deployment",
+          "description": "Implement and roll out enterprise tools with change management, training, and measurable adoption."
+        },
+        {
+          "title": "Digital Transformation",
+          "description": "Modernize your processes, data, and customer experience with a practical, phased, transformation plan."
+        },
+        {
+          "title": "Governance & Operational Improvement",
+          "description": "Strengthen decision-making and performance management with clear KPIs, policies, and execution rhythm."
+        }
+      ]
+    },
+
+    "approach": {
+      "headingTitle": "Our Approach",
+      "headingSubtitle": "Practical, structured, and results-driven—built for clarity and execution.",
+      "boxTitle": "How we work",
+      "boxSubtitle": "A simple, repeatable process that keeps delivery clear and accountable.",
+      "badge": "4 steps • end-to-end execution",
+      "steps": ["Discovery", "Solution Design", "Collaboration", "Delivery"],
+      "points": [
+        "We assess the real needs behind each challenge.",
+        "We develop clear, actionable solutions.",
+        "We work collaboratively with stakeholders.",
+        "We deliver with precision and accountability."
+      ]
+    },
+
+    "sectors": {
+      "headingTitle": "Industries We Support",
+      "headingSubtitle": "We support clients across multiple sectors with a global perspective and execution discipline.",
+      "listTitle": "Sectors",
+      "listSubtitle": "Click a sector to view details. (Auto-rotates every 20s)",
+      "listAria": "Sectors list",
+      "itemAria": "View sector: {name}",
+      "viewDetails": "View details →",
+      "chip": "Sector",
+      "kicker": "Outcomes • Efficiency • Security",
+      "footerNote": "We focus on measurable outcomes, operational efficiency, and secure digital ecosystems tailored to the realities of this sector.",
+      "loading": "Loading sector details…",
+      "items": [
+        {
+          "name": "Healthcare",
+          "description": "Digital systems that improve patient experience, streamline operations, and strengthen compliance across care delivery."
+        },
+        {
+          "name": "Finance",
+          "description": "Secure, reliable platforms for payments, analytics, risk management, and customer-facing digital banking experiences."
+        },
+        {
+          "name": "Technology",
+          "description": "Product strategy, scalable architecture, and execution support to ship faster with stability and performance."
+        },
+        {
+          "name": "Retail",
+          "description": "Omnichannel experiences, inventory visibility, and customer insights that drive conversion and retention."
+        },
+        {
+          "name": "Logistics",
+          "description": "Tracking, routing, and operations tooling that improves delivery performance, cost control, and real-time visibility."
+        },
+        {
+          "name": "Government",
+          "description": "Service modernization, digital identity, and process improvement that improves access, transparency, and efficiency."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Want to learn how we can support your team?",
+      "subtitle": "Tell us what you’re working on, and we’ll respond with next steps."
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "Footer": {
+    "brand": {
+      "logoAlt": "Logo von Yorkshire Global Consulting Inc.",
+      "tagline": "Sichern • Analysieren • Liefern • Transformieren",
+      "locationLine": "Ontario, Kanada — für Kunden aus verschiedenen Branchen."
+    },
+    "company": {
+      "title": "Unternehmen",
+      "about": "Über uns",
+      "caseStudies": "Fallstudien",
+      "contact": "Kontakt"
+    },
+    "services": {
+      "title": "Leistungen",
+      "items": {
+        "ssdlc": "Sicherer Softwareentwicklungsprozess (SSDLC)",
+        "cybersecurity": "Cybersicherheit",
+        "businessAnalysis": "Business Analyse",
+        "projectManagement": "Projektmanagement",
+        "strategy": "Strategieberatung"
+      }
+    },
+    "touch": {
+      "title": "Kontakt aufnehmen",
+      "blurb": "Für Anfragen oder Beratung nutzen Sie bitte unser Kontaktformular.",
+      "cta": "Kontakt"
+    },
+    "legal": {
+      "copyright": "© {year} Yorkshire Global Consulting Inc. Alle Rechte vorbehalten."
+    }
+  }
+}

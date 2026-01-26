@@ -1,0 +1,66 @@
+{
+  "Services": {
+    "hero": {
+      "ariaLabel": "Héros des services",
+      "imageAlt": "Image de fond du héros des services",
+      "kicker": "Yorkshire Global Consulting Inc. — Services"
+    },
+    "content": {
+      "ariaLabel": "Contenu des services",
+      "headingTitle": "Services",
+      "headingSubtitle": "Conseil orienté sécurité et accompagnement à la livraison — du développement sécurisé à la gouvernance, l’analyse et l’exécution."
+    },
+    "loading": "Chargement des détails du service…",
+    "list": {
+      "title": "Domaines de service",
+      "subtitle": "Sélectionnez un service pour voir les détails.",
+      "ariaLabel": "Liste des services",
+      "viewDetails": "Voir les détails →",
+      "itemAria": "Voir le service : {title}"
+    },
+    "detail": {
+      "chip": "Service",
+      "kicker": "Sécurité d’abord • Axé exécution",
+      "outcomeLabel": "Résultat attendu",
+      "ctaPrimary": "Demander une consultation",
+      "ctaSecondary": "Voir les études de cas"
+    },
+    "highlights": [
+      { "k": "Livraison", "v": "Exécution structurée" },
+      { "k": "Sécurité", "v": "Approche orientée risques" },
+      { "k": "Clarté", "v": "Livrables et documents clairs" }
+    ],
+    "services": [
+      {
+        "title": "Cycle de vie de développement logiciel sécurisé (SSDLC)",
+        "body": "Nous aidons les organisations à intégrer la sécurité à chaque étape du développement logiciel. Nos services incluent les pratiques de code sécurisé, la modélisation des menaces, les revues de code, l’intégration DevSecOps, les conseils d’architecture sécurisée et la mise en place complète d’un programme SSDLC.",
+        "outcome": "Des applications plus robustes, conçues avec la sécurité au cœur."
+      },
+      {
+        "title": "Services de cybersécurité",
+        "body": "Nous aidons les organisations à renforcer leur posture de cybersécurité via des évaluations des risques et vulnérabilités, la création de politiques de sécurité, des revues cloud et infrastructure, l’accompagnement gouvernance & conformité, la préparation aux incidents et la sensibilisation.",
+        "outcome": "Risque réduit, meilleure résilience et gouvernance renforcée."
+      },
+      {
+        "title": "Analyse métier",
+        "body": "Nous traduisons les besoins métier en exigences claires pour réussir les projets. Services : recueil des exigences, analyse des processus et workflows, analyses d’écart, amélioration des processus, documentation (BRD, FRD, cas d’usage, user stories) et gestion des parties prenantes.",
+        "outcome": "Plus de clarté, moins de retours en arrière et une exécution plus fluide."
+      },
+      {
+        "title": "Gestion de projet",
+        "body": "Nos chefs de projet livrent les initiatives avec structure et discipline. Services : gestion du cycle complet, mise en place PMO, delivery Agile/Waterfall/Hybride, planification, gestion des ressources, risques et incidents, coordination fournisseurs et redressement de projets.",
+        "outcome": "Projets livrés à temps, dans le budget et alignés aux objectifs."
+      },
+      {
+        "title": "Conseil business & stratégie",
+        "body": "Nous aidons les organisations à renforcer les opérations et préparer la croissance. Services : planification stratégique, amélioration opérationnelle, accompagnement transformation digitale, conduite du changement, continuité d’activité et cadres de mesure de performance.",
+        "outcome": "De meilleures décisions, des opérations plus solides et une performance durable."
+      }
+    ],
+    "cta": {
+      "title": "Vous ne savez pas quel service convient ?",
+      "subtitle": "Décrivez votre situation et nous vous proposerons le meilleur point de départ.",
+      "buttonText": "Demander une consultation"
+    }
+  }
+}

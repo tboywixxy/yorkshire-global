@@ -1,0 +1,66 @@
+{
+  "Services": {
+    "hero": {
+      "ariaLabel": "Services-Hero",
+      "imageAlt": "Services-Hero-Hintergrund",
+      "kicker": "Yorkshire Global Consulting Inc. — Services"
+    },
+    "content": {
+      "ariaLabel": "Services-Inhalt",
+      "headingTitle": "Services",
+      "headingSubtitle": "Security-first Beratung und Delivery-Support — von sicherer Entwicklung bis zu Governance, Analyse und Umsetzung."
+    },
+    "loading": "Servicedetails werden geladen…",
+    "list": {
+      "title": "Servicebereiche",
+      "subtitle": "Wählen Sie einen Service aus, um Details zu sehen.",
+      "ariaLabel": "Serviceliste",
+      "viewDetails": "Details ansehen →",
+      "itemAria": "Service anzeigen: {title}"
+    },
+    "detail": {
+      "chip": "Service",
+      "kicker": "Security-first • Umsetzungsfokussiert",
+      "outcomeLabel": "Erwartetes Ergebnis",
+      "ctaPrimary": "Beratung anfragen",
+      "ctaSecondary": "Case Studies ansehen"
+    },
+    "highlights": [
+      { "k": "Delivery", "v": "Strukturierte Umsetzung" },
+      { "k": "Sicherheit", "v": "Risikogeleiteter Ansatz" },
+      { "k": "Klarheit", "v": "Klare Artefakte & Doku" }
+    ],
+    "services": [
+      {
+        "title": "Secure Software Development Lifecycle (SSDLC)",
+        "body": "Wir helfen Organisationen, Sicherheit in jede Phase der Softwareentwicklung zu integrieren. Dazu gehören Secure-Coding-Praktiken, Threat Modeling, Code Reviews, DevSecOps-Integration, sichere Architekturberatung und der Aufbau eines vollständigen SSDLC-Programms.",
+        "outcome": "Stärkere Anwendungen mit Sicherheit als Kernprinzip."
+      },
+      {
+        "title": "Cybersecurity Services",
+        "body": "Wir unterstützen Organisationen bei der Stärkung ihrer Cybersecurity durch Risiko- und Schwachstellenanalysen, Sicherheitsrichtlinien, Cloud- und Infrastruktur-Reviews, Governance- und Compliance-Support, Incident-Readiness sowie Security-Awareness-Trainings.",
+        "outcome": "Geringeres Risiko, höhere Resilienz und bessere Security-Governance."
+      },
+      {
+        "title": "Business Analysis",
+        "body": "Wir übersetzen Business-Bedürfnisse in klare Anforderungen für erfolgreiche Projekte. Leistungen: Requirements Engineering, Prozess- und Workflow-Analyse, Gap-Analysen, Prozessverbesserung, Dokumentation (BRD, FRD, Use Cases, User Stories) und Stakeholder-Management.",
+        "outcome": "Mehr Klarheit, weniger Nacharbeit und reibungslosere Umsetzung."
+      },
+      {
+        "title": "Projektmanagement",
+        "body": "Unsere Projektmanager liefern Initiativen strukturiert und diszipliniert. Leistungen: End-to-End-Management, PMO-Aufbau, Agile/Waterfall/Hybrid, Terminplanung, Ressourcenplanung, Risiko-/Issue-Management, Lieferantenkoordination und Projekt-Recovery.",
+        "outcome": "Projekte pünktlich, im Budget und zielorientiert geliefert."
+      },
+      {
+        "title": "Business- & Strategieberatung",
+        "body": "Wir stärken Organisationen operativ und bereiten Wachstum vor. Leistungen: Strategieplanung, operative Verbesserung, Guidance zur digitalen Transformation, Change Management, Business Continuity und Performance-Messframeworks.",
+        "outcome": "Bessere Entscheidungen, stärkere Abläufe und nachhaltige Performance."
+      }
+    ],
+    "cta": {
+      "title": "Unsicher, welcher Service passt?",
+      "subtitle": "Beschreiben Sie Ihre Situation — wir empfehlen den besten Einstieg.",
+      "buttonText": "Beratung anfragen"
+    }
+  }
+}

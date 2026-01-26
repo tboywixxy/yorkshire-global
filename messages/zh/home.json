@@ -1,0 +1,101 @@
+{
+  "Home": {
+    "hero": {
+      "kicker": "加拿大安大略省 • 服务多个行业",
+      "desktopSuffix": "我们在安全开发、网络安全、业务分析与项目管理方面具备经验，交付能带来长期价值的解决方案。",
+      "buttons": {
+        "learnMore": "了解更多",
+        "services": "我们的服务",
+        "contact": "联系我们"
+      },
+      "slides": [
+        {
+          "headline": "Yorkshire Global Consulting Inc.",
+          "tagline": "安全 • 分析 • 交付 • 转型",
+          "description": "我们帮助组织强化系统、优化运营，并自信地推进项目交付。"
+        },
+        {
+          "headline": "安全优先的交付",
+          "tagline": "把韧性融入你的工作",
+          "description": "从安全开发实践到治理与合规支持，我们降低风险并提升结果。"
+        },
+        {
+          "headline": "清晰分析，可靠执行。",
+          "tagline": "从需求到结果",
+          "description": "通过业务分析与项目管理对齐关键干系人，交付可衡量的价值。"
+        }
+      ],
+      "aria": {
+        "hero": "主页横幅",
+        "prev": "上一张",
+        "next": "下一张",
+        "indicators": "轮播指示器",
+        "goto": "跳转到第 {n} 张",
+        "backgroundAlt": "{headline} 背景图"
+      }
+    },
+
+    "who": {
+      "aria": { "section": "我们是谁" },
+      "headingTitle": "我们是谁",
+      "headingSubtitle": "Yorkshire Global Consulting Inc. 是一家位于加拿大安大略省的专业服务机构。我们跨行业协助组织提升软件构建方式、风险管理能力、业务需求分析与复杂项目交付。我们的工作以实践经验、成熟方法与对客户成功的承诺为基础。",
+      "cardAlt": "{title} - Yorkshire Global Consulting Inc.",
+      "cards": [
+        { "title": "实践经验", "text": "基于真实交付经验，方法结构化且可跨团队扩展。" },
+        { "title": "成熟方法", "text": "以结果为导向的安全、分析、治理与交付实践。" },
+        { "title": "客户成功", "text": "清晰沟通与可追责执行，让项目推进更有信心。" }
+      ]
+    },
+
+    "services": {
+      "aria": {
+        "section": "核心服务",
+        "expand": "展开 {title}",
+        "collapse": "收起 {title}"
+      },
+      "headingTitle": "我们的核心服务",
+      "headingSubtitle": "我们交付能力的快速预览。",
+      "exploreBtn": "查看全部服务",
+      "items": [
+        {
+          "title": "安全软件开发生命周期（SSDLc）",
+          "detail": "帮助组织把安全融入开发全流程：安全编码、威胁建模、代码审查、DevSecOps 集成、安全架构指导与完整 SSDLc 体系建设。"
+        },
+        {
+          "title": "网络安全服务",
+          "detail": "风险与漏洞评估、安全政策制定、云与基础设施安全审查、治理与合规支持、事件响应准备与安全意识培训。"
+        },
+        {
+          "title": "业务分析",
+          "detail": "需求收集、流程分析、差距评估、流程改进、文档（BRD/FRD、用例、用户故事）与干系人管理。"
+        },
+        {
+          "title": "项目管理",
+          "detail": "全生命周期管理、PMO 搭建、敏捷/瀑布/混合交付、计划与资源、风险与问题管理、供应商协调与项目恢复。"
+        },
+        {
+          "title": "业务与战略咨询",
+          "detail": "战略规划、运营改进、数字化转型指导、变更管理、业务连续性规划与绩效衡量框架。"
+        }
+      ]
+    },
+
+    "industries": {
+      "aria": {
+        "section": "我们服务的行业",
+        "marquee": "行业滚动条"
+      },
+      "headingTitle": "我们服务的行业",
+      "cardSubtitle": "为安全、清晰与交付提供定制化支持。",
+      "tip": "提示：悬停暂停 • 拖动浏览",
+      "items": [
+        "医疗健康",
+        "金融",
+        "科技与 SaaS",
+        "公共部门",
+        "游戏与数字娱乐",
+        "中小企业"
+      ]
+    }
+  }
+}

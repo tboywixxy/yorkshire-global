@@ -1,0 +1,104 @@
+{
+  "Contact": {
+    "srOnlyTitle": "Yorkshire Global Consulting Inc. kontaktieren",
+    "heroTitle": "Kontakt aufnehmen",
+    "heroSubtitle": "Wir sind in Ontario, Kanada ansässig und arbeiten mit Kunden aus verschiedenen Branchen. Für allgemeine Anfragen oder Beratungen füllen Sie bitte das Formular unten aus.",
+
+    "locationPill": "Ontario, Kanada",
+    "contactFormTitle": "Kontaktformular",
+    "contactFormBlurbA": "Sagen Sie uns, wie wir Ihr Unternehmen unterstützen können. Unser Team antwortet innerhalb von",
+    "contactFormBlurbB": "24 Stunden",
+
+    "formAriaLabel": "Kontaktformular",
+    "honeypotLabel": "Unternehmenswebsite",
+
+    "labels": {
+      "fullName": "Vollständiger Name",
+      "email": "E-Mail-Adresse",
+      "phone": "Telefonnummer",
+      "company": "Firmenname",
+      "service": "Benötigter Service",
+      "message": "Nachricht / Projektbeschreibung"
+    },
+
+    "placeholders": {
+      "fullName": "Ihr Name",
+      "email": "sie@unternehmen.de",
+      "phone": "+1 416 555 0123",
+      "company": "Unternehmen / Organisation",
+      "message": "Beschreiben Sie, wobei Sie Unterstützung benötigen (Umfang, Zeitplan, Ziel)."
+    },
+
+    "services": {
+      "ssdlc": "Secure Software Development Lifecycle (SSDLC)",
+      "cybersecurity": "Cybersicherheitsleistungen",
+      "businessAnalysis": "Business-Analyse",
+      "projectManagement": "Projektmanagement",
+      "strategy": "Business- & Strategie-Beratung",
+      "other": "Sonstiges / Nicht sicher"
+    },
+
+    "submit": {
+      "submitting": "Wird gesendet...",
+      "submit": "Senden",
+      "consent": "Mit dem Absenden stimmen Sie zu, bezüglich Ihrer Anfrage kontaktiert zu werden."
+    },
+
+    "right": {
+      "title": "Wie geht es weiter?",
+      "subtitle": "Klare Schritte, schnelle Rückmeldung und strukturierte Umsetzung.",
+      "steps": [
+        "Wir prüfen Ihre Anfrage und klären Ziele, Rahmenbedingungen und Zeitplan.",
+        "Wir schlagen einen strukturierten Ansatz und den besten Startpunkt vor.",
+        "Wir stimmen die Deliverables ab und setzen dann präzise und verantwortungsvoll um."
+      ],
+      "locationTitle": "Standort",
+      "locationLine": "Ontario, Kanada",
+      "remoteLine": "Wir arbeiten remote mit Kunden aus verschiedenen Branchen."
+    },
+
+    "popup": {
+      "close": "Schließen",
+      "successTitle": "Nachricht gesendet",
+      "successMessage": "Danke! Wir haben Ihre Nachricht erhalten und antworten innerhalb von 24 Stunden.",
+      "invalidEmailTitle": "Ungültige E-Mail",
+      "invalidEmailMessage": "Bitte prüfen Sie Ihre E-Mail-Adresse und versuchen Sie es erneut.",
+      "fixFormTitle": "Bitte Formular korrigieren",
+      "fixFormMessage": "Einige Felder benötigen Ihre Aufmerksamkeit, bevor Sie senden können.",
+      "blockedTitle": "Übermittlung blockiert",
+      "blockedMessage": "Bitte versuchen Sie es erneut.",
+      "failedTitle": "Senden fehlgeschlagen",
+      "failedMessage": "Wir konnten Ihre Nachricht nicht senden. Bitte versuchen Sie es in Kürze erneut.",
+      "networkFailedMessage": "Netzwerkfehler. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut."
+    },
+
+    "errors": {
+      "fullNameRequired": "Name ist erforderlich.",
+      "fullNameMax": "Bitte Name unter {max} Zeichen halten.",
+      "emailRequired": "E-Mail ist erforderlich.",
+      "emailMax": "Bitte E-Mail unter {max} Zeichen halten.",
+      "emailInvalid": "Bitte eine gültige E-Mail-Adresse eingeben.",
+      "phoneRequired": "Telefonnummer ist erforderlich.",
+      "phoneMax": "Bitte Telefon unter {max} Zeichen halten.",
+      "phoneInvalid": "Telefon darf nur Zahlen enthalten (optional mit + Ländercode).",
+      "companyRequired": "Firmenname ist erforderlich.",
+      "companyMax": "Bitte Firmennamen unter {max} Zeichen halten.",
+      "serviceRequired": "Bitte einen Service auswählen.",
+      "messageRequired": "Nachricht ist erforderlich.",
+      "messageWordsMax": "Bitte Nachricht auf {max} Wörter oder weniger begrenzen.",
+      "messageCharsMax": "Bitte Nachricht unter {max} Zeichen halten.",
+      "blocked": "Übermittlung blockiert.",
+      "failedGeneric": "Senden fehlgeschlagen. Bitte erneut versuchen."
+    },
+
+    "counters": {
+      "words": "{count}/{max} Wörter"
+    },
+
+    "seo": {
+      "title": "Kontakt | Yorkshire Global Consulting Inc.",
+      "description": "Kontaktieren Sie Yorkshire Global Consulting Inc. für Cybersicherheit, SSDLC, Business-Analyse, Projektmanagement und Strategie-Beratung. Standort: Ontario, Kanada.",
+      "ogDescription": "Beratung anfragen: Cybersicherheit, sichere Umsetzung und strukturierte Lieferung. Ontario, Kanada."
+    }
+  }
+}

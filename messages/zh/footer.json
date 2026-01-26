@@ -1,0 +1,33 @@
+{
+  "Footer": {
+    "brand": {
+      "logoAlt": "Yorkshire Global Consulting Inc. 标志",
+      "tagline": "安全 • 分析 • 交付 • 转型",
+      "locationLine": "加拿大·安大略省 — 为多个行业客户提供服务。"
+    },
+    "company": {
+      "title": "公司",
+      "about": "关于我们",
+      "caseStudies": "案例研究",
+      "contact": "联系"
+    },
+    "services": {
+      "title": "服务",
+      "items": {
+        "ssdlc": "安全软件开发生命周期（SSDLC）",
+        "cybersecurity": "网络安全服务",
+        "businessAnalysis": "业务分析",
+        "projectManagement": "项目管理",
+        "strategy": "商业与战略咨询"
+      }
+    },
+    "touch": {
+      "title": "联系我们",
+      "blurb": "如需咨询或合作，请使用我们的联系表单。",
+      "cta": "联系表单"
+    },
+    "legal": {
+      "copyright": "© {year} Yorkshire Global Consulting Inc. 保留所有权利。"
+    }
+  }
+}

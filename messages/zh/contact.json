@@ -1,0 +1,104 @@
+{
+  "Contact": {
+    "srOnlyTitle": "联系 Yorkshire Global Consulting Inc.",
+    "heroTitle": "联系我们",
+    "heroSubtitle": "我们位于加拿大安大略省，并服务多个行业的客户。如需咨询或一般问题，请填写下方表格。",
+
+    "locationPill": "加拿大·安大略省",
+    "contactFormTitle": "联系表",
+    "contactFormBlurbA": "告诉我们如何支持您的业务。我们的团队将在",
+    "contactFormBlurbB": "24 小时内回复",
+
+    "formAriaLabel": "联系表单",
+    "honeypotLabel": "公司网站",
+
+    "labels": {
+      "fullName": "姓名",
+      "email": "电子邮箱",
+      "phone": "电话",
+      "company": "公司名称",
+      "service": "需要的服务",
+      "message": "留言 / 项目描述"
+    },
+
+    "placeholders": {
+      "fullName": "您的姓名",
+      "email": "you@company.com",
+      "phone": "+1 416 555 0123",
+      "company": "公司 / 组织",
+      "message": "请描述您的需求（范围、时间、目标）。"
+    },
+
+    "services": {
+      "ssdlc": "安全软件开发生命周期（SSDLC）",
+      "cybersecurity": "网络安全服务",
+      "businessAnalysis": "业务分析",
+      "projectManagement": "项目管理",
+      "strategy": "商业与战略咨询",
+      "other": "其他 / 不确定"
+    },
+
+    "submit": {
+      "submitting": "提交中...",
+      "submit": "提交",
+      "consent": "提交即表示您同意我们就您的咨询与您联系。"
+    },
+
+    "right": {
+      "title": "接下来会怎样？",
+      "subtitle": "步骤清晰、响应迅速、交付有序。",
+      "steps": [
+        "我们审阅您的需求，并澄清目标、约束与时间安排。",
+        "我们提出结构化方案并确定最佳起点。",
+        "我们对齐交付物，然后以精准与负责的方式执行。"
+      ],
+      "locationTitle": "位置",
+      "locationLine": "加拿大·安大略省",
+      "remoteLine": "我们可远程服务多个行业的客户。"
+    },
+
+    "popup": {
+      "close": "关闭",
+      "successTitle": "已发送",
+      "successMessage": "谢谢！我们已收到您的信息，并将在 24 小时内回复。",
+      "invalidEmailTitle": "邮箱无效",
+      "invalidEmailMessage": "请检查您的邮箱地址后重试。",
+      "fixFormTitle": "请完善表单",
+      "fixFormMessage": "部分字段需要您先修正后才能提交。",
+      "blockedTitle": "提交已阻止",
+      "blockedMessage": "请稍后再试。",
+      "failedTitle": "提交失败",
+      "failedMessage": "我们暂时无法发送您的信息，请稍后重试。",
+      "networkFailedMessage": "网络错误。请检查网络连接后重试。"
+    },
+
+    "errors": {
+      "fullNameRequired": "请输入姓名。",
+      "fullNameMax": "姓名请控制在 {max} 个字符以内。",
+      "emailRequired": "请输入邮箱。",
+      "emailMax": "邮箱请控制在 {max} 个字符以内。",
+      "emailInvalid": "请输入有效的邮箱地址。",
+      "phoneRequired": "请输入电话号码。",
+      "phoneMax": "电话请控制在 {max} 个字符以内。",
+      "phoneInvalid": "电话只能包含数字（可选 + 国家区号）。",
+      "companyRequired": "请输入公司名称。",
+      "companyMax": "公司名称请控制在 {max} 个字符以内。",
+      "serviceRequired": "请选择服务。",
+      "messageRequired": "请输入留言内容。",
+      "messageWordsMax": "留言请控制在 {max} 个词以内。",
+      "messageCharsMax": "留言请控制在 {max} 个字符以内。",
+      "blocked": "提交已阻止。",
+      "failedGeneric": "提交失败，请重试。"
+    },
+
+    "counters": {
+      "words": "{count}/{max} 词"
+    },
+
+    "seo": {
+      "title": "联系 | Yorkshire Global Consulting Inc.",
+      "description": "联系 Yorkshire Global Consulting Inc.：网络安全、SSDLC、业务分析、项目管理与战略咨询。位于加拿大安大略省。",
+      "ogDescription": "咨询：网络安全、交付保障、结构化执行。加拿大安大略省。"
+    }
+  }
+}

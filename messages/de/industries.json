@@ -1,0 +1,50 @@
+{
+  "Industries": {
+    "hero": {
+      "ariaLabel": "Branchen-Hero",
+      "imageAlt": "Branchen-Hero-Hintergrund",
+      "kicker": "Yorkshire Global Consulting Inc. — Branchen"
+    },
+    "content": {
+      "ariaLabel": "Branchen-Inhalt",
+      "headingTitle": "Branchen",
+      "headingSubtitle": "Wir passen unseren Ansatz an Ihre Umgebung, Einschränkungen und Lieferanforderungen an."
+    },
+    "industries": [
+      {
+        "title": "Gesundheitswesen",
+        "body": "Unterstützung sicherer Systeme, Compliance, digitaler Workflows und operativer Effizienz.",
+        "imageAlt": "Gesundheitssysteme und klinische Workflows"
+      },
+      {
+        "title": "Finanzen",
+        "body": "Unterstützung von Finanzorganisationen beim Risikomanagement, der Stärkung der Sicherheit und klareren Prozessen.",
+        "imageAlt": "Finanzdienstleistungen und Risikomanagement"
+      },
+      {
+        "title": "Technologie & SaaS",
+        "body": "Begleitung bei sicherer Entwicklung, technischer Projektlieferung und Skalierung von Abläufen.",
+        "imageAlt": "Technologie- und SaaS-Produktlieferung"
+      },
+      {
+        "title": "Öffentlicher Sektor",
+        "body": "Prozessverbesserung, Risikomanagement und strukturierte Projektausführung für Behörden.",
+        "imageAlt": "Lieferung und Governance im öffentlichen Sektor"
+      },
+      {
+        "title": "Gaming & digitale Unterhaltung",
+        "body": "Sichere Anwendungsentwicklung, Systemstabilität, Analytics und Workflow-Optimierung.",
+        "imageAlt": "Gaming- und digitale Unterhaltungssysteme"
+      },
+      {
+        "title": "Kleine und mittlere Unternehmen",
+        "body": "Bezahlbare, skalierbare Beratung zur Stärkung von Technologie, Prozessen und Projektlieferung.",
+        "imageAlt": "Teams und Abläufe in kleinen Unternehmen"
+      }
+    ],
+    "cta": {
+      "title": "Haben Sie eine besondere Branchenanforderung?",
+      "subtitle": "Wir passen das Engagement an Ihre Standards, Risiken und Ihren Zeitplan an."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "Industries": {
+    "hero": {
+      "ariaLabel": "Héros des secteurs",
+      "imageAlt": "Image de fond du héros des secteurs",
+      "kicker": "Yorkshire Global Consulting Inc. — Secteurs"
+    },
+    "content": {
+      "ariaLabel": "Contenu des secteurs",
+      "headingTitle": "Secteurs",
+      "headingSubtitle": "Nous adaptons notre approche à votre contexte, vos contraintes et vos besoins de livraison."
+    },
+    "industries": [
+      {
+        "title": "Santé",
+        "body": "Soutien aux systèmes sécurisés, à la conformité, aux workflows numériques et à l’efficacité opérationnelle.",
+        "imageAlt": "Systèmes de santé et workflows cliniques"
+      },
+      {
+        "title": "Finance",
+        "body": "Aider les organisations financières à gérer les risques, renforcer la sécurité et clarifier les processus.",
+        "imageAlt": "Services financiers et gestion des risques"
+      },
+      {
+        "title": "Technologie & SaaS",
+        "body": "Accompagnement en développement sécurisé, livraison de projets techniques et montée en charge des opérations.",
+        "imageAlt": "Livraison de produits technologiques et SaaS"
+      },
+      {
+        "title": "Secteur public",
+        "body": "Amélioration des processus, gestion des risques et exécution structurée des projets pour les organismes publics.",
+        "imageAlt": "Gouvernance et livraison dans le secteur public"
+      },
+      {
+        "title": "Jeux & Divertissement numérique",
+        "body": "Développement d’applications sécurisées, stabilité des systèmes, analytique et optimisation des workflows.",
+        "imageAlt": "Systèmes de jeux et divertissement numérique"
+      },
+      {
+        "title": "PME",
+        "body": "Conseil abordable et évolutif pour renforcer la technologie, les processus et la livraison de projets.",
+        "imageAlt": "Équipes et opérations des petites entreprises"
+      }
+    ],
+    "cta": {
+      "title": "Vous avez une exigence sectorielle particulière ?",
+      "subtitle": "Nous adapterons la mission à vos normes, vos risques et votre calendrier de livraison."
+    }
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "About": {
+    "intro": {
+      "heroImageAlt": "À propos de Yorkshire Global Consulting",
+      "heroKicker": "Yorkshire Global Consulting Inc. — À propos",
+      "headingTitle": "À propos",
+      "headingSubtitleAfterBrand": "est un cabinet de conseil premium basé au Canada (Ontario) offrant une expertise de niveau international en",
+      "highlights": [
+        "technologie",
+        "cybersécurité",
+        "réingénierie des processus (BPR)",
+        "analyse métier",
+        "gestion de projet",
+        "déploiement de solutions d’entreprise"
+      ],
+      "and": "et",
+      "leftBody": "Nous aidons les organisations à moderniser, évoluer et sécuriser leurs opérations grâce à des conseils stratégiques, la transformation digitale et une exécution concrète. Nous combinons expertise en développement sécurisé, gestion des risques et discipline de delivery pour accompagner un paysage technologique en constante évolution.",
+      "differentTitle": "Ce qui nous distingue",
+      "differentBody": "Notre équipe apporte une expérience sectorielle approfondie et une perspective globale — pour livrer des résultats mesurables, une efficacité opérationnelle et des écosystèmes numériques sécurisés.",
+      "teamImageAlt": "Collaboration d’équipe",
+      "rightImageAlt": "Cybersécurité et technologie",
+      "focusTitle": "Notre focus",
+      "focusPoints": [
+        "Delivery orienté sécurité",
+        "Modernisation & transformation digitale",
+        "Efficacité opérationnelle & gouvernance",
+        "Déploiement & exécution à l’échelle"
+      ],
+      "tags": ["Ontario", "Canada", "Perspective globale"]
+    },
+
+    "mvv": {
+      "headingTitle": "Qui nous sommes",
+      "headingSubtitle": "Yorkshire Global Consulting Inc. est un cabinet basé en Ontario qui aide les organisations à devenir plus sûres, plus efficaces et plus solides sur le plan opérationnel.",
+      "missionLabel": "NOTRE MISSION",
+      "visionLabel": "NOTRE VISION",
+      "missionText": "Aider les organisations à bâtir des systèmes sécurisés, prendre des décisions éclairées et obtenir des résultats impactants grâce à des processus structurés et une exécution fiable.",
+      "visionText": "Être un partenaire de confiance reconnu pour l’intégrité, la qualité et des résultats mesurables.",
+      "valuesTitle": "Nos valeurs",
+      "valuesSubtitle": "Glissez ou utilisez les flèches",
+      "prevAria": "Valeur précédente",
+      "nextAria": "Valeur suivante",
+      "dotAria": "Aller à {title}",
+      "values": [
+        { "title": "Excellence", "body": "Nous visons les plus hauts standards professionnels — qualité, rigueur et delivery fiable." },
+        { "title": "Intégrité", "body": "Nous agissons avec transparence et responsabilité, en construisant la confiance par une communication claire et une vraie responsabilité." },
+        { "title": "Sécurité d’abord", "body": "Nous privilégions la résilience des technologies et des processus, réduisant le risque tout en permettant la croissance." },
+        { "title": "Engagement client", "body": "Nous cherchons la valeur, la clarté et le succès long terme — des solutions pratiques, mesurables et durables." },
+        { "title": "Amélioration continue", "body": "Nous évoluons avec les technologies et pratiques du marché — en améliorant constamment nos conseils, nos réalisations et notre delivery." }
+      ]
+    },
+
+    "capabilities": {
+      "headingTitle": "Ce que nous livrons",
+      "headingSubtitle": "Une expertise de classe mondiale sur tout le cycle — de la stratégie à l’exécution.",
+      "focusChip": "Focus",
+      "selectedChip": "Sélectionné",
+      "centerEmptyTitle": "Cliquez pour voir les détails",
+      "centerEmptySubtitle": "Sélectionnez une capacité à gauche ou à droite pour afficher la description ici.",
+      "clearSelection": "Effacer la sélection",
+      "items": [
+        { "title": "Conseil en technologie", "description": "Nous vous aidons à choisir la bonne direction technologique, l’architecture et l’approche de delivery pour atteindre vos objectifs plus vite." },
+        { "title": "Cybersécurité & gestion des risques", "description": "Évaluations, contrôles et gouvernance qui réduisent l’exposition tout en gardant les équipes productives." },
+        { "title": "Réingénierie des processus (BPR)", "description": "Refonte des workflows de bout en bout pour supprimer les goulots, améliorer la vitesse et la qualité opérationnelle." },
+        { "title": "Analyse métier", "description": "Traduire les besoins en exigences claires, user stories et feuilles de route exécutables." },
+        { "title": "Gestion de projet", "description": "Planification structurée, suivi de delivery et gestion des parties prenantes pour livrer à temps et dans le budget." },
+        { "title": "Déploiement de solutions d’entreprise", "description": "Déployer des outils d’entreprise avec conduite du changement, formation et adoption mesurable." },
+        { "title": "Transformation digitale", "description": "Moderniser processus, données et expérience client avec un plan pragmatique et progressif." },
+        { "title": "Gouvernance & amélioration opérationnelle", "description": "Renforcer la décision et la performance via des KPIs, politiques et un rythme d’exécution clair." }
+      ]
+    },
+
+    "approach": {
+      "headingTitle": "Notre approche",
+      "headingSubtitle": "Pragmatique, structurée et orientée résultats — conçue pour la clarté et l’exécution.",
+      "boxTitle": "Comment nous travaillons",
+      "boxSubtitle": "Un processus simple et reproductible, pour un delivery clair et responsable.",
+      "badge": "4 étapes • exécution de bout en bout",
+      "steps": ["Découverte", "Conception de solution", "Collaboration", "Delivery"],
+      "points": [
+        "Nous évaluons les besoins réels derrière chaque défi.",
+        "Nous élaborons des solutions claires et actionnables.",
+        "Nous collaborons avec les parties prenantes.",
+        "Nous livrons avec précision et responsabilité."
+      ]
+    },
+
+    "sectors": {
+      "headingTitle": "Secteurs que nous accompagnons",
+      "headingSubtitle": "Nous accompagnons des clients dans plusieurs secteurs avec une perspective globale et une discipline d’exécution.",
+      "listTitle": "Secteurs",
+      "listSubtitle": "Cliquez sur un secteur pour voir les détails. (Rotation auto toutes les 20 s)",
+      "listAria": "Liste des secteurs",
+      "itemAria": "Voir le secteur : {name}",
+      "viewDetails": "Voir les détails →",
+      "chip": "Secteur",
+      "kicker": "Résultats • Efficacité • Sécurité",
+      "footerNote": "Nous visons des résultats mesurables, l’efficacité opérationnelle et des écosystèmes numériques sécurisés adaptés aux réalités du secteur.",
+      "loading": "Chargement des détails du secteur…",
+      "items": [
+        { "name": "Santé", "description": "Des systèmes numériques pour améliorer l’expérience patient, fluidifier les opérations et renforcer la conformité." },
+        { "name": "Finance", "description": "Des plateformes sécurisées et fiables pour paiements, analytique, gestion des risques et banque digitale." },
+        { "name": "Technologie", "description": "Stratégie produit, architecture scalable et support d’exécution pour livrer plus vite avec stabilité." },
+        { "name": "Retail", "description": "Expériences omnicanales, visibilité stock et insights client pour conversion et rétention." },
+        { "name": "Logistique", "description": "Suivi, routage et outils d’exploitation pour améliorer la performance, contrôler les coûts et la visibilité temps réel." },
+        { "name": "Gouvernement", "description": "Modernisation des services, identité numérique et amélioration des processus pour l’accès, la transparence et l’efficacité." }
+      ]
+    },
+    "cta": {
+      "title": "Envie de découvrir comment nous pouvons accompagner votre équipe ?",
+      "subtitle": "Dites-nous sur quoi vous travaillez et nous reviendrons vers vous avec les prochaines étapes."
+    }
+  }
+}

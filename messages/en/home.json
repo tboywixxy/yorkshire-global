@@ -1,0 +1,110 @@
+{
+  "Home": {
+    "hero": {
+      "kicker": "Ontario, Canada • Serving multiple industries",
+      "desktopSuffix": "With expertise in secure development, cybersecurity, business analysis, and project management, we deliver solutions that drive lasting results.",
+      "buttons": {
+        "learnMore": "Learn More",
+        "services": "Our Services",
+        "contact": "Contact Us"
+      },
+      "slides": [
+        {
+          "headline": "Yorkshire Global Consulting Inc.",
+          "tagline": "Secure • Analyze • Deliver • Transform",
+          "description": "We help organizations strengthen their systems, streamline operations, and execute projects with confidence."
+        },
+        {
+          "headline": "Security-first delivery",
+          "tagline": "Resilience built into your work",
+          "description": "From secure development practices to governance and compliance support, we reduce risk and improve outcomes."
+        },
+        {
+          "headline": "Clear analysis. Reliable execution.",
+          "tagline": "From requirements to results",
+          "description": "Business analysis and project management that aligns stakeholders and delivers measurable value."
+        }
+      ],
+      "aria": {
+        "hero": "Hero",
+        "prev": "Previous slide",
+        "next": "Next slide",
+        "indicators": "Hero slide indicators",
+        "goto": "Go to slide {n}",
+        "backgroundAlt": "{headline} background image"
+      }
+    },
+
+    "who": {
+      "aria": { "section": "Who we are" },
+      "headingTitle": "Who We Are",
+      "headingSubtitle": "Yorkshire Global Consulting Inc. is a professional services firm based in Ontario, Canada. We support organizations across industries by improving how they build software, manage risks, analyze business needs, and deliver complex projects. Our work is grounded in practical experience, proven methods, and a commitment to client success.",
+      "cardAlt": "{title} - Yorkshire Global Consulting Inc.",
+      "cards": [
+        {
+          "title": "Practical experience",
+          "text": "Grounded in real-world delivery, with structured methods that scale across teams."
+        },
+        {
+          "title": "Proven methods",
+          "text": "Security, analysis, governance, and delivery practices aligned to outcomes."
+        },
+        {
+          "title": "Client success",
+          "text": "Clear communication and accountability—so projects move forward with confidence."
+        }
+      ]
+    },
+
+    "services": {
+      "aria": {
+        "section": "Core services",
+        "expand": "Expand {title}",
+        "collapse": "Collapse {title}"
+      },
+      "headingTitle": "Our Core Services",
+      "headingSubtitle": "A preview of what we deliver.",
+      "exploreBtn": "Explore Our Services",
+      "items": [
+        {
+          "title": "Secure Software Development Lifecycle (SSDLc)",
+          "detail": "We help organizations integrate security into every stage of software development: secure coding practices, threat modeling, code reviews, DevSecOps integration, secure architecture guidance, and full SSDLc program setup."
+        },
+        {
+          "title": "Cybersecurity Services",
+          "detail": "Risk and vulnerability assessments, security policy development, cloud and infrastructure security review, governance and compliance support, incident readiness planning, and security awareness training."
+        },
+        {
+          "title": "Business Analysis",
+          "detail": "Requirements gathering, workflow analysis, gap assessments, process improvement, documentation (BRDs/FRDs, use cases, user stories), and stakeholder management."
+        },
+        {
+          "title": "Project Management",
+          "detail": "Full lifecycle management, PMO setup, Agile/Waterfall/Hybrid delivery, scheduling and resource planning, risk and issue management, vendor coordination, and project recovery."
+        },
+        {
+          "title": "Business & Strategy Consulting",
+          "detail": "Strategic planning, operational improvement, digital transformation guidance, change management, business continuity planning, and performance measurement frameworks."
+        }
+      ]
+    },
+
+    "industries": {
+      "aria": {
+        "section": "Industries we serve",
+        "marquee": "Industries marquee"
+      },
+      "headingTitle": "Industries We Serve",
+      "cardSubtitle": "Tailored support for security, clarity, and delivery.",
+      "tip": "Tip: Hover to pause • Drag to scrub",
+      "items": [
+        "Healthcare",
+        "Finance",
+        "Technology & SaaS",
+        "Public Sector",
+        "Gaming & Digital Entertainment",
+        "Small and Medium Enterprises"
+      ]
+    }
+  }
+}

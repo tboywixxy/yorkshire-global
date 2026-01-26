@@ -1,0 +1,40 @@
+{
+  "CaseStudies": {
+    "hero": {
+      "ariaLabel": "Case studies hero",
+      "imageAlt": "Case studies hero background",
+      "kicker": "Yorkshire Global Consulting Inc. — Case Studies"
+    },
+    "content": {
+      "ariaLabel": "Case studies content",
+      "headingTitle": "Case Studies",
+      "headingSubtitle": "High-level examples of how we support secure, structured delivery."
+    },
+    "card": {
+      "chip": "Case Study",
+      "outcomeLabel": "Outcome",
+      "imageAlt": "{title} image"
+    },
+    "cases": [
+      {
+        "title": "Case Study 1 — SSDLC Implementation",
+        "body": "A technology company required a more secure development process. We implemented an SSDLC framework, introduced secure coding practices, and integrated automated scans into their pipeline.",
+        "result": "Improved resilience and faster release cycles."
+      },
+      {
+        "title": "Case Study 2 — Cybersecurity Risk Reduction",
+        "body": "A financial client needed to address repeated security audit findings. We improved their controls, updated policies, and strengthened their cloud security posture.",
+        "result": "Passed compliance audit and reduced risk exposure."
+      },
+      {
+        "title": "Case Study 3 — Project Recovery",
+        "body": "A major system deployment was at risk of failure. We stabilized the project, corrected the schedule, redefined requirements, and delivered under a revised plan.",
+        "result": "Successful implementation and positive stakeholder feedback."
+      }
+    ],
+    "cta": {
+      "title": "Want results like these?",
+      "subtitle": "Tell us about your project and we’ll outline a clear plan to move forward."
+    }
+  }
+}

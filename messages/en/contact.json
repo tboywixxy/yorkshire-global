@@ -1,0 +1,104 @@
+{
+  "Contact": {
+    "srOnlyTitle": "Contact Yorkshire Global Consulting Inc.",
+    "heroTitle": "Get in Touch",
+    "heroSubtitle": "We are based in Ontario, Canada and work with clients across multiple industries. For general inquiries or consultations, please complete the form below.",
+
+    "locationPill": "Ontario, Canada",
+    "contactFormTitle": "Contact Form",
+    "contactFormBlurbA": "Tell us how we can support your business. Our team will respond within",
+    "contactFormBlurbB": "24 hours",
+
+    "formAriaLabel": "Contact form",
+    "honeypotLabel": "Company Website",
+
+    "labels": {
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "company": "Company Name",
+      "service": "Service Needed",
+      "message": "Message / Project Description"
+    },
+
+    "placeholders": {
+      "fullName": "Your name",
+      "email": "you@company.com",
+      "phone": "+1 416 555 0123",
+      "company": "Company / Organization",
+      "message": "Describe what you need help with (scope, timeline, goal)."
+    },
+
+    "services": {
+      "ssdlc": "Secure Software Development Lifecycle (SSDLc)",
+      "cybersecurity": "Cybersecurity Services",
+      "businessAnalysis": "Business Analysis",
+      "projectManagement": "Project Management",
+      "strategy": "Business & Strategy Consulting",
+      "other": "Other / Not sure"
+    },
+
+    "submit": {
+      "submitting": "Submitting...",
+      "submit": "Submit",
+      "consent": "By submitting, you agree to be contacted about your inquiry."
+    },
+
+    "right": {
+      "title": "What happens next?",
+      "subtitle": "Clear steps, fast response, and structured delivery.",
+      "steps": [
+        "We review your request and clarify goals, constraints, and timeline.",
+        "We propose a structured approach and the best starting point.",
+        "We align on deliverables, then execute with precision and accountability."
+      ],
+      "locationTitle": "Location",
+      "locationLine": "Ontario, Canada",
+      "remoteLine": "We work remotely with clients across multiple industries."
+    },
+
+    "popup": {
+      "close": "Close",
+      "successTitle": "Message sent",
+      "successMessage": "Thanks! We received your message and will reply within 24 hours.",
+      "invalidEmailTitle": "Invalid email",
+      "invalidEmailMessage": "Please check your email address and try again.",
+      "fixFormTitle": "Please fix the form",
+      "fixFormMessage": "Some fields need your attention before you can submit.",
+      "blockedTitle": "Submission blocked",
+      "blockedMessage": "Please try again.",
+      "failedTitle": "Submission failed",
+      "failedMessage": "We couldn’t send your message. Please try again shortly.",
+      "networkFailedMessage": "Network error. Please check your connection and try again."
+    },
+
+    "errors": {
+      "fullNameRequired": "Full name is required.",
+      "fullNameMax": "Keep your name under {max} characters.",
+      "emailRequired": "Email is required.",
+      "emailMax": "Keep your email under {max} characters.",
+      "emailInvalid": "Please enter a valid email address.",
+      "phoneRequired": "Phone number is required.",
+      "phoneMax": "Keep your phone under {max} characters.",
+      "phoneInvalid": "Phone must contain only numbers (and optional + country code).",
+      "companyRequired": "Company name is required.",
+      "companyMax": "Keep company name under {max} characters.",
+      "serviceRequired": "Please choose a service.",
+      "messageRequired": "Message is required.",
+      "messageWordsMax": "Please keep your message to {max} words or fewer.",
+      "messageCharsMax": "Please keep your message under {max} characters.",
+      "blocked": "Submission blocked.",
+      "failedGeneric": "Failed to submit. Please try again."
+    },
+
+    "counters": {
+      "words": "{count}/{max} words"
+    },
+
+    "seo": {
+      "title": "Contact | Yorkshire Global Consulting Inc.",
+      "description": "Contact Yorkshire Global Consulting Inc. for cybersecurity, SSDLC, business analysis, project management, and strategy consulting. Based in Ontario, Canada.",
+      "ogDescription": "Request a consultation for cybersecurity, secure delivery, and structured execution. Ontario, Canada."
+    }
+  }
+}
