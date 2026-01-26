@@ -1,3 +1,4 @@
+// app/api/contact/route.ts
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import path from "path";
@@ -15,13 +16,53 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // ✅ CAPTCHA DISABLED FOR TESTING
-    // (No Turnstile token required, no verification call)
+    /* =====================================================
+       1) TURNSTILE VERIFICATION (SERVER-SIDE)
+    ====================================================== */
+    const token = String(body.turnstileToken || "").trim();
+    if (!token) {
+      return NextResponse.json({ error: "Verification required." }, { status: 400 });
+    }
 
-    // ✅ repeat anti-bot checks server-side
+    const secret = process.env.TURNSTILE_SECRET_KEY;
+    if (!secret) {
+      return NextResponse.json(
+        { error: "Server misconfigured (missing TURNSTILE_SECRET_KEY)." },
+        { status: 500 }
+      );
+    }
+
+    const ip =
+      req.headers.get("cf-connecting-ip") ||
+      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      undefined;
+
+    const formData = new FormData();
+    formData.append("secret", secret);
+    formData.append("response", token);
+    if (ip) formData.append("remoteip", ip);
+
+    const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body: formData,
+    });
+
+    const verify = await verifyRes.json().catch(() => null);
+
+    if (!verify?.success) {
+      return NextResponse.json(
+        { error: "Verification failed. Please try again." },
+        { status: 403 }
+      );
+    }
+
+    /* =====================================================
+       2) SERVER-SIDE ANTI-BOT CHECKS
+    ====================================================== */
     if (body.companyWebsite?.trim()) {
       return NextResponse.json({ error: "Submission blocked." }, { status: 400 });
     }
+
     if (typeof body.startedAt === "number") {
       const elapsedMs = Date.now() - body.startedAt;
       if (elapsedMs < MIN_SECONDS_BEFORE_SUBMIT * 1000) {
@@ -29,7 +70,9 @@ export async function POST(req: Request) {
       }
     }
 
-    // ✅ required fields
+    /* =====================================================
+       3) REQUIRED FIELDS
+    ====================================================== */
     const required = ["fullName", "email", "phone", "organization", "service", "message"];
     for (const k of required) {
       if (!String(body[k] ?? "").trim()) {
@@ -46,21 +89,32 @@ export async function POST(req: Request) {
       message: String(body.message),
     };
 
-    // ✅ ZOHO SMTP
+    /* =====================================================
+       4) ZOHO SMTP
+    ====================================================== */
+    const user = process.env.ZOHO_MAIL_USER;
+    const pass = process.env.ZOHO_MAIL_PASS;
+
+    if (!user || !pass) {
+      return NextResponse.json(
+        { error: "Email service not configured (missing ZOHO_MAIL_USER/ZOHO_MAIL_PASS)." },
+        { status: 500 }
+      );
+    }
+
     const transporter = nodemailer.createTransport({
       host: "smtp.zoho.com",
       port: 465,
       secure: true,
-      auth: {
-        user: process.env.ZOHO_MAIL_USER,
-        pass: process.env.ZOHO_MAIL_PASS,
-      },
+      auth: { user, pass },
     });
 
-    const ownerEmail = process.env.CONTACT_OWNER_EMAIL || process.env.ZOHO_MAIL_USER;
-    const fromEmail = process.env.ZOHO_MAIL_USER;
+    const ownerEmail = process.env.CONTACT_OWNER_EMAIL || user;
+    const fromEmail = user;
 
-    // ✅ read logo from /public/email/yorkshire-logo.png
+    /* =====================================================
+       5) ATTACHMENTS (LOGO)
+    ====================================================== */
     const logoPath = path.join(process.cwd(), "public", "email", "yorkshire-logo.png");
     const logoBuffer = await fs.readFile(logoPath);
 
@@ -72,7 +126,9 @@ export async function POST(req: Request) {
       },
     ];
 
-    // 1) email owner
+    /* =====================================================
+       6) SEND EMAILS
+    ====================================================== */
     const ownerTpl = ownerEmailTemplate(payload);
     await transporter.sendMail({
       from: `"Yorkshire Global" <${fromEmail}>`,
@@ -84,7 +140,6 @@ export async function POST(req: Request) {
       attachments,
     });
 
-    // 2) acknowledgement to user
     const ackTpl = ackEmailTemplate({
       fullName: payload.fullName,
       service: payload.service,

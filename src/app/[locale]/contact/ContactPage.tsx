@@ -1,8 +1,10 @@
+// src/app/[locale]/contact/ContactPage.tsx
 "use client";
 
 import React, { useMemo, useRef, useState } from "react";
 import Container from "@/src/components/Container";
 import SectionHeading from "@/src/components/SectionHeading";
+import { Turnstile } from "@marsidev/react-turnstile";
 import { useTranslations } from "next-intl";
 
 type FormState = {
@@ -157,6 +159,10 @@ export default function ContactPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [popup, setPopup] = useState<PopupState>({ open: false });
 
+  // ✅ Turnstile token
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((p) => ({ ...p, [key]: value }));
     setErrors((p) => {
@@ -179,7 +185,8 @@ export default function ContactPage() {
     form.service.trim().length > 0 &&
     form.message.trim().length > 0;
 
-  const canSubmit = allRequiredFilled && !messageTooLong && !submitting;
+  // ✅ also require captcha token
+  const canSubmit = allRequiredFilled && !messageTooLong && !submitting && !!turnstileToken;
 
   function validate() {
     const next: Record<string, string> = {};
@@ -217,6 +224,9 @@ export default function ContactPage() {
     const elapsedMs = Date.now() - startedAtRef.current;
     if (elapsedMs < MIN_SECONDS_BEFORE_SUBMIT * 1000) next.form = t("errors.blocked");
 
+    // captcha required
+    if (!turnstileToken) next.form = t("errors.verificationRequired") || "Verification required.";
+
     setErrors(next);
     return Object.keys(next).length === 0;
   }
@@ -232,10 +242,41 @@ export default function ContactPage() {
       message: "",
       companyWebsite: "",
     });
+
+    // reset captcha token and widget
+    setTurnstileToken("");
+    if (typeof window !== "undefined" && (window as any).turnstile?.reset) {
+      try {
+        (window as any).turnstile.reset();
+      } catch {
+        // ignore
+      }
+    }
   }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (!turnstileToken) {
+      setPopup({
+        open: true,
+        type: "error",
+        title: t("popup.blockedTitle") || "Verification needed",
+        message: t("popup.blockedMessage") || "Please complete the verification and try again.",
+      });
+      return;
+    }
+
+    if (!looksLikeEmail(form.email)) {
+      setErrors((p) => ({ ...p, email: t("errors.emailInvalid") }));
+      setPopup({
+        open: true,
+        type: "error",
+        title: t("popup.invalidEmailTitle"),
+        message: t("popup.invalidEmailMessage"),
+      });
+      return;
+    }
 
     if (!validate()) {
       setPopup({
@@ -261,6 +302,7 @@ export default function ContactPage() {
           message: form.message,
           companyWebsite: form.companyWebsite,
           startedAt: startedAtRef.current,
+          turnstileToken, // ✅ send to backend
         }),
       });
 
@@ -439,9 +481,7 @@ export default function ContactPage() {
                     <label className="text-sm font-medium text-white">{t("labels.company")}</label>
                     <input
                       value={form.organization}
-                      onChange={(e) =>
-                        update("organization", e.target.value.slice(0, LIMITS.orgMax))
-                      }
+                      onChange={(e) => update("organization", e.target.value.slice(0, LIMITS.orgMax))}
                       required
                       maxLength={LIMITS.orgMax}
                       aria-invalid={!!errors.organization}
@@ -493,6 +533,19 @@ export default function ContactPage() {
                       {t("counters.words", { count: messageWordCount, max: LIMITS.messageWordsMax })}
                     </span>
                   </div>
+                </div>
+
+                {/* ✅ Turnstile CAPTCHA */}
+                <div className="pt-2" ref={turnstileContainerRef}>
+                  <Turnstile
+                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                    onSuccess={(token) => setTurnstileToken(token)}
+                    onExpire={() => setTurnstileToken("")}
+                    onError={() => setTurnstileToken("")}
+                  />
+                  {!turnstileToken ? (
+                    <p className="mt-2 text-xs text-white/70">{t("verificationHint")}</p>
+                  ) : null}
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
