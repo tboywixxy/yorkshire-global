@@ -543,9 +543,7 @@ export default function ContactPage() {
                     onExpire={() => setTurnstileToken("")}
                     onError={() => setTurnstileToken("")}
                   />
-                  {!turnstileToken ? (
-                    <p className="mt-2 text-xs text-white/70">{t("verificationHint")}</p>
-                  ) : null}
+
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
