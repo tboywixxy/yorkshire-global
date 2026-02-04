@@ -107,10 +107,10 @@ export default function HeroSlider() {
           </motion.div>
         </AnimatePresence>
 
-        {/* overlays */}
-        <div className="absolute inset-0 z-10 bg-black/10" />
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/35 via-black/15 to-black/0" />
-        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
+        {/* overlays (✅ darker so text is readable) */}
+        <div className="absolute inset-0 z-10 bg-black/40" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/55 via-black/25 to-black/5" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/60 via-black/25 to-transparent" />
 
         {/* preload next image */}
         <Image src={next.image} alt="" width={10} height={10} className="hidden" />

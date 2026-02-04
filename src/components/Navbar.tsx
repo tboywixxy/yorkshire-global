@@ -17,6 +17,9 @@ import { usePathname as useNextPathname } from "next/navigation";
 // =========================================================
 // Helpers
 // =========================================================
+const SUPPORTED_LOCALES = ["en", "fr"] as const;
+type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
+
 function normalizePath(p: string) {
   const clean = (p || "/").split("?")[0].split("#")[0];
   if (clean !== "/" && clean.endsWith("/")) return clean.slice(0, -1);
@@ -30,7 +33,10 @@ function normalizePath(p: string) {
  */
 function stripLocalePrefix(path: string) {
   const p = normalizePath(path || "/");
-  const re = new RegExp(`^/(?:${(locales as readonly string[]).join("|")})(?=/|$)`, "i");
+  const re = new RegExp(
+    `^/(?:${(locales as readonly string[]).join("|")})(?=/|$)`,
+    "i"
+  );
   const stripped = p.replace(re, "");
   return stripped === "" ? "/" : stripped;
 }
@@ -62,7 +68,6 @@ function useScrollRestoreKey(key: string) {
       const raw = sessionStorage.getItem(`__scroll:${keyRef.current}`);
       if (!raw) return;
       const pos = JSON.parse(raw) as { x: number; y: number };
-      // next tick after navigation paint
       requestAnimationFrame(() => window.scrollTo(pos.x || 0, pos.y || 0));
     } catch {}
   };
@@ -126,30 +131,27 @@ function ChevronDown({ open }: { open: boolean }) {
   );
 }
 
-function langLabel(l: string) {
-  // compact label for the trigger (keeps navbar stable)
-  if (l === "en") return "EN";
-  if (l === "fr") return "FR";
-  if (l === "de") return "DE";
-  if (l === "zh") return "ZH";
-  return l.toUpperCase();
-}
-
-function langName(l: string) {
-  // friendly name for dropdown items
+function langFullName(l: string) {
   if (l === "en") return "English";
   if (l === "fr") return "Français";
-  if (l === "de") return "Deutsch";
-  if (l === "zh") return "中文"; // or "Chinese"
   return l.toUpperCase();
 }
 
+// =========================================================
+// ✅ Locale Dropdown (EN/FR only + optional tone)
+// =========================================================
+function LocaleDropdown({
+  className = "",
+  tone = "dark"
+}: {
+  className?: string;
+  tone?: "dark" | "light";
+}) {
+  const localeRaw = useLocale();
+  const locale = (SUPPORTED_LOCALES.includes(localeRaw as any)
+    ? localeRaw
+    : "en") as SupportedLocale;
 
-// =========================================================
-// ✅ Locale Dropdown (no scroll jump)
-// =========================================================
-function LocaleDropdown({ className = "" }: { className?: string }) {
-  const locale = useLocale();
   const t = useTranslations("Nav");
   const raw = useNextPathname() || "/";
   const pathnameNoLocale = stripLocalePrefix(raw);
@@ -177,7 +179,36 @@ function LocaleDropdown({ className = "" }: { className?: string }) {
     };
   }, []);
 
-  const otherLocales = (locales as readonly string[]).filter((l) => l !== locale);
+  const otherLocales = SUPPORTED_LOCALES.filter((l) => l !== locale);
+
+  const isLight = tone === "light";
+
+  const triggerClasses = [
+    "inline-flex items-center justify-center gap-2",
+    "h-10 px-3 rounded-xl",
+    "backdrop-blur transition",
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+    "min-w-[110px]",
+
+    isLight
+      ? "border border-black/10 bg-black/[0.03] text-black hover:bg-black/[0.06] focus-visible:ring-black/40 focus-visible:ring-offset-white"
+      : "border border-white/10 bg-white/5 text-white/95 hover:bg-white/10 focus-visible:ring-white/70 focus-visible:ring-offset-black/30"
+  ].join(" ");
+
+  const menuClasses = [
+    "absolute right-0 mt-2 z-[999]",
+    "w-[170px] overflow-hidden rounded-2xl",
+    "backdrop-blur-xl",
+    "shadow-[0_20px_60px_rgba(0,0,0,0.35)]",
+    isLight ? "border border-black/10 bg-white/95" : "border border-white/10 bg-black/70"
+  ].join(" ");
+
+  const itemClasses = [
+    "flex items-center justify-between",
+    "px-3 py-2 rounded-xl",
+    "text-[12px] font-semibold transition",
+    isLight ? "text-black hover:bg-black/5" : "text-white/90 hover:bg-white/10"
+  ].join(" ");
 
   return (
     <div ref={wrapRef} className={["relative", className].join(" ")}>
@@ -187,17 +218,10 @@ function LocaleDropdown({ className = "" }: { className?: string }) {
         onClick={() => setOpen((v) => !v)}
         aria-label={t("ariaLanguageMenu")}
         aria-expanded={open}
-        className={[
-          "inline-flex items-center justify-center gap-2",
-          "h-10 px-3 rounded-xl",
-          "border border-white/10 bg-white/5 backdrop-blur",
-          "text-white/95 hover:bg-white/10 transition",
-          "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black/30",
-          "min-w-[72px]" // ✅ keeps navbar stable
-        ].join(" ")}
+        className={triggerClasses}
       >
-        <span className="text-[11px] font-semibold tracking-wide">{langLabel(locale)}</span>
-        <span className="text-white/90">
+        <span className="text-[12px] font-semibold">{langFullName(locale)}</span>
+        <span className={isLight ? "text-black/80" : "text-white/90"}>
           <ChevronDown open={open} />
         </span>
       </button>
@@ -211,37 +235,25 @@ function LocaleDropdown({ className = "" }: { className?: string }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
             transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
-            className={[
-              "absolute right-0 mt-2 z-[999]",
-              "w-[140px] overflow-hidden rounded-2xl",
-              "border border-white/10 bg-black/70 backdrop-blur-xl",
-              "shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
-            ].join(" ")}
+            className={menuClasses}
           >
             <div className="p-1">
               {otherLocales.map((l) => (
                 <Link
                   key={l}
-                  href={pathnameNoLocale} // ✅ locale-less
-                  locale={l as any} // ✅ prefixes once
-                  scroll={false as any} // ✅ avoid default scroll restoration
+                  href={pathnameNoLocale}
+                  locale={l as any}
+                  scroll={false as any}
                   onClick={() => {
-                    // Save scroll, close menu; after route updates, restore.
                     save();
                     setOpen(false);
-                    // Restore shortly after nav; rAF handles paint
                     setTimeout(() => restore(), 0);
                   }}
-                  className={[
-                    "flex items-center justify-between",
-                    "px-3 py-2 rounded-xl",
-                    "text-[12px] font-semibold",
-                    "text-white/90 hover:bg-white/10 transition"
-                  ].join(" ")}
-                  aria-label={t("switchTo", { lang: langLabel(l) })}
+                  className={itemClasses}
+                  aria-label={t("switchTo", { lang: langFullName(l) })}
                 >
-<span>{langName(l)} <span className="opacity-70">({langLabel(l)})</span></span>
-                  <span className="opacity-60">↗</span>
+                  <span>{langFullName(l)}</span>
+                  <span className={isLight ? "opacity-60" : "opacity-60"}>↗</span>
                 </Link>
               ))}
             </div>
@@ -254,11 +266,15 @@ function LocaleDropdown({ className = "" }: { className?: string }) {
 
 export default function Navbar() {
   const t = useTranslations("Nav");
-  const locale = useLocale();
 
   // current URL
   const raw = useNextPathname() || "/";
   const currentPath = stripLocalePrefix(raw);
+
+  const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [themeMode, setThemeMode] = useState<"light" | "dark">("light");
 
   const navItems = useMemo(
     () => [
@@ -271,11 +287,6 @@ export default function Navbar() {
     ],
     []
   );
-
-  const [mounted, setMounted] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [themeMode, setThemeMode] = useState<"light" | "dark">("light");
 
   useEffect(() => setMounted(true), []);
 
@@ -311,7 +322,8 @@ export default function Navbar() {
     const root = document.documentElement;
 
     const readTheme = () => {
-      const isDark = root.classList.contains("dark") || root.getAttribute("data-theme") === "dark";
+      const isDark =
+        root.classList.contains("dark") || root.getAttribute("data-theme") === "dark";
       setThemeMode(isDark ? "dark" : "light");
     };
 
@@ -336,7 +348,9 @@ export default function Navbar() {
         className={[
           "fixed top-0 left-0 right-0 z-50",
           "transition-colors duration-200",
-          scrolled ? "bg-sky-950/45 backdrop-blur border-b border-white/10" : "bg-transparent border-b border-transparent"
+          scrolled
+            ? "bg-sky-950/45 backdrop-blur border-b border-white/10"
+            : "bg-transparent border-b border-transparent"
         ].join(" ")}
       >
         <div className="mx-auto max-w-6xl px-2 sm:px-4 lg:px-6">
@@ -396,7 +410,8 @@ export default function Navbar() {
 
             {/* DESKTOP RIGHT */}
             <div className="hidden items-center gap-2 md:flex">
-              <LocaleDropdown />
+              {/* Navbar is dark-style */}
+              <LocaleDropdown tone="dark" />
               <ThemeToggle />
             </div>
 
@@ -468,8 +483,8 @@ export default function Navbar() {
 
               <div className="px-5 pt-6">
                 <div className="flex justify-end">
-                  {/* Mobile language dropdown */}
-                  <LocaleDropdown className="border border-black/10 dark:border-white/10 bg-transparent" />
+                  {/* ✅ Mobile dropdown uses LIGHT tone in light mode so text is dark */}
+                  <LocaleDropdown tone={themeMode === "dark" ? "dark" : "light"} />
                 </div>
 
                 <div className="pt-8">

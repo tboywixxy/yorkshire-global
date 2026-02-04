@@ -1,13 +1,42 @@
-// components/Footer.tsx
 "use client";
 
 import Image from "next/image";
 import Container from "@/src/components/Container";
-import { useTranslations } from "next-intl";
-import { Link } from "@/src/navigation"; // ✅ locale-aware Link (same as Navbar)
+import { useTranslations, useLocale } from "next-intl";
+import { Link, locales } from "@/src/navigation"; // locale-aware Link
+import { usePathname as useNextPathname } from "next/navigation";
+
+// =====================
+// Helpers
+// =====================
+const SUPPORTED_LOCALES = ["en", "fr"] as const;
+type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
+
+function normalizePath(p: string) {
+  const clean = (p || "/").split("?")[0].split("#")[0];
+  if (clean !== "/" && clean.endsWith("/")) return clean.slice(0, -1);
+  return clean;
+}
+
+function stripLocalePrefix(path: string) {
+  const p = normalizePath(path || "/");
+  const re = new RegExp(
+    `^/(?:${(locales as readonly string[]).join("|")})(?=/|$)`,
+    "i"
+  );
+  const stripped = p.replace(re, "");
+  return stripped === "" ? "/" : stripped;
+}
+
+function toSupportedLocale(l: string): SupportedLocale {
+  return (SUPPORTED_LOCALES.includes(l as any) ? l : "en") as SupportedLocale;
+}
 
 export default function Footer() {
   const t = useTranslations("Footer");
+  const locale = toSupportedLocale(useLocale());
+  const raw = useNextPathname() || "/";
+  const pathnameNoLocale = stripLocalePrefix(raw);
 
   return (
     <footer
@@ -94,14 +123,50 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Bottom bar */}
         <div
-          className="mt-8 flex flex-col gap-2 pt-6 text-xs sm:flex-row sm:items-center sm:justify-between"
+          className="mt-8 flex flex-col gap-3 pt-6 text-xs sm:flex-row sm:items-center sm:justify-between"
           style={{
             borderTop: "1px solid rgb(var(--border))",
             color: "rgb(var(--muted))"
           }}
         >
           <p>{t("legal.copyright", { year: new Date().getFullYear() })}</p>
+
+          {/* ✅ Inline language switch: ENGLISH | FRENCH (bold active) */}
+          <div className="flex items-center gap-2">
+            <Link
+              href={pathnameNoLocale}
+              locale={"en" as any}
+              scroll={false as any}
+              className={[
+                "uppercase tracking-wide",
+                "hover:underline",
+                "text-[rgb(var(--foreground))]",
+                locale === "en" ? "font-bold" : "font-medium opacity-80"
+              ].join(" ")}
+              aria-label="Switch language to English"
+            >
+              ENGLISH
+            </Link>
+
+            <span className="opacity-60">|</span>
+
+            <Link
+              href={pathnameNoLocale}
+              locale={"fr" as any}
+              scroll={false as any}
+              className={[
+                "uppercase tracking-wide",
+                "hover:underline",
+                "text-[rgb(var(--foreground))]",
+                locale === "fr" ? "font-bold" : "font-medium opacity-80"
+              ].join(" ")}
+              aria-label="Switch language to French"
+            >
+              FRENCH
+            </Link>
+          </div>
         </div>
       </Container>
     </footer>
