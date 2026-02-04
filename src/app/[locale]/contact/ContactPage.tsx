@@ -544,7 +544,7 @@ export default function ContactPage() {
                     onError={() => setTurnstileToken("")}
                   />
                   {!turnstileToken ? (
-                    <p className="mt-2 text-xs text-white/70"></p>
+                    <p className="mt-2 text-xs text-white/70">{t("verificationHint")}</p>
                   ) : null}
                 </div>
 
