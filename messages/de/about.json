@@ -108,7 +108,9 @@
     },
     "cta": {
       "title": "Möchten Sie erfahren, wie wir Ihr Team unterstützen können?",
-      "subtitle": "Sagen Sie uns, woran Sie arbeiten — wir melden uns mit den nächsten Schritten."
+      "subtitle": "Sagen Sie uns, woran Sie arbeiten — wir melden uns mit den nächsten Schritten.",
+      "buttonText": "Kontakt"
+
     }
   }
 }

@@ -14,7 +14,7 @@ export default function CTA({
   buttonHref?: string;
 }) {
   return (
-    <section className="py-12 sm:py-14 pb-6 sm:pb-8">
+    <section className="py-12 sm:py-14 pb-6 sm:pb-8"> 
       <Container>
         <div
           className="relative overflow-hidden rounded-3xl border p-6 shadow-sm sm:p-10"

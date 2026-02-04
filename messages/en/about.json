@@ -165,7 +165,8 @@
     },
     "cta": {
       "title": "Want to learn how we can support your team?",
-      "subtitle": "Tell us what you’re working on, and we’ll respond with next steps."
+      "subtitle": "Tell us what you’re working on, and we’ll respond with next steps.",
+      "buttonText": "Contact Us"
     }
   }
 }

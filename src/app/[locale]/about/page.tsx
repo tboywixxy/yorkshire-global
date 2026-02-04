@@ -1,11 +1,10 @@
-// src/app/[locale]/about/page.tsx
 import type { Metadata } from "next";
-import CTA from "@/src/components/CTA";
 import AboutIntroSection from "./AboutIntroSection";
 import MissionVisionValuesSection from "./MissionVisionValuesSection";
 import CapabilitiesSection from "./CapabilitiesSection";
 import ApproachSection from "./ApproachSection";
 import SectorsSection from "./SectorsSection";
+import AboutCTA from "./AboutCTA";
 
 export const metadata: Metadata = {
   title: "About Yorkshire Global Consulting Inc.",
@@ -36,10 +35,8 @@ export default function AboutPage() {
       <ApproachSection />
       <SectorsSection />
 
-      <CTA
-        title="Want to learn how we can support your team?"
-        subtitle="Tell us what you’re working on, and we’ll respond with next steps."
-      />
+      {/* ✅ translated CTA */}
+      <AboutCTA />
     </>
   );
 }

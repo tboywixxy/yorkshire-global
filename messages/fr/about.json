@@ -108,7 +108,8 @@
     },
     "cta": {
       "title": "Envie de découvrir comment nous pouvons accompagner votre équipe ?",
-      "subtitle": "Dites-nous sur quoi vous travaillez et nous reviendrons vers vous avec les prochaines étapes."
+      "subtitle": "Dites-nous sur quoi vous travaillez et nous reviendrons vers vous avec les prochaines étapes.",
+      "buttonText": "Nous contacter"
     }
   }
 }

@@ -96,6 +96,12 @@
         "Gaming & divertissement digital",
         "PME"
       ]
+    },
+
+    "cta": {
+      "title": "Prêt à renforcer votre organisation ?",
+      "subtitle": "Contactez notre équipe dès aujourd’hui.",
+      "button": "Contacter notre équipe"
     }
   }
 }

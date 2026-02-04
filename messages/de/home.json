@@ -96,6 +96,12 @@
         "Gaming & digitale Unterhaltung",
         "Kleine und mittlere Unternehmen"
       ]
+    },
+
+    "cta": {
+      "title": "Bereit, Ihre Organisation zu stärken?",
+      "subtitle": "Kontaktieren Sie unser Team noch heute.",
+      "button": "Kontakt aufnehmen"
     }
   }
 }

@@ -1,12 +1,11 @@
-// src/app/[locale]/page.tsx
 import React from "react";
 import Script from "next/script";
-import CTA from "@/src/components/CTA";
 
 import HeroSlider from "./HeroSlider";
 import WhoWeAreSection from "./WhoWeAreSection";
 import ServicesPreviewSection from "./ServicesPreviewSection";
 import IndustriesSection from "./IndustriesSection";
+import HomeCTA from "./HomeCTA";
 
 export const metadata = {
   title: "Cybersecurity, Secure Delivery & Consulting | Yorkshire Global Consulting Inc.",
@@ -73,7 +72,8 @@ export default function HomePage() {
       <ServicesPreviewSection />
       <IndustriesSection />
 
-      <CTA title="Ready to strengthen your organization?" subtitle="Contact our team today." buttonText="Contact our team" buttonHref="/contact" />
+      {/* ✅ Translated CTA via client component (same approach as Services page) */}
+      <HomeCTA />
     </>
   );
 }

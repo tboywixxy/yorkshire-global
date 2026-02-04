@@ -105,6 +105,12 @@
         "Gaming & Digital Entertainment",
         "Small and Medium Enterprises"
       ]
+    },
+
+    "cta": {
+      "title": "Ready to strengthen your organization?",
+      "subtitle": "Contact our team today.",
+      "button": "Contact our team"
     }
   }
 }
