@@ -8,8 +8,6 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import ThemeProvider from "@/src/components/ThemeProvider";
 import Navbar from "@/src/components/Navbar";
 import Footer from "@/src/components/Footer";
-import RouteLoadingOverlay from "@/src/components/RouteLoadingOverlay";
-import FirstLoadSplash from "@/src/components/FirstLoadSplash";
 
 import { locales } from "@/src/navigation"; // your locales array
 
@@ -45,9 +43,7 @@ export default async function LocaleLayout({
         {/* ✅ pass locale explicitly to avoid any ambiguity */}
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider>
-            <FirstLoadSplash />
             <Navbar />
-            <RouteLoadingOverlay />
             <main className="min-h-[60vh] pt-14">{children}</main>
             <Footer />
           </ThemeProvider>

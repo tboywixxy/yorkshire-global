@@ -339,7 +339,7 @@ export default function ServicesPage() {
         title={t("cta.title")}
         subtitle={t("cta.subtitle")}
         buttonText={t("cta.buttonText")}
-        buttonHref="/contact"
+        buttonHref="contact"
       />
     </>
   );

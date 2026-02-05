@@ -11,7 +11,7 @@ export default function AboutCTA() {
       title={t("cta.title")}
       subtitle={t("cta.subtitle")}
       buttonText={t("cta.buttonText", { default: "Contact Us" } as any)}
-      buttonHref="/contact"
+      buttonHref="contact"
     />
   );
 }

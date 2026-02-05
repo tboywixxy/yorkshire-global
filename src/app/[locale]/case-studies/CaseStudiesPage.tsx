@@ -144,7 +144,7 @@ export default function CaseStudiesPage() {
         </Container>
       </section>
 
-      <CTA title={t("cta.title")} subtitle={t("cta.subtitle")} />
+      <CTA title={t("cta.title")} subtitle={t("cta.subtitle")} buttonHref="contact" />
     </>
   );
 }
