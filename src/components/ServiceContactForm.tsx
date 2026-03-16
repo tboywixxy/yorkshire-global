@@ -492,7 +492,7 @@ export default function ServiceContactForm({
           </div>
 
           {/* ✅ Turnstile CAPTCHA */}
-          <div className="pt-2" ref={turnstileContainerRef}>
+          <div className="pt-2 max-w-full overflow-x-auto" ref={turnstileContainerRef}>
             <Turnstile
               siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
               onSuccess={(token) => setTurnstileToken(token)}

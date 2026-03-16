@@ -616,6 +616,89 @@ export default function Navbar() {
                     {navItems.map((item, idx) => {
                       const active = isActive(currentPath, item.href);
 
+                      if (item.key === "services") {
+                        return (
+                          <React.Fragment key={item.key}>
+                            <motion.div
+                              initial={{ x: 14, opacity: 0 }}
+                              animate={{ x: 0, opacity: 1 }}
+                              transition={{
+                                delay: 0.05 + idx * 0.03,
+                                duration: 0.22,
+                                ease: [0.22, 1, 0.36, 1]
+                              }}
+                              className="w-full"
+                            >
+                              <Link
+                                href={item.href}
+                                onClick={() => setOpen(false)}
+                                className={[
+                                  "group inline-flex items-center justify-end gap-3",
+                                  "py-3",
+                                  "text-xl leading-[1.05] tracking-tight font-semibold",
+                                  active ? "opacity-100" : "opacity-85 hover:opacity-100"
+                                ].join(" ")}
+                              >
+                                <span
+                                  className={[
+                                    "text-[10px] tracking-[0.22em] uppercase opacity-50",
+                                    "rounded-full border border-black/10 px-2 py-1 dark:border-white/10",
+                                    active ? "opacity-70" : "group-hover:opacity-70"
+                                  ].join(" ")}
+                                >
+                                  {String(idx + 1).padStart(2, "0")}
+                                </span>
+
+                                <span className="relative">
+                                  {t(item.key as any)}
+                                  <span
+                                    className={[
+                                      "absolute -bottom-1 right-0 h-[2px] w-0",
+                                      "bg-black/70 dark:bg-white/70",
+                                      "transition-all duration-200",
+                                      active ? "w-full" : "group-hover:w-full"
+                                    ].join(" ")}
+                                  />
+                                </span>
+
+                                <span
+                                  className={[
+                                    "text-base opacity-40 transition-all duration-200",
+                                    active ? "translate-x-0 opacity-60" : "group-hover:translate-x-1 group-hover:opacity-60"
+                                  ].join(" ")}
+                                  aria-hidden
+                                >
+                                  ↗
+                                </span>
+                              </Link>
+                            </motion.div>
+
+                            {/* Sub-services list under Services */}
+                            <motion.div
+                              initial={{ x: 14, opacity: 0 }}
+                              animate={{ x: 0, opacity: 1 }}
+                              transition={{ delay: 0.05 + idx * 0.03 + 0.05, duration: 0.22 }}
+                              className="flex flex-col items-end gap-2 pb-2 pr-1"
+                            >
+                              <Link
+                                href="/services/managed-it-support"
+                                onClick={() => setOpen(false)}
+                                className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity"
+                              >
+                                {tService("managedIT")}
+                              </Link>
+                              <Link
+                                href="/services/secure-ai-development"
+                                onClick={() => setOpen(false)}
+                                className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity"
+                              >
+                                {tService("secureAI")}
+                              </Link>
+                            </motion.div>
+                          </React.Fragment>
+                        );
+                      }
+
                       return (
                         <motion.div
                           key={item.href}
