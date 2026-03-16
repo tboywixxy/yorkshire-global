@@ -331,7 +331,7 @@ export default function ServiceContactForm({
     <>
       <Popup state={popup} onClose={() => setPopup({ open: false })} closeLabel={t("popup.close")} />
 
-      <div className="border border-white/10 bg-white/5 backdrop-blur-xl p-5 shadow-[0_20px_80px_rgba(0,0,0,0.35)] sm:p-7">
+      <div className="border border-white/10 bg-white/5 backdrop-blur-xl p-3 sm:p-7 shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-base font-semibold tracking-tight text-white sm:text-lg">

@@ -17,6 +17,11 @@ export default function ManagedITServicePage() {
   const t = useTranslations("Services.managedIT");
   const benefits = t.raw("benefits.items") as string[];
 
+  // Retrieve raw arrays for other lists
+  const overviewHighlights = t.raw("overview.highlights") as { label: string; icon: string }[];
+  const securityItems = t.raw("security.items") as string[];
+  const ctaItems = t.raw("cta.items") as string[];
+
   return (
     <div className="pb-20">
 
@@ -66,12 +71,7 @@ export default function ManagedITServicePage() {
             </div>
             {/* Stats / feature highlights */}
             <div className="grid grid-cols-2 gap-4">
-              {[
-                { label: "Uptime Monitoring", icon: "🔍" },
-                { label: "Security-First", icon: "🛡️" },
-                { label: "Cost Reduction", icon: "📉" },
-                { label: "Expert Support", icon: "💡" },
-              ].map((item) => (
+              {overviewHighlights.map((item) => (
                 <div key={item.label} className="flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 p-5 shadow-sm">
                   <span className="text-2xl">{item.icon}</span>
                   <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{item.label}</span>
@@ -131,12 +131,7 @@ export default function ManagedITServicePage() {
             </div>
             {/* Feature list */}
             <div className="space-y-3">
-              {[
-                "24/7 proactive system monitoring",
-                "Threat detection & response",
-                "Security patch management",
-                "Incident reporting & escalation",
-              ].map((item) => (
+              {securityItems.map((item) => (
                 <div key={item} className="flex items-center gap-3 rounded-lg bg-white/5 border border-white/10 px-5 py-3.5">
                   <CheckIcon className="h-4 w-4 text-emerald-400" />
                   <span className="text-sm text-slate-200">{item}</span>
@@ -156,18 +151,13 @@ export default function ManagedITServicePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start max-w-5xl mx-auto">
             <div>
               <h2 className="text-3xl font-bold tracking-tight text-white mb-5">
-                Ready to simplify your IT operations?
+                {t("cta.title")}
               </h2>
               <p className="text-base text-slate-300 mb-10 leading-7">
-                Contact us today to discuss how our managed IT support services can help your organization reduce costs and improve reliability.
+                {t("cta.subtitle")}
               </p>
               <ul className="space-y-3">
-                {[
-                  "Experienced professionals",
-                  "Proactive monitoring",
-                  "Security-first approach",
-                  "Flexible engagement models",
-                ].map((item) => (
+                {ctaItems.map((item) => (
                   <li key={item} className="flex items-center gap-3 text-sm text-slate-300">
                     <span className="flex h-5 w-5 flex-none items-center justify-center rounded-full bg-emerald-950/80 border border-emerald-800/50">
                       <CheckIcon className="h-3.5 w-3.5 text-emerald-400" />
@@ -177,7 +167,7 @@ export default function ManagedITServicePage() {
                 ))}
               </ul>
             </div>
-            <div className="rounded-2xl bg-white/5 border border-white/10 p-8">
+            <div className="rounded-2xl bg-white/5 border border-white/10 p-4 sm:p-8">
               <ServiceContactForm preselectedService="managedIT" />
             </div>
           </div>

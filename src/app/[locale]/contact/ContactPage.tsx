@@ -371,7 +371,7 @@ export default function ContactPage() {
 
           <div className="mt-8 grid gap-7 lg:grid-cols-2">
             {/* LEFT */}
-            <div className="border border-white/10 bg-white/10 backdrop-blur-xl p-5 shadow-[0_20px_80px_rgba(0,0,0,0.35)] sm:p-7">
+            <div className="border border-white/10 bg-white/10 backdrop-blur-xl p-3 sm:p-7 shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-base font-semibold tracking-tight text-white sm:text-lg">
@@ -536,7 +536,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* ✅ Turnstile CAPTCHA */}
-                <div className="pt-2" ref={turnstileContainerRef}>
+                <div className="pt-2 max-w-full overflow-x-auto" ref={turnstileContainerRef}>
                   <Turnstile
                     siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
                     onSuccess={(token) => setTurnstileToken(token)}

@@ -67,7 +67,13 @@
       "subtitle": "Opérations IT flexibles et axées sur la sécurité pour assurer le bon fonctionnement de votre entreprise.",
       "overview": {
         "title": "Aperçu",
-        "content": "Nos services de support IT géré fournissent des professionnels expérimentés qui surveillent, maintiennent et soutiennent vos systèmes afin que votre organisation puisse se concentrer sur la création de valeur. Nous vous aidons à réduire le coût et la complexité liés au maintien d'une équipe IT interne."
+        "content": "Nos services de support IT géré fournissent des professionnels expérimentés qui surveillent, maintiennent et soutiennent vos systèmes afin que votre organisation puisse se concentrer sur la création de valeur. Nous vous aidons à réduire le coût et la complexité liés au maintien d'une équipe IT interne.",
+        "highlights": [
+          { "label": "Surveillance de disponibilité", "icon": "🔍" },
+          { "label": "Sécurité avant tout", "icon": "🛡️" },
+          { "label": "Réduction des coûts", "icon": "📉" },
+          { "label": "Support expert", "icon": "💡" }
+        ]
       },
       "benefits": {
         "title": "Avantages du support IT externalisé",
@@ -80,7 +86,23 @@
       },
       "security": {
         "title": "Capacités de surveillance de la sécurité",
-        "content": "Nous intégrons la sécurité dans chaque aspect de notre support. Notre équipe surveille en permanence les menaces, met à jour les systèmes pour corriger les vulnérabilités et veille à ce que votre infrastructure respecte les meilleures pratiques en matière de protection des données et de conformité."
+        "content": "Nous intégrons la sécurité dans chaque aspect de notre support. Notre équipe surveille en permanence les menaces, met à jour les systèmes pour corriger les vulnérabilités et veille à ce que votre infrastructure respecte les meilleures pratiques en matière de protection des données et de conformité.",
+        "items": [
+          "Surveillance proactive 24/7",
+          "Détection et réponse aux menaces",
+          "Gestion des correctifs de sécurité",
+          "Rapport d'incident et escalade"
+        ]
+      },
+      "cta": {
+        "title": "Prêt à simplifier vos opérations IT ?",
+        "subtitle": "Contactez-nous dès aujourd'hui pour discuter de la façon dont nos services de support IT géré peuvent aider votre organisation à réduire les coûts et améliorer la fiabilité.",
+        "items": [
+          "Professionnels expérimentés",
+          "Surveillance proactive",
+          "Approche axée sur la sécurité",
+          "Modèles d'engagement flexibles"
+        ]
       }
     },
     "secureAI": {
@@ -88,15 +110,47 @@
       "subtitle": "Solutions IA intelligentes conçues avec sécurité, gouvernance et fiabilité.",
       "strategy": {
         "title": "Conseil en stratégie IA",
-        "content": "Nous aidons les organisations à définir une feuille de route IA claire et alignée sur les objectifs commerciaux. De l'identification des cas d'usage à l'analyse de faisabilité, nous nous assurons que votre investissement en IA apporte une valeur mesurable."
+        "content": "Nous aidons les organisations à définir une feuille de route IA claire et alignée sur les objectifs commerciaux. De l'identification des cas d'usage à l'analyse de faisabilité, nous nous assurons que votre investissement en IA apporte une valeur mesurable.",
+        "items": [
+          { "label": "Feuille de route IA", "icon": "🗺️" },
+          { "label": "Analyse des cas d'usage", "icon": "🔎" },
+          { "label": "Évaluation des risques", "icon": "⚖️" },
+          { "label": "Modélisation du ROI", "icon": "📊" }
+        ]
       },
       "design": {
         "title": "Conception d'agents IA sécurisés",
-        "content": "Concevez et déployez des agents IA intelligents sans compromettre la sécurité ou la conformité. Nous construisons des solutions IA fiables avec une gouvernance solide, garantissant leur fonctionnement dans des limites définies."
+        "content": "Concevez et déployez des agents IA intelligents sans compromettre la sécurité ou la conformité. Nous construisons des solutions IA fiables avec une gouvernance solide, garantissant leur fonctionnement dans des limites définies.",
+        "items": [
+          "Conception d'architecture d'agents sécurisée",
+          "Intégration API et systèmes",
+          "Tests de performance et fiabilité",
+          "Pipelines de déploiement évolutifs"
+        ]
       },
       "governance": {
         "title": "Gouvernance de l'IA et gestion des risques",
-        "content": "Mettez en œuvre l'IA en toute sécurité avec des cadres de gouvernance robustes. Nous vous aidons à gérer les risques liés à la confidentialité des données, aux biais des modèles et à la conformité réglementaire."
+        "content": "Mettez en œuvre l'IA en toute sécurité avec des cadres de gouvernance robustes. Nous vous aidons à gérer les risques liés à la confidentialité des données, aux biais des modèles et à la conformité réglementaire.",
+        "items": [
+          "Cadres de conformité IA",
+          "Confidentialité des données et contrôles d'accès",
+          "Journalisation d'audit et traçabilité",
+          "Directives d'éthique IA"
+        ]
+      },
+      "integration": {
+        "title": "Intégration aux systèmes d'entreprise",
+        "content": "Intégrez parfaitement les agents IA à vos systèmes et workflows existants. Nous assurons une architecture évolutive et un échange de données sécurisé entre vos solutions IA et les applications métier.",
+        "items": [
+          { "label": "Systèmes CRM & ERP", "icon": "🔗" },
+          { "label": "Plateformes Cloud", "icon": "☁️" },
+          { "label": "Pipelines de données", "icon": "🔄" },
+          { "label": "API personnalisées", "icon": "⚙️" }
+        ]
+      },
+      "cta": {
+        "title": "Construisez des solutions IA intelligentes et sécurisées",
+        "subtitle": "Collaborez avec nous pour déployer des agents IA sécurisés, conformes et intégrés à vos systèmes d'entreprise."
       }
     }
   }

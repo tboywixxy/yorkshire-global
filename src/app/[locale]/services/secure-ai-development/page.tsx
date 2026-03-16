@@ -21,6 +21,11 @@ const SECTIONS = [
 export default function SecureAIServicePage() {
   const t = useTranslations("Services.secureAI");
 
+  const strategyItems = t.raw("strategy.items") as { label: string; icon: string }[];
+  const designItems = t.raw("design.items") as string[];
+  const governanceItems = t.raw("governance.items") as string[];
+  const integrationItems = t.raw("integration.items") as { label: string; icon: string }[];
+
   return (
     <div className="pb-20">
 
@@ -66,12 +71,7 @@ export default function SecureAIServicePage() {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {[
-                { label: "AI Roadmapping", icon: "🗺️" },
-                { label: "Use Case Analysis", icon: "🔎" },
-                { label: "Risk Evaluation", icon: "⚖️" },
-                { label: "ROI Modeling", icon: "📊" },
-              ].map((item) => (
+              {strategyItems.map((item) => (
                 <div key={item.label} className="flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 p-5 shadow-sm">
                   <span className="text-2xl">{item.icon}</span>
                   <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{item.label}</span>
@@ -96,12 +96,7 @@ export default function SecureAIServicePage() {
                 </p>
               </div>
               <div className="space-y-3">
-                {[
-                  "Secure agent architecture design",
-                  "API and system integration",
-                  "Performance & reliability testing",
-                  "Scalable deployment pipelines",
-                ].map((item) => (
+                {designItems.map((item) => (
                   <div key={item} className="flex items-center gap-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 px-5 py-4">
                     <span className="flex h-6 w-6 flex-none items-center justify-center rounded-lg bg-violet-50 dark:bg-violet-950/60 border border-violet-100 dark:border-violet-900">
                       <CheckIcon className="h-3.5 w-3.5 text-violet-500 dark:text-violet-400" />
@@ -136,12 +131,7 @@ export default function SecureAIServicePage() {
               </p>
             </div>
             <div className="space-y-3">
-              {[
-                "AI compliance frameworks",
-                "Data privacy & access controls",
-                "Audit logging & traceability",
-                "Ethical AI guidelines",
-              ].map((item) => (
+              {governanceItems.map((item) => (
                 <div key={item} className="flex items-center gap-3 rounded-lg bg-white/5 border border-white/10 px-5 py-3.5">
                   <CheckIcon className="h-4 w-4 text-indigo-400" />
                   <span className="text-sm text-slate-200">{item}</span>
@@ -166,12 +156,7 @@ export default function SecureAIServicePage() {
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                {[
-                  { label: "CRM & ERP Systems", icon: "🔗" },
-                  { label: "Cloud Platforms", icon: "☁️" },
-                  { label: "Data Pipelines", icon: "🔄" },
-                  { label: "Custom APIs", icon: "⚙️" },
-                ].map((item) => (
+                {integrationItems.map((item) => (
                   <div key={item.label} className="flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 p-5 shadow-sm">
                     <span className="text-2xl">{item.icon}</span>
                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{item.label}</span>
@@ -191,13 +176,13 @@ export default function SecureAIServicePage() {
         <Container>
           <div className="max-w-3xl mx-auto text-center mb-14">
             <h2 className="text-3xl font-bold tracking-tight text-white mb-5">
-              Build Intelligent, Secure AI Solutions
+              {t("cta.title")}
             </h2>
             <p className="text-base text-slate-300 leading-7">
-              Partner with us to deploy AI agents that are secure, compliant, and integrated with your enterprise systems.
+              {t("cta.subtitle")}
             </p>
           </div>
-          <div className="max-w-xl mx-auto rounded-2xl bg-white/5 border border-white/10 p-8">
+          <div className="max-w-xl mx-auto rounded-2xl bg-white/5 border border-white/10 p-4 sm:p-8">
             <ServiceContactForm preselectedService="secureAI" />
           </div>
         </Container>
