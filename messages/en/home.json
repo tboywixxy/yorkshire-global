@@ -56,6 +56,102 @@
       ]
     },
 
+    "modernIT": {
+      "title": "Modern IT Support & Secure AI Solutions",
+      "intro": "Cut operational costs and accelerate innovation with flexible IT support and secure AI development services. Yorkshire Global Consulting helps organizations modernize operations without the overhead of maintaining large internal teams.",
+      "col1": {
+        "title": "Get IT Support — Count on Us",
+        "desc": "Reduce the cost and complexity of maintaining an internal IT team. Our managed IT support services provide experienced professionals who monitor, maintain, and support your systems so your organization can focus on delivering value.",
+        "points": [
+          "Proactive system monitoring and support",
+          "Security-focused IT operations",
+          "Infrastructure maintenance and troubleshooting",
+          "Flexible support without full-time hiring costs"
+        ],
+        "cta": "Request IT Support"
+      },
+      "col2": {
+        "title": "Build Your AI Agent — Securely",
+        "desc": "Design and deploy intelligent AI agents without compromising security or compliance. We help organizations build reliable AI solutions with strong governance, cybersecurity controls, and scalable architecture.",
+        "points": [
+          "Secure AI agent architecture",
+          "AI governance and risk controls",
+          "Integration with existing systems",
+          "AI strategy and deployment support"
+        ],
+        "cta": "Start an AI Project"
+      }
+    },
+
+    "solutions": {
+      "title": "Technology Solutions That Drive Business Performance",
+      "subtitle": "We help organizations modernize operations, secure infrastructure, and implement intelligent technologies that create measurable business value.",
+      "items": [
+        {
+          "title": "Cybersecurity & Digital Resilience",
+          "desc": "Protect critical systems and data with enterprise-grade cybersecurity strategy, risk assessments, and operational resilience planning.",
+          "points": [
+            "Cyber risk assessments",
+            "Security architecture design",
+            "Threat detection strategies",
+            "Incident response planning"
+          ],
+          "cta": "Strengthen Security"
+        },
+        {
+          "title": "AI & Intelligent Automation",
+          "desc": "Implement AI-powered systems and intelligent automation to improve operational efficiency and support data-driven decision making.",
+          "points": [
+            "AI agent development",
+            "Business process automation",
+            "AI governance and compliance",
+            "Intelligent workflow optimization"
+          ],
+          "cta": "Explore AI Solutions"
+        },
+        {
+          "title": "Digital & Technology Transformation",
+          "desc": "Modernize legacy systems and align technology with business strategy so that technology investments deliver measurable business outcomes.",
+          "points": [
+            "IT strategy development",
+            "System modernization",
+            "Cloud transformation planning",
+            "Technology program leadership"
+          ],
+          "cta": "Transform Technology"
+        }
+      ]
+    },
+
+    "trust": {
+      "title": "Why Organizations Choose Yorkshire Global Consulting",
+      "points": [
+        "Cybersecurity-driven technology consulting",
+        "Business-aligned technology strategy",
+        "Experienced leadership and delivery",
+        "Secure AI implementation expertise"
+      ]
+    },
+
+    "engagement": {
+      "title": "Work With Us",
+      "cta": "Schedule a Consultation",
+      "steps": [
+        {
+          "title": "Consultation",
+          "desc": "Discuss your organization’s technology challenges."
+        },
+        {
+          "title": "Assessment",
+          "desc": "We analyze systems, risks, and opportunities."
+        },
+        {
+          "title": "Strategy & Implementation",
+          "desc": "We design and deploy secure, scalable solutions."
+        }
+      ]
+    },
+
     "services": {
       "aria": {
         "section": "Core services",
@@ -66,6 +162,14 @@
       "headingSubtitle": "A preview of what we deliver.",
       "exploreBtn": "Explore Our Services",
       "items": [
+        {
+          "title": "Managed IT Support",
+          "detail": "Cost-effective IT operations support designed to reduce the burden of maintaining an internal IT team. We provide monitoring, maintenance, troubleshooting, and security-focused support to keep systems running efficiently."
+        },
+        {
+          "title": "Secure AI Agent Development",
+          "detail": "Design and deployment of AI agents with security, governance, and reliability built in. We help organizations implement AI solutions safely while protecting data, infrastructure, and compliance requirements."
+        },
         {
           "title": "Secure Software Development Lifecycle (SSDLc)",
           "detail": "We help organizations integrate security into every stage of software development: secure coding practices, threat modeling, code reviews, DevSecOps integration, secure architecture guidance, and full SSDLc program setup."

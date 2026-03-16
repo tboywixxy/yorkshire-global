@@ -47,6 +47,102 @@
       ]
     },
 
+    "modernIT": {
+      "title": "Support IT moderne et solutions d'IA sécurisées",
+      "intro": "Réduisez les coûts opérationnels et accélérez l'innovation avec un support IT flexible et des services de développement d'IA sécurisée. Yorkshire Global Consulting aide les organisations à moderniser leurs opérations sans les frais généraux liés au maintien de grandes équipes internes.",
+      "col1": {
+        "title": "Obtenez un support IT — Comptez sur nous",
+        "desc": "Réduisez le coût et la complexité liés au maintien d'une équipe IT interne. Nos services de support IT géré fournissent des professionnels expérimentés qui surveillent, maintiennent et soutiennent vos systèmes afin que votre organisation puisse se concentrer sur la création de valeur.",
+        "points": [
+          "Surveillance et support proactif des systèmes",
+          "Opérations IT axées sur la sécurité",
+          "Maintenance et dépannage de l'infrastructure",
+          "Support flexible sans les coûts d'embauche à temps plein"
+        ],
+        "cta": "Demander un support IT"
+      },
+      "col2": {
+        "title": "Construisez votre agent IA — En toute sécurité",
+        "desc": "Concevez et déployez des agents IA intelligents sans compromettre la sécurité ou la conformité. Nous aidons les organisations à construire des solutions d'IA fiables avec une gouvernance solide, des contrôles de cybersécurité et une architecture évolutive.",
+        "points": [
+          "Architecture d'agent IA sécurisée",
+          "Gouvernance de l'IA et contrôles des risques",
+          "Intégration avec les systèmes existants",
+          "Stratégie IA et support au déploiement"
+        ],
+        "cta": "Démarrer un projet IA"
+      }
+    },
+
+    "solutions": {
+      "title": "Des solutions technologiques qui stimulent la performance",
+      "subtitle": "Nous aidons les organisations à moderniser leurs opérations, sécuriser leur infrastructure et mettre en œuvre des technologies intelligentes qui créent une valeur commerciale mesurable.",
+      "items": [
+        {
+          "title": "Cybersécurité et résilience numérique",
+          "desc": "Protégez les systèmes et données critiques avec une stratégie de cybersécurité de niveau entreprise, des évaluations des risques et une planification de la résilience opérationnelle.",
+          "points": [
+            "Évaluations des risques cyber",
+            "Conception d'architecture de sécurité",
+            "Stratégies de détection des menaces",
+            "Planification de la réponse aux incidents"
+          ],
+          "cta": "Renforcer la sécurité"
+        },
+        {
+          "title": "IA et automatisation intelligente",
+          "desc": "Mettez en œuvre des systèmes alimentés par l'IA et une automatisation intelligente pour améliorer l'efficacité opérationnelle et soutenir la prise de décision basée sur les données.",
+          "points": [
+            "Développement d'agents IA",
+            "Automatisation des processus métier",
+            "Gouvernance et conformité de l'IA",
+            "Optimisation intelligente des flux de travail"
+          ],
+          "cta": "Explorer les solutions IA"
+        },
+        {
+          "title": "Transformation numérique et technologique",
+          "desc": "Modernisez les systèmes existants et alignez la technologie avec la stratégie commerciale afin que les investissements technologiques produisent des résultats commerciaux mesurables.",
+          "points": [
+            "Développement de la stratégie IT",
+            "Modernisation des systèmes",
+            "Planification de la transformation cloud",
+            "Leadership de programme technologique"
+          ],
+          "cta": "Transformer la technologie"
+        }
+      ]
+    },
+
+    "trust": {
+      "title": "Pourquoi les organisations choisissent Yorkshire Global Consulting",
+      "points": [
+        "Conseil technologique axé sur la cybersécurité",
+        "Stratégie technologique alignée sur le business",
+        "Leadership et livraison expérimentés",
+        "Expertise en mise en œuvre d'IA sécurisée"
+      ]
+    },
+
+    "engagement": {
+      "title": "Travailler avec nous",
+      "cta": "Planifier une consultation",
+      "steps": [
+        {
+          "title": "Consultation",
+          "desc": "Discutez des défis technologiques de votre organisation."
+        },
+        {
+          "title": "Évaluation",
+          "desc": "Nous analysons les systèmes, les risques et les opportunités."
+        },
+        {
+          "title": "Stratégie et mise en œuvre",
+          "desc": "Nous concevons et déployons des solutions sécurisées et évolutives."
+        }
+      ]
+    },
+
     "services": {
       "aria": {
         "section": "Services clés",
@@ -57,6 +153,14 @@
       "headingSubtitle": "Un aperçu de ce que nous livrons.",
       "exploreBtn": "Découvrir nos services",
       "items": [
+        {
+          "title": "Support IT géré",
+          "detail": "Support opérationnel IT rentable conçu pour réduire la charge de maintien d'une équipe IT interne. Nous fournissons une surveillance, une maintenance, un dépannage et un support axé sur la sécurité pour assurer le bon fonctionnement des systèmes."
+        },
+        {
+          "title": "Développement d'agents IA sécurisés",
+          "detail": "Conception et déploiement d'agents IA avec sécurité, gouvernance et fiabilité intégrées. Nous aidons les organisations à mettre en œuvre des solutions d'IA en toute sécurité tout en protégeant les données, l'infrastructure et les exigences de conformité."
+        },
         {
           "title": "Cycle de vie de développement logiciel sécurisé (SSDLc)",
           "detail": "Nous aidons à intégrer la sécurité à chaque étape : pratiques de code sécurisé, threat modeling, revues de code, intégration DevSecOps, conseils d’architecture sécurisée et mise en place complète d’un programme SSDLc."

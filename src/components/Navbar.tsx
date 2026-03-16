@@ -264,8 +264,119 @@ function LocaleDropdown({
   );
 }
 
+// ===================================
+// Services Dropdown
+// ===================================
+function ServicesNavItem({
+  isActive,
+  onClose,
+}: {
+  isActive: boolean;
+  onClose?: () => void;
+}) {
+  const t = useTranslations("Nav");
+  const tService = useTranslations("ServicesDropdown");
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  let timeoutRef = useRef<any>(null);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setOpen(false);
+    }, 150);
+  };
+
+  // Close on outside click
+  useEffect(() => {
+    const onDown = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      if (!containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener("mousedown", onDown);
+    return () => window.removeEventListener("mousedown", onDown);
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative flex items-center"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <Link
+        href="/services"
+        className={[
+          "relative rounded-lg whitespace-nowrap",
+          "px-2.5 py-2 md:px-2 lg:px-3",
+          "text-xs md:text-[11px] lg:text-xs",
+          "font-medium transition",
+          isActive || open ? "text-black bg-white/10" : "text-white/90 hover:bg-white/10"
+        ].join(" ")}
+        onClick={(e) => {
+          if (onClose) onClose();
+        }}
+      >
+        {isActive ? (
+          <motion.span
+            layoutId="desktop-nav-pill"
+            className="absolute inset-y-1 left-0 right-0 rounded-lg bg-white"
+            transition={{ type: "spring", stiffness: 520, damping: 38, mass: 0.6 }}
+            style={{ zIndex: 0 }}
+          />
+        ) : null}
+        <span className={isActive ? "relative z-10 text-black flex items-center gap-1" : "relative z-10 flex items-center gap-1"}>
+          {t("services")} <ChevronDown open={open} />
+        </span>
+      </Link>
+
+      <AnimatePresence>
+        {open && (
+           <motion.div
+             initial={{ opacity: 0, y: 10, scale: 0.95 }}
+             animate={{ opacity: 1, y: 0, scale: 1 }}
+             exit={{ opacity: 0, y: 10, scale: 0.95 }}
+             transition={{ duration: 0.2 }}
+             className="absolute top-full left-0 mt-2 w-72 rounded-xl border border-white/10 bg-slate-900/95 backdrop-blur-xl shadow-2xl p-2 z-50 flex flex-col gap-1"
+           >
+              <Link
+                 href="/services/managed-it-support"
+                 className="block px-3 py-2 text-sm text-white hover:bg-white/10 rounded-lg transition"
+                 onClick={() => { setOpen(false); if(onClose) onClose(); }}
+              >
+                {tService("managedIT")}
+              </Link>
+              <Link
+                 href="/services/secure-ai-development"
+                 className="block px-3 py-2 text-sm text-white hover:bg-white/10 rounded-lg transition"
+                 onClick={() => { setOpen(false); if(onClose) onClose(); }}
+              >
+                {tService("secureAI")}
+              </Link>
+              <div className="h-px bg-white/10 my-1"/>
+              <Link
+                 href="/services"
+                 className="block px-3 py-2 text-sm text-white/70 hover:bg-white/10 rounded-lg transition"
+                 onClick={() => { setOpen(false); if(onClose) onClose(); }}
+              >
+                {tService("all")}
+              </Link>
+           </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
 export default function Navbar() {
   const t = useTranslations("Nav");
+  const tService = useTranslations("ServicesDropdown");
 
   // current URL
   const raw = useNextPathname() || "/";
@@ -289,6 +400,9 @@ export default function Navbar() {
   );
 
   useEffect(() => setMounted(true), []);
+
+  // active helper
+  const isLinkActive = (href: string) => isActive(currentPath, href);
 
   // close mobile menu when route changes
   useEffect(() => {
@@ -334,9 +448,15 @@ export default function Navbar() {
     return () => obs.disconnect();
   }, [mounted]);
 
+  const isServicePage =
+    currentPath === "/services/managed-it-support" ||
+    currentPath === "/services/secure-ai-development";
+
   const logoSrc = !mounted
     ? "/logo-w1.png"
     : themeMode === "dark"
+    ? "/logo-w1.png"
+    : isServicePage
     ? "/logo-w1.png"
     : scrolled
     ? "/logo1.png"
@@ -348,7 +468,7 @@ export default function Navbar() {
         className={[
           "fixed top-0 left-0 right-0 z-50",
           "transition-colors duration-200",
-          scrolled
+          scrolled || isServicePage
             ? "bg-sky-950/45 backdrop-blur border-b border-white/10"
             : "bg-transparent border-b border-transparent"
         ].join(" ")}
@@ -379,6 +499,10 @@ export default function Navbar() {
               <div className="relative flex items-center gap-1 rounded-xl p-1 whitespace-nowrap">
                 {navItems.map((item) => {
                   const active = isActive(currentPath, item.href);
+
+                  if (item.key === "services") {
+                    return <ServicesNavItem key={item.key} isActive={active} />;
+                  }
 
                   return (
                     <Link

@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 
 import ThemeProvider from "@/src/components/ThemeProvider";
+import RouteLoadingOverlay from "@/src/components/RouteLoadingOverlay";
 import Navbar from "@/src/components/Navbar";
 import Footer from "@/src/components/Footer";
 
@@ -43,6 +44,7 @@ export default async function LocaleLayout({
         {/* ✅ pass locale explicitly to avoid any ambiguity */}
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider>
+            <RouteLoadingOverlay />
             <Navbar />
             <main className="min-h-[60vh] pt-14">{children}</main>
             <Footer />

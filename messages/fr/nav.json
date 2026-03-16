@@ -11,6 +11,13 @@
     "ariaOpenMenu": "Ouvrir le menu",
     "ariaCloseMenu": "Fermer le menu",
     "logoAlt": "Logo de Yorkshire Global Consulting Inc.",
-    "switchTo": "Changer la langue en {lang}"
+    "switchTo": "Changer la langue en {lang}",
+    "ariaLanguageMenu": "Changer la langue"
+  },
+  "ServicesDropdown": {
+    "title": "Services",
+    "managedIT": "Support IT géré",
+    "secureAI": "Développement d'IA sécurisée",
+    "all": "Tous les services"
   }
 }

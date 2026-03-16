@@ -61,6 +61,43 @@
       "title": "Vous ne savez pas quel service convient ?",
       "subtitle": "Décrivez votre situation et nous vous proposerons le meilleur point de départ.",
       "buttonText": "Demander une consultation"
+    },
+    "managedIT": {
+      "title": "Support IT géré",
+      "subtitle": "Opérations IT flexibles et axées sur la sécurité pour assurer le bon fonctionnement de votre entreprise.",
+      "overview": {
+        "title": "Aperçu",
+        "content": "Nos services de support IT géré fournissent des professionnels expérimentés qui surveillent, maintiennent et soutiennent vos systèmes afin que votre organisation puisse se concentrer sur la création de valeur. Nous vous aidons à réduire le coût et la complexité liés au maintien d'une équipe IT interne."
+      },
+      "benefits": {
+        "title": "Avantages du support IT externalisé",
+        "items": [
+          "Surveillance et support proactif des systèmes",
+          "Opérations IT axées sur la sécurité",
+          "Maintenance et dépannage de l'infrastructure",
+          "Support flexible sans les coûts d'embauche à temps plein"
+        ]
+      },
+      "security": {
+        "title": "Capacités de surveillance de la sécurité",
+        "content": "Nous intégrons la sécurité dans chaque aspect de notre support. Notre équipe surveille en permanence les menaces, met à jour les systèmes pour corriger les vulnérabilités et veille à ce que votre infrastructure respecte les meilleures pratiques en matière de protection des données et de conformité."
+      }
+    },
+    "secureAI": {
+      "title": "Développement d'agents IA sécurisés",
+      "subtitle": "Solutions IA intelligentes conçues avec sécurité, gouvernance et fiabilité.",
+      "strategy": {
+        "title": "Conseil en stratégie IA",
+        "content": "Nous aidons les organisations à définir une feuille de route IA claire et alignée sur les objectifs commerciaux. De l'identification des cas d'usage à l'analyse de faisabilité, nous nous assurons que votre investissement en IA apporte une valeur mesurable."
+      },
+      "design": {
+        "title": "Conception d'agents IA sécurisés",
+        "content": "Concevez et déployez des agents IA intelligents sans compromettre la sécurité ou la conformité. Nous construisons des solutions IA fiables avec une gouvernance solide, garantissant leur fonctionnement dans des limites définies."
+      },
+      "governance": {
+        "title": "Gouvernance de l'IA et gestion des risques",
+        "content": "Mettez en œuvre l'IA en toute sécurité avec des cadres de gouvernance robustes. Nous vous aidons à gérer les risques liés à la confidentialité des données, aux biais des modèles et à la conformité réglementaire."
+      }
     }
   }
 }

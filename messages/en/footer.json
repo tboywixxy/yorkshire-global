@@ -14,6 +14,8 @@
     "services": {
       "title": "Services",
       "items": {
+        "managedIT": "Managed IT Support",
+        "secureAI": "Secure AI Development",
         "ssdlc": "SSDLC",
         "cybersecurity": "Cybersecurity",
         "businessAnalysis": "Business Analysis",

@@ -6,6 +6,10 @@ import WhoWeAreSection from "./WhoWeAreSection";
 import ServicesPreviewSection from "./ServicesPreviewSection";
 import IndustriesSection from "./IndustriesSection";
 import HomeCTA from "./HomeCTA";
+import ModernItSection from "./ModernItSection";
+import SolutionsSection from "./SolutionsSection";
+import TrustSection from "./TrustSection";
+import EngagementSection from "./EngagementSection";
 
 export const metadata = {
   title: "Cybersecurity, Secure Delivery & Consulting | Yorkshire Global Consulting Inc.",
@@ -69,8 +73,20 @@ export default function HomePage() {
 
       <HeroSlider />
       <WhoWeAreSection />
+      
+      {/* NEW: Modern IT & Secure AI */}
+      <ModernItSection />
+
       <ServicesPreviewSection />
+
+      {/* NEW: Solutions We Deliver (between services and industries) */}
+      <SolutionsSection />
+
       <IndustriesSection />
+
+      {/* NEW: Trust & Engagement */}
+      <TrustSection />
+      <EngagementSection />
 
       {/* ✅ Translated CTA via client component (same approach as Services page) */}
       <HomeCTA />

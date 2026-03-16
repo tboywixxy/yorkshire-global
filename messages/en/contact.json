@@ -30,6 +30,8 @@
     },
 
     "services": {
+      "managedIT": "Managed IT Support",
+      "secureAI": "Secure AI Agent Development",
       "ssdlc": "Secure Software Development Lifecycle (SSDLc)",
       "cybersecurity": "Cybersecurity Services",
       "businessAnalysis": "Business Analysis",

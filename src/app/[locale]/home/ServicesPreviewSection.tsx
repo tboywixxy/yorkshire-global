@@ -25,6 +25,8 @@ export default function ServicesPreviewSection() {
       { title: t("services.items.2.title"), detail: t("services.items.2.detail") },
       { title: t("services.items.3.title"), detail: t("services.items.3.detail") },
       { title: t("services.items.4.title"), detail: t("services.items.4.detail") },
+      { title: t("services.items.5.title"), detail: t("services.items.5.detail") },
+      { title: t("services.items.6.title"), detail: t("services.items.6.detail") },
     ],
     [t]
   );

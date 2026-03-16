@@ -61,6 +61,47 @@
       "title": "Not sure which service fits?",
       "subtitle": "Describe your situation and we’ll suggest the best starting point.",
       "buttonText": "Request a consultation"
+    },
+    "managedIT": {
+      "title": "Managed IT Support",
+      "subtitle": "Flexible, security-focused IT operations to keep your business running.",
+      "overview": {
+        "title": "Overview",
+        "content": "Our managed IT support services provide experienced professionals who monitor, maintain, and support your systems so your organization can focus on delivering value. We help you reduce the cost and complexity of maintaining an internal IT team."
+      },
+      "benefits": {
+        "title": "Benefits of Outsourced IT Support",
+        "items": [
+          "Proactive system monitoring and support",
+          "Security-focused IT operations",
+          "Infrastructure maintenance and troubleshooting",
+          "Flexible support without full-time hiring costs"
+        ]
+      },
+      "security": {
+        "title": "Security Monitoring Capabilities",
+        "content": "We integrate security into every aspect of our support. Our team continuously monitors for threats, updates systems to patch vulnerabilities, and ensures your infrastructure adheres to best practices for data protection and compliance."
+      }
+    },
+    "secureAI": {
+      "title": "Secure AI Agent Development",
+      "subtitle": "Intelligent AI solutions built with security, governance, and reliability.",
+      "strategy": {
+        "title": "AI Strategy Consulting",
+        "content": "We help organizations define a clear AI roadmap that aligns with business goals. From use case identification to feasibility analysis, we ensure your AI investment delivers measurable value."
+      },
+      "design": {
+        "title": "Secure AI Agent Design",
+        "content": "Design and deploy intelligent AI agents without compromising security or compliance. We build reliable AI solutions with strong governance, ensuring they operate within defined boundaries."
+      },
+      "governance": {
+        "title": "AI Governance & Risk Management",
+        "content": "Implement AI safely with robust governance frameworks. We help you manage risks associated with data privacy, model bias, and regulatory compliance."
+      },
+      "integration": {
+        "title": "Enterprise System Integration",
+        "content": "Seamlessly integrate AI agents with your existing enterprise systems and workflows. We ensure scalable architecture and secure data exchange between your AI solutions and core business applications."
+      }
     }
   }
 }

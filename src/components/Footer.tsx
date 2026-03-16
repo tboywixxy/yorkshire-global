@@ -104,6 +104,16 @@ export default function Footer() {
           <div>
             <p className="text-sm font-semibold">{t("services.title")}</p>
             <ul className="mt-3 space-y-2 text-sm text-[rgb(var(--muted))]">
+              <li>
+                <Link className="hover:underline hover:text-[rgb(var(--foreground))]" href="/services/managed-it-support">
+                  {t("services.items.managedIT")}
+                </Link>
+              </li>
+              <li>
+                <Link className="hover:underline hover:text-[rgb(var(--foreground))]" href="/services/secure-ai-development">
+                  {t("services.items.secureAI")}
+                </Link>
+              </li>
               <li>{t("services.items.ssdlc")}</li>
               <li>{t("services.items.cybersecurity")}</li>
               <li>{t("services.items.businessAnalysis")}</li>
