@@ -482,20 +482,20 @@ export default function Navbar() {
               onClick={() => setOpen(false)}
               className="flex items-center shrink-0 -ml-1 sm:-ml-2 min-w-0"
             >
-              <span className="relative block h-[80px] w-[360px] max-w-[58vw] sm:h-[92px] sm:w-[440px] sm:max-w-[52vw] md:h-[70px] md:w-[260px] md:max-w-none lg:h-[110px] lg:w-[520px]">
+              <span className="relative block h-[50px] w-[200px] max-w-[60vw] sm:h-[60px] sm:w-[260px] sm:max-w-[50vw] lg:h-[64px] lg:w-[280px] lg:max-w-none xl:h-[80px] xl:w-[340px]">
                 <Image
                   src={logoSrc}
                   alt={t("logoAlt")}
                   fill
                   priority
                   className="object-contain object-left"
-                  sizes="(min-width: 1024px) 420px, (min-width: 640px) 340px, 280px"
+                  sizes="(min-width: 1280px) 340px, (min-width: 1024px) 280px, (min-width: 640px) 260px, 200px"
                 />
               </span>
             </Link>
 
             {/* DESKTOP NAV */}
-            <nav className="hidden items-center md:flex">
+            <nav className="hidden items-center lg:flex">
               <div className="relative flex items-center gap-1 rounded-xl p-1 whitespace-nowrap">
                 {navItems.map((item) => {
                   const active = isActive(currentPath, item.href);
@@ -533,14 +533,14 @@ export default function Navbar() {
             </nav>
 
             {/* DESKTOP RIGHT */}
-            <div className="hidden items-center gap-2 md:flex">
+            <div className="hidden items-center gap-2 lg:flex">
               {/* Navbar is dark-style */}
               <LocaleDropdown tone="dark" />
               <ThemeToggle />
             </div>
 
             {/* MOBILE RIGHT */}
-            <div className="flex items-center gap-2 md:hidden shrink-0">
+            <div className="flex items-center gap-2 lg:hidden shrink-0">
               <ThemeToggle />
 
               <button
@@ -565,7 +565,7 @@ export default function Navbar() {
         {open ? (
           <motion.div
             key="mobileOverlay"
-            className="fixed inset-0 z-[999] md:hidden"
+            className="fixed inset-0 z-[999] lg:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
