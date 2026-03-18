@@ -222,10 +222,10 @@ export default function ContactPage() {
 
     // minimum seconds check
     const elapsedMs = Date.now() - startedAtRef.current;
-    if (elapsedMs < MIN_SECONDS_BEFORE_SUBMIT * 1000) next.form = t("errors.blocked");
+    if (elapsedMs < MIN_SECONDS_BEFORE_SUBMIT * 1000) next.form = "Please take a moment to double-check your info.";
 
     // captcha required
-    if (!turnstileToken) next.form = t("errors.verificationRequired") || "Verification required.";
+    if (!turnstileToken) next.form = "Please complete the security check.";
 
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -261,8 +261,8 @@ export default function ContactPage() {
       setPopup({
         open: true,
         type: "error",
-        title: t("popup.blockedTitle") || "Verification needed",
-        message: t("popup.blockedMessage") || "Please complete the verification and try again.",
+        title: "Security Check Required",
+        message: "Please verify you are human before submitting.",
       });
       return;
     }
