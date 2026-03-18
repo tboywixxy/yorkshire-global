@@ -37,7 +37,8 @@ export async function POST(req: Request) {
       req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
       undefined;
 
-    const formData = new FormData();
+    // Use URLSearchParams for application/x-www-form-urlencoded
+    const formData = new URLSearchParams();
     formData.append("secret", secret);
     formData.append("response", token);
     if (ip) formData.append("remoteip", ip);
@@ -116,15 +117,20 @@ export async function POST(req: Request) {
        5) ATTACHMENTS (LOGO)
     ====================================================== */
     const logoPath = path.join(process.cwd(), "public", "email", "yorkshire-logo.png");
-    const logoBuffer = await fs.readFile(logoPath);
+    let attachments: { filename: string; content: Buffer; cid: string }[] = [];
 
-    const attachments = [
-      {
+    try {
+      // Check if file exists before reading
+      await fs.access(logoPath);
+      const logoBuffer = await fs.readFile(logoPath);
+      attachments.push({
         filename: "yorkshire-logo.png",
         content: logoBuffer,
         cid: "yorkshire_logo",
-      },
-    ];
+      });
+    } catch (err) {
+      console.warn("[CONTACT_API] Logo file not found or readable, sending email without logo attachment.", err);
+    }
 
     /* =====================================================
        6) SEND EMAILS
@@ -156,8 +162,11 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ ok: true });
-  } catch (err) {
+  } catch (err: any) {
     console.error("[CONTACT_API_ERROR]", err);
-    return NextResponse.json({ error: "Server error." }, { status: 500 });
+    return NextResponse.json(
+      { error: err.message || "Server error." },
+      { status: 500 }
+    );
   }
 }
