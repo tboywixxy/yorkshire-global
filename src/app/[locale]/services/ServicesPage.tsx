@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { Link } from "@/src/navigation";
 
 const HERO_URL =
   "https://images.unsplash.com/photo-1629904869753-e8cb289490bd?auto=format&fit=crop&w=2400&q=80";
@@ -289,12 +290,12 @@ export default function ServicesPage() {
                   </div>
 
                   <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-                    <a href="/contact" className="btn btn-primary">
+                    <Link href="/contact" className="btn btn-primary">
                       {t("detail.ctaPrimary")}
-                    </a>
-                    <a href="/case-studies" className="btn btn-ghost">
+                    </Link>
+                    <Link href="/case-studies" className="btn btn-ghost">
                       {t("detail.ctaSecondary")}
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
