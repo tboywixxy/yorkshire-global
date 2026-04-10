@@ -28,7 +28,7 @@ export default function IndustriesSection() {
     [t]
   );
 
-  const items = useMemo(() => [...industries, ...industries, ...industries], [industries]);
+  const items = useMemo(() => [...industries, ...industries], [industries]);
 
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -52,7 +52,7 @@ export default function IndustriesSection() {
   const measure = () => {
     const track = trackRef.current;
     if (!track) return;
-    wRef.current = track.scrollWidth / 3;
+    wRef.current = track.scrollWidth / 2;
   };
 
   useEffect(() => {

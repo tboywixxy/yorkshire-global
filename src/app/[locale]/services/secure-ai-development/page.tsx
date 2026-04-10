@@ -13,10 +13,68 @@ function CheckIcon({ className = "h-4 w-4 text-indigo-400" }: { className?: stri
   );
 }
 
-const SECTIONS = [
-  { key: "strategy", icon: "🎯", accent: "indigo" },
-  { key: "design", icon: "⚡", accent: "violet" },
-] as const;
+function TargetIcon({ className = "h-6 w-6 text-indigo-600 dark:text-indigo-300" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <circle cx="12" cy="12" r="7.5" />
+      <circle cx="12" cy="12" r="3" fill="currentColor" stroke="none" />
+      <path d="M12 3.5v3M20.5 12h-3M12 17.5v3M3.5 12h3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function SparkIcon({ className = "h-6 w-6 text-violet-600 dark:text-violet-300" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M13.5 2.75 9.4 10.3H4.75l4.25 3.65L7.3 21.25 11.6 14.7h4.65L12 11.05l1.5-8.3Z" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function RoadmapIcon({ className = "h-6 w-6 text-indigo-600 dark:text-indigo-300" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M5 19V5" strokeLinecap="round" />
+      <path d="M5 6h6.5a2 2 0 0 1 1.4.58l.6.6a2 2 0 0 0 1.4.58H19v6.5h-4.1a2 2 0 0 1-1.4-.58l-.6-.6A2 2 0 0 0 11.5 12H5" strokeLinejoin="round" />
+      <path d="M5 6l4 2-4 2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function SearchIcon({ className = "h-6 w-6 text-indigo-600 dark:text-indigo-300" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <circle cx="11" cy="11" r="5.5" />
+      <path d="m16.5 16.5 4 4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ScaleIcon({ className = "h-6 w-6 text-violet-600 dark:text-violet-300" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M12 4v16" strokeLinecap="round" />
+      <path d="M7 8h10" strokeLinecap="round" />
+      <path d="M8.5 8 6 12.5a3 3 0 0 0 6 0L9.5 8" strokeLinejoin="round" />
+      <path d="M15.5 8 13 12.5a3 3 0 0 0 6 0L16.5 8" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function NetworkIcon({ className = "h-6 w-6 text-violet-600 dark:text-violet-300" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <rect x="4" y="5" width="6" height="6" rx="1.5" />
+      <rect x="14" y="5" width="6" height="6" rx="1.5" />
+      <rect x="9" y="13" width="6" height="6" rx="1.5" />
+      <path d="M10 8h4M7 11v2.5c0 .8.7 1.5 1.5 1.5H12M17 11v2.5c0 .8-.7 1.5-1.5 1.5H12" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+const STRATEGY_ICONS = [TargetIcon, SparkIcon] as const;
+const DESIGN_ICONS = [CheckIcon] as const;
+const INTEGRATION_ICONS = [RoadmapIcon, SearchIcon, ScaleIcon, NetworkIcon] as const;
 
 export default function SecureAIServicePage() {
   const t = useTranslations("Services.secureAI");
@@ -71,12 +129,16 @@ export default function SecureAIServicePage() {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {strategyItems.map((item) => (
+              {strategyItems.map((item, idx) => {
+                const Icon = STRATEGY_ICONS[idx % STRATEGY_ICONS.length];
+
+                return (
                 <div key={item.label} className="flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 p-5 shadow-sm">
-                  <span className="text-2xl">{item.icon}</span>
+                  <Icon />
                   <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{item.label}</span>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </Container>
@@ -156,12 +218,16 @@ export default function SecureAIServicePage() {
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                {integrationItems.map((item) => (
+                {integrationItems.map((item, idx) => {
+                  const Icon = INTEGRATION_ICONS[idx % INTEGRATION_ICONS.length];
+
+                  return (
                   <div key={item.label} className="flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 p-5 shadow-sm">
-                    <span className="text-2xl">{item.icon}</span>
+                    <Icon />
                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{item.label}</span>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>

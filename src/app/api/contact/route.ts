@@ -11,10 +11,87 @@ import {
 } from "@/src/email/contactTemplates";
 
 const MIN_SECONDS_BEFORE_SUBMIT = 3;
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 5;
+
+type RateLimitEntry = {
+  count: number;
+  resetAt: number;
+};
+
+const globalForRateLimit = globalThis as typeof globalThis & {
+  __contactRateLimitStore?: Map<string, RateLimitEntry>;
+};
+
+const contactRateLimitStore = globalForRateLimit.__contactRateLimitStore ?? new Map<string, RateLimitEntry>();
+
+globalForRateLimit.__contactRateLimitStore = contactRateLimitStore;
+
+function getClientKey(req: Request) {
+  const forwardedFor = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const cfIp = req.headers.get("cf-connecting-ip")?.trim();
+  const realIp = req.headers.get("x-real-ip")?.trim();
+
+  return cfIp || forwardedFor || realIp || "anonymous";
+}
+
+function enforceRateLimit(key: string) {
+  const now = Date.now();
+  const existing = contactRateLimitStore.get(key);
+
+  if (!existing || existing.resetAt <= now) {
+    contactRateLimitStore.set(key, {
+      count: 1,
+      resetAt: now + RATE_LIMIT_WINDOW_MS,
+    });
+
+    return {
+      limited: false,
+      remaining: RATE_LIMIT_MAX_REQUESTS - 1,
+      resetAt: now + RATE_LIMIT_WINDOW_MS,
+    };
+  }
+
+  if (existing.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return {
+      limited: true,
+      remaining: 0,
+      resetAt: existing.resetAt,
+    };
+  }
+
+  existing.count += 1;
+  contactRateLimitStore.set(key, existing);
+
+  return {
+    limited: false,
+    remaining: RATE_LIMIT_MAX_REQUESTS - existing.count,
+    resetAt: existing.resetAt,
+  };
+}
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    const clientKey = getClientKey(req);
+    const rateLimit = enforceRateLimit(clientKey);
+
+    if (rateLimit.limited) {
+      const retryAfterSeconds = Math.max(1, Math.ceil((rateLimit.resetAt - Date.now()) / 1000));
+
+      return NextResponse.json(
+        {
+          error: "You have sent several messages recently. Please wait a little while and try again.",
+          retryAfterSeconds,
+        },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(retryAfterSeconds),
+          },
+        }
+      );
+    }
 
     /* =====================================================
        1) TURNSTILE VERIFICATION (SERVER-SIDE)

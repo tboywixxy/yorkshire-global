@@ -9,11 +9,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/src/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const HERO_URL =
   "https://images.unsplash.com/photo-1629904869753-e8cb289490bd?auto=format&fit=crop&w=2400&q=80";
 
 type Service = {
+  slug: string;
   title: string;
   body: string;
   outcome: string;
@@ -77,59 +79,98 @@ function DocsIcon() {
 
 export default function ServicesPage() {
   const t = useTranslations("Services");
+  const tHome = useTranslations("Home");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const hasServicesKey = (key: string) => (t as any).has?.(key) ?? false;
 
   const services: Service[] = useMemo(
     () => [
       {
-        title: t("services.0.title"),
+        slug: "managed-it-support",
+        title: tHome("services.items.0.title"),
+        body: tHome("services.items.0.detail"),
+        outcome: t("detail.outcomeLabel"),
+      },
+      {
+        slug: "secure-ai-development",
+        title: tHome("services.items.1.title"),
+        body: tHome("services.items.1.detail"),
+        outcome: t("detail.outcomeLabel"),
+      },
+      {
+        slug: "ssdlc",
+        title: tHome("services.items.2.title"),
         body: t("services.0.body"),
         outcome: t("services.0.outcome"),
       },
       {
-        title: t("services.1.title"),
-        body: t("services.1.body"),
-        outcome: t("services.1.outcome"),
+        slug: "cybersecurity",
+        title: tHome("services.items.3.title"),
+        body: hasServicesKey("services.1.body") ? t("services.1.body") : tHome("services.items.3.detail"),
+        outcome: hasServicesKey("services.1.outcome")
+          ? t("services.1.outcome")
+          : t("detail.outcomeLabel"),
       },
       {
-        title: t("services.2.title"),
-        body: t("services.2.body"),
-        outcome: t("services.2.outcome"),
+        slug: "business-analysis",
+        title: tHome("services.items.4.title"),
+        body: hasServicesKey("services.2.body") ? t("services.2.body") : tHome("services.items.4.detail"),
+        outcome: hasServicesKey("services.2.outcome")
+          ? t("services.2.outcome")
+          : t("detail.outcomeLabel"),
       },
       {
-        title: t("services.3.title"),
-        body: t("services.3.body"),
-        outcome: t("services.3.outcome"),
+        slug: "project-management",
+        title: tHome("services.items.5.title"),
+        body: hasServicesKey("services.3.body") ? t("services.3.body") : tHome("services.items.5.detail"),
+        outcome: hasServicesKey("services.3.outcome")
+          ? t("services.3.outcome")
+          : t("detail.outcomeLabel"),
       },
       {
-        title: t("services.4.title"),
-        body: t("services.4.body"),
-        outcome: t("services.4.outcome"),
+        slug: "business-strategy-consulting",
+        title: tHome("services.items.6.title"),
+        body: hasServicesKey("services.4.body") ? t("services.4.body") : tHome("services.items.6.detail"),
+        outcome: hasServicesKey("services.4.outcome")
+          ? t("services.4.outcome")
+          : t("detail.outcomeLabel"),
       },
     ],
-    [t]
+    [t, tHome]
   );
 
   const [active, setActive] = useState<Service>(services[0]);
-  const [selectedTitle, setSelectedTitle] = useState<string>(services[0].title);
+  const [selectedSlug, setSelectedSlug] = useState<string>(services[0].slug);
 
   const [isLoading, setIsLoading] = useState(false);
   const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // When locale changes, the translated strings change too — re-sync selection safely.
-    setActive(services[0]);
-    setSelectedTitle(services[0].title);
+    const requestedSlug = searchParams.get("service");
+    const matched = services.find((s) => s.slug === requestedSlug) ?? services[0];
 
+    setActive(matched);
+    setSelectedSlug(matched.slug);
+  }, [searchParams, services]);
+
+  useEffect(() => {
     return () => {
       if (timerRef.current) window.clearTimeout(timerRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [t]); // re-run on locale/messages change
+  }, []);
 
   const handleSelect = (s: Service) => {
-    if (s.title === selectedTitle) return;
+    if (s.slug === selectedSlug) return;
 
-    setSelectedTitle(s.title);
+    setSelectedSlug(s.slug);
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("service", s.slug);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+
     setIsLoading(true);
 
     if (timerRef.current) window.clearTimeout(timerRef.current);
@@ -232,7 +273,7 @@ export default function ServicesPage() {
 
                 <ul className="p-2" aria-label={t("list.ariaLabel")}>
                   {services.map((s) => {
-                    const selected = selectedTitle === s.title;
+                    const selected = selectedSlug === s.slug;
 
                     return (
                       <li key={s.title}>
@@ -262,7 +303,7 @@ export default function ServicesPage() {
               </div>
             </aside>
 
-            <div className="lg:col-span-8">
+            <div className="lg:col-span-8 lg:sticky lg:top-24 self-start">
               <div className="relative border border-[rgb(var(--border))] bg-[rgb(var(--card))] shadow-sm overflow-hidden">
                 <div className="border-b border-[rgb(var(--border))] p-6 sm:p-8">
                   <div className="flex flex-wrap items-center gap-3">

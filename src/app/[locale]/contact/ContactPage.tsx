@@ -37,6 +37,44 @@ function CanadaFlagIcon({ className = "" }: { className?: string }) {
   );
 }
 
+function SuccessIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <circle cx="10" cy="10" r="7.25" />
+      <path d="m6.75 10.25 2.1 2.1 4.4-4.9" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ErrorIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M10 3.5 2.75 16h14.5L10 3.5Z" strokeLinejoin="round" />
+      <path d="M10 7.25v4" strokeLinecap="round" />
+      <circle cx="10" cy="13.75" r="0.75" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function formatRetryMessage(retryAfterSeconds?: number) {
+  if (!retryAfterSeconds || retryAfterSeconds <= 0) {
+    return "You’ve sent several messages recently. Please wait a little while and try again. If it’s urgent, contact us directly by email.";
+  }
+
+  const minutes = Math.max(1, Math.ceil(retryAfterSeconds / 60));
+  const unit = minutes === 1 ? "minute" : "minutes";
+
+  return `You’ve sent several messages recently. Please wait about ${minutes} ${unit} and try again. If it’s urgent, contact us directly by email.`;
+}
+
+function RequiredLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <label className="text-sm font-medium text-white">
+      {children} <span aria-hidden="true" className="text-red-300">*</span>
+    </label>
+  );
+}
+
 const LIMITS = {
   fullNameMax: 80,
   emailMax: 120,
@@ -105,7 +143,7 @@ function Popup({
             ].join(" ")}
             aria-hidden
           >
-            {isSuccess ? "✓" : "!"}
+            {isSuccess ? <SuccessIcon className="h-5 w-5" /> : <ErrorIcon className="h-5 w-5" />}
           </div>
 
           <div className="min-w-0">
@@ -309,12 +347,17 @@ export default function ContactPage() {
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        setErrors({ form: data?.error ?? t("errors.failedGeneric") });
+        const friendlyMessage =
+          res.status === 429
+            ? formatRetryMessage(Number(data?.retryAfterSeconds))
+            : data?.error ?? t("errors.failedGeneric");
+
+        setErrors({ form: friendlyMessage });
         setPopup({
           open: true,
           type: "error",
           title: t("popup.failedTitle"),
-          message: data?.error ?? t("popup.failedMessage"),
+          message: friendlyMessage,
         });
         return;
       }
@@ -411,7 +454,7 @@ export default function ContactPage() {
 
                 <div className="grid gap-3.5 sm:grid-cols-2">
                   <div>
-                    <label className="text-sm font-medium text-white">{t("labels.fullName")}</label>
+                    <RequiredLabel>{t("labels.fullName")}</RequiredLabel>
                     <input
                       value={form.fullName}
                       onChange={(e) => update("fullName", e.target.value.slice(0, LIMITS.fullNameMax))}
@@ -431,7 +474,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium text-white">{t("labels.email")}</label>
+                    <RequiredLabel>{t("labels.email")}</RequiredLabel>
                     <input
                       value={form.email}
                       onChange={(e) => update("email", e.target.value.slice(0, LIMITS.emailMax))}
@@ -455,7 +498,7 @@ export default function ContactPage() {
 
                 <div className="grid gap-3.5 sm:grid-cols-2">
                   <div>
-                    <label className="text-sm font-medium text-white">{t("labels.phone")}</label>
+                    <RequiredLabel>{t("labels.phone")}</RequiredLabel>
                     <input
                       value={form.phone}
                       onChange={(e) =>
@@ -478,7 +521,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium text-white">{t("labels.company")}</label>
+                    <RequiredLabel>{t("labels.company")}</RequiredLabel>
                     <input
                       value={form.organization}
                       onChange={(e) => update("organization", e.target.value.slice(0, LIMITS.orgMax))}
@@ -499,7 +542,7 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-white">{t("labels.service")}</label>
+                  <RequiredLabel>{t("labels.service")}</RequiredLabel>
                   <select
                     value={form.service}
                     onChange={(e) => update("service", e.target.value)}
@@ -517,7 +560,7 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-white">{t("labels.message")}</label>
+                  <RequiredLabel>{t("labels.message")}</RequiredLabel>
                   <textarea
                     value={form.message}
                     onChange={(e) => update("message", e.target.value)}
@@ -546,21 +589,30 @@ export default function ContactPage() {
 
                 </div>
 
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <button
-                    type="submit"
-                    disabled={!canSubmit}
-                    className={[
-                      "inline-flex w-full justify-center px-5 py-2.5 text-sm font-semibold shadow-sm transition sm:w-auto",
-                      canSubmit
-                        ? "bg-white text-slate-900 hover:opacity-95"
-                        : "cursor-not-allowed bg-white/50 text-slate-900/70",
-                    ].join(" ")}
-                  >
-                    {submitting ? t("submit.submitting") : t("submit.submit")}
-                  </button>
+                <div className="flex flex-col gap-3">
+                  <div className="w-full">
+                    <button
+                      type="submit"
+                      disabled={!canSubmit}
+                      className={[
+                        "inline-flex w-full justify-center px-5 py-2.5 text-sm font-semibold shadow-sm transition sm:w-auto",
+                        canSubmit
+                          ? "bg-white text-slate-900 hover:opacity-95"
+                          : "cursor-not-allowed bg-white/50 text-slate-900/70",
+                      ].join(" ")}
+                    >
+                      {submitting ? t("submit.submitting") : t("submit.submit")}
+                    </button>
 
-                  <p className="text-xs text-white/75">{t("submit.consent")}</p>
+                    <p className="mt-2 text-xs leading-relaxed text-white/80">
+                      We respect your privacy. Information submitted through this form is used only
+                      to respond to your request and provide the services you ask about. We do not
+                      sell your personal information. Your information is handled securely and only
+                      by authorized personnel, in line with applicable Canadian privacy requirements.
+                    </p>
+
+                    <p className="mt-2 text-xs text-white/75">{t("submit.consent")}</p>
+                  </div>
                 </div>
 
                 <div className="sm:hidden pt-1">

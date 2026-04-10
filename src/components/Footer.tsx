@@ -34,9 +34,29 @@ function toSupportedLocale(l: string): SupportedLocale {
 
 export default function Footer() {
   const t = useTranslations("Footer");
+  const tHome = useTranslations("Home");
   const locale = toSupportedLocale(useLocale());
   const raw = useNextPathname() || "/";
   const pathnameNoLocale = stripLocalePrefix(raw);
+
+  const serviceLinks = [
+    {
+      href: "/services?service=managed-it-support",
+      label: tHome("services.items.0.title"),
+    },
+    {
+      href: "/services?service=secure-ai-development",
+      label: tHome("services.items.1.title"),
+    },
+    { href: "/services?service=ssdlc", label: tHome("services.items.2.title") },
+    { href: "/services?service=cybersecurity", label: tHome("services.items.3.title") },
+    { href: "/services?service=business-analysis", label: tHome("services.items.4.title") },
+    { href: "/services?service=project-management", label: tHome("services.items.5.title") },
+    {
+      href: "/services?service=business-strategy-consulting",
+      label: tHome("services.items.6.title"),
+    },
+  ];
 
   return (
     <footer
@@ -104,21 +124,13 @@ export default function Footer() {
           <div>
             <p className="text-sm font-semibold">{t("services.title")}</p>
             <ul className="mt-3 space-y-2 text-sm text-[rgb(var(--muted))]">
-              <li>
-                <Link className="hover:underline hover:text-[rgb(var(--foreground))]" href="/services/managed-it-support">
-                  {t("services.items.managedIT")}
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:underline hover:text-[rgb(var(--foreground))]" href="/services/secure-ai-development">
-                  {t("services.items.secureAI")}
-                </Link>
-              </li>
-              <li>{t("services.items.ssdlc")}</li>
-              <li>{t("services.items.cybersecurity")}</li>
-              <li>{t("services.items.businessAnalysis")}</li>
-              <li>{t("services.items.projectManagement")}</li>
-              <li>{t("services.items.strategy")}</li>
+              {serviceLinks.map((item) => (
+                <li key={item.href}>
+                  <Link className="hover:underline hover:text-[rgb(var(--foreground))]" href={item.href}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

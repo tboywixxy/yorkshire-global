@@ -13,6 +13,45 @@ function CheckIcon({ className = "h-5 w-5 text-emerald-500" }: { className?: str
   );
 }
 
+function MonitorIcon({ className = "h-6 w-6 text-emerald-600 dark:text-emerald-400" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <rect x="4" y="5" width="16" height="11" rx="2" />
+      <path d="M9 20h6M12 16v4" strokeLinecap="round" />
+      <path d="M8 10h2l1 2 2-4 1.5 2H16" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ShieldIcon({ className = "h-6 w-6 text-emerald-600 dark:text-emerald-400" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M12 3.5 19 6v5c0 4.4-3 7.8-7 9.5-4-1.7-7-5.1-7-9.5V6l7-2.5Z" strokeLinejoin="round" />
+      <path d="m9.5 12 1.7 1.7 3.3-3.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function TrendDownIcon({ className = "h-6 w-6 text-emerald-600 dark:text-emerald-400" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M4 5v14h16" strokeLinecap="round" />
+      <path d="m6.5 9.5 4 4 3-3 4.5 4.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function LightBulbIcon({ className = "h-6 w-6 text-emerald-600 dark:text-emerald-400" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M9 18h6M10 21h4" strokeLinecap="round" />
+      <path d="M8.5 14.5a7 7 0 1 1 7 0c-.9.6-1.5 1.4-1.8 2.5h-3.4c-.3-1.1-.9-1.9-1.8-2.5Z" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+const OVERVIEW_ICONS = [MonitorIcon, ShieldIcon, TrendDownIcon, LightBulbIcon] as const;
+
 export default function ManagedITServicePage() {
   const t = useTranslations("Services.managedIT");
   const benefits = t.raw("benefits.items") as string[];
@@ -71,12 +110,16 @@ export default function ManagedITServicePage() {
             </div>
             {/* Stats / feature highlights */}
             <div className="grid grid-cols-2 gap-4">
-              {overviewHighlights.map((item) => (
-                <div key={item.label} className="flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 p-5 shadow-sm">
-                  <span className="text-2xl">{item.icon}</span>
-                  <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{item.label}</span>
-                </div>
-              ))}
+              {overviewHighlights.map((item, idx) => {
+                const Icon = OVERVIEW_ICONS[idx % OVERVIEW_ICONS.length];
+
+                return (
+                  <div key={item.label} className="flex flex-col gap-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 p-5 shadow-sm">
+                    <Icon />
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{item.label}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </Container>

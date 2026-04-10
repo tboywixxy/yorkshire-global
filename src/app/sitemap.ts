@@ -8,8 +8,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/about",
     "/services",
-    "/services/managed-it-support",
-    "/services/secure-ai-development",
     "/industries",
     "/case-studies",
     "/contact",

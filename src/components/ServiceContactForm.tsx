@@ -53,6 +53,44 @@ function looksLikePhone(value: string) {
   return digits.length >= 7 && digits.length <= 15;
 }
 
+function SuccessIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <circle cx="10" cy="10" r="7.25" />
+      <path d="m6.75 10.25 2.1 2.1 4.4-4.9" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ErrorIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M10 3.5 2.75 16h14.5L10 3.5Z" strokeLinejoin="round" />
+      <path d="M10 7.25v4" strokeLinecap="round" />
+      <circle cx="10" cy="13.75" r="0.75" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function formatRetryMessage(retryAfterSeconds?: number) {
+  if (!retryAfterSeconds || retryAfterSeconds <= 0) {
+    return "You’ve sent several messages recently. Please wait a little while and try again. If it’s urgent, contact us directly by email.";
+  }
+
+  const minutes = Math.max(1, Math.ceil(retryAfterSeconds / 60));
+  const unit = minutes === 1 ? "minute" : "minutes";
+
+  return `You’ve sent several messages recently. Please wait about ${minutes} ${unit} and try again. If it’s urgent, contact us directly by email.`;
+}
+
+function RequiredLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <label className="text-sm font-medium text-white">
+      {children} <span aria-hidden="true" className="text-red-300">*</span>
+    </label>
+  );
+}
+
 function Popup({
   state,
   onClose,
@@ -86,7 +124,7 @@ function Popup({
             ].join(" ")}
             aria-hidden
           >
-            {isSuccess ? "✓" : "!"}
+            {isSuccess ? <SuccessIcon className="h-5 w-5" /> : <ErrorIcon className="h-5 w-5" />}
           </div>
 
           <div className="min-w-0">
@@ -296,12 +334,17 @@ export default function ServiceContactForm({
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        setErrors({ form: data?.error ?? t("errors.failedGeneric") });
+        const friendlyMessage =
+          res.status === 429
+            ? formatRetryMessage(Number(data?.retryAfterSeconds))
+            : data?.error ?? t("errors.failedGeneric");
+
+        setErrors({ form: friendlyMessage });
         setPopup({
           open: true,
           type: "error",
           title: t("popup.failedTitle"),
-          message: data?.error ?? t("popup.failedMessage"),
+          message: friendlyMessage,
         });
         return;
       }
@@ -346,7 +389,10 @@ export default function ServiceContactForm({
 
         {errors.form ? (
           <div className="mt-5 border border-red-400/30 bg-red-400/10 p-4 text-sm text-white">
-            ⚠️ {errors.form}
+            <span className="mr-2 inline-flex align-middle text-red-200">
+              <ErrorIcon className="h-4 w-4" />
+            </span>
+            {errors.form}
           </div>
         ) : null}
 
@@ -367,7 +413,7 @@ export default function ServiceContactForm({
 
           <div className="grid gap-3.5 sm:grid-cols-2">
             <div>
-              <label className="text-sm font-medium text-white">{t("labels.fullName")}</label>
+              <RequiredLabel>{t("labels.fullName")}</RequiredLabel>
               <input
                 value={form.fullName}
                 onChange={(e) => update("fullName", e.target.value.slice(0, LIMITS.fullNameMax))}
@@ -387,7 +433,7 @@ export default function ServiceContactForm({
             </div>
 
             <div>
-              <label className="text-sm font-medium text-white">{t("labels.email")}</label>
+              <RequiredLabel>{t("labels.email")}</RequiredLabel>
               <input
                 value={form.email}
                 onChange={(e) => update("email", e.target.value.slice(0, LIMITS.emailMax))}
@@ -411,7 +457,7 @@ export default function ServiceContactForm({
 
           <div className="grid gap-3.5 sm:grid-cols-2">
             <div>
-              <label className="text-sm font-medium text-white">{t("labels.phone")}</label>
+              <RequiredLabel>{t("labels.phone")}</RequiredLabel>
               <input
                 value={form.phone}
                 onChange={(e) =>
@@ -434,7 +480,7 @@ export default function ServiceContactForm({
             </div>
 
             <div>
-              <label className="text-sm font-medium text-white">{t("labels.company")}</label>
+              <RequiredLabel>{t("labels.company")}</RequiredLabel>
               <input
                 value={form.organization}
                 onChange={(e) => update("organization", e.target.value.slice(0, LIMITS.orgMax))}
@@ -455,7 +501,7 @@ export default function ServiceContactForm({
           </div>
 
           <div>
-            <label className="text-sm font-medium text-white">{t("labels.service")}</label>
+            <RequiredLabel>{t("labels.service")}</RequiredLabel>
             <select
               value={form.service}
               onChange={(e) => update("service", e.target.value)}
@@ -473,7 +519,7 @@ export default function ServiceContactForm({
           </div>
 
           <div>
-            <label className="text-sm font-medium text-white">{t("labels.message")}</label>
+            <RequiredLabel>{t("labels.message")}</RequiredLabel>
             <textarea
               value={form.message}
               onChange={(e) => update("message", e.target.value)}

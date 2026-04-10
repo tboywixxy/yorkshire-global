@@ -99,7 +99,7 @@ export default function ModernItSection() {
             </ul>
 
             <Link
-              href={`/${locale}/services/managed-it-support`}
+              href={`/${locale}/services?service=managed-it-support`}
               className="mt-10 flex items-center justify-center gap-2 rounded-xl bg-slate-900 dark:bg-white px-5 py-3 text-sm font-semibold text-white dark:text-slate-900 shadow-sm transition-all duration-200 hover:bg-slate-700 dark:hover:bg-slate-100 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
             >
               {t("col1.cta")}
@@ -142,7 +142,7 @@ export default function ModernItSection() {
             </ul>
 
             <Link
-              href={`/${locale}/services/secure-ai-development`}
+              href={`/${locale}/services?service=secure-ai-development`}
               className="mt-10 flex items-center justify-center gap-2 rounded-xl bg-indigo-500 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-400 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
             >
               {t("col2.cta")}

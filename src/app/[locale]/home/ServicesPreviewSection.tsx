@@ -2,31 +2,55 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import Link from "next/link";
+import { Link } from "@/src/navigation";
 import Container from "@/src/components/Container";
 import SectionHeading from "@/src/components/SectionHeading";
 import SectionDivider from "@/src/components/SectionDivider";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 type ServiceItem = {
+  slug: string;
   title: string;
   detail: string;
 };
 
 export default function ServicesPreviewSection() {
   const t = useTranslations("Home");
-  const locale = useLocale();
 
   const services: ServiceItem[] = useMemo(
     () => [
-      { title: t("services.items.0.title"), detail: t("services.items.0.detail") },
-      { title: t("services.items.1.title"), detail: t("services.items.1.detail") },
-      { title: t("services.items.2.title"), detail: t("services.items.2.detail") },
-      { title: t("services.items.3.title"), detail: t("services.items.3.detail") },
-      { title: t("services.items.4.title"), detail: t("services.items.4.detail") },
-      { title: t("services.items.5.title"), detail: t("services.items.5.detail") },
-      { title: t("services.items.6.title"), detail: t("services.items.6.detail") },
+      {
+        slug: "managed-it-support",
+        title: t("services.items.0.title"),
+        detail: t("services.items.0.detail"),
+      },
+      {
+        slug: "secure-ai-development",
+        title: t("services.items.1.title"),
+        detail: t("services.items.1.detail"),
+      },
+      { slug: "ssdlc", title: t("services.items.2.title"), detail: t("services.items.2.detail") },
+      {
+        slug: "cybersecurity",
+        title: t("services.items.3.title"),
+        detail: t("services.items.3.detail"),
+      },
+      {
+        slug: "business-analysis",
+        title: t("services.items.4.title"),
+        detail: t("services.items.4.detail"),
+      },
+      {
+        slug: "project-management",
+        title: t("services.items.5.title"),
+        detail: t("services.items.5.detail"),
+      },
+      {
+        slug: "business-strategy-consulting",
+        title: t("services.items.6.title"),
+        detail: t("services.items.6.detail"),
+      },
     ],
     [t]
   );
@@ -54,7 +78,12 @@ export default function ServicesPreviewSection() {
             return (
               <div key={s.title} className="card-simple overflow-hidden self-start h-fit">
                 <div className="p-6 flex items-start justify-between gap-4">
-                  <p className="text-sm font-semibold">{s.title}</p>
+                  <Link
+                    href={`/services?service=${s.slug}`}
+                    className="text-sm font-semibold hover:underline underline-offset-4"
+                  >
+                    {s.title}
+                  </Link>
 
                   <button
                     type="button"
@@ -110,7 +139,7 @@ export default function ServicesPreviewSection() {
         </div>
 
         <div className="mt-8">
-          <Link href={`/${locale}/services`} className="btn btn-primary">
+          <Link href="/services" className="btn btn-primary">
             {t("services.exploreBtn")}
           </Link>
         </div>

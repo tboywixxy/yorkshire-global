@@ -346,14 +346,14 @@ function ServicesNavItem({
              className="absolute top-full left-0 mt-2 w-72 rounded-xl border border-white/10 bg-slate-900/95 backdrop-blur-xl shadow-2xl p-2 z-50 flex flex-col gap-1"
            >
               <Link
-                 href="/services/managed-it-support"
+                  href="/services/managed-it-support"
                  className="block px-3 py-2 text-sm text-white hover:bg-white/10 rounded-lg transition"
                  onClick={() => { setOpen(false); if(onClose) onClose(); }}
               >
                 {tService("managedIT")}
               </Link>
               <Link
-                 href="/services/secure-ai-development"
+                  href="/services/secure-ai-development"
                  className="block px-3 py-2 text-sm text-white hover:bg-white/10 rounded-lg transition"
                  onClick={() => { setOpen(false); if(onClose) onClose(); }}
               >
@@ -448,9 +448,7 @@ export default function Navbar() {
     return () => obs.disconnect();
   }, [mounted]);
 
-  const isServicePage =
-    currentPath === "/services/managed-it-support" ||
-    currentPath === "/services/secure-ai-development";
+  const isServicePage = currentPath === "/services" || currentPath.startsWith("/services/");
 
   const logoSrc = !mounted
     ? "/logo-w1.png"
