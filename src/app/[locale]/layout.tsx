@@ -44,7 +44,6 @@ export default async function LocaleLayout({
         {/* ✅ pass locale explicitly to avoid any ambiguity */}
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider>
-            <RouteLoadingOverlay />
             <Navbar />
             <main className="min-h-[60vh] pt-14">{children}</main>
             <Footer />

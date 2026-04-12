@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Container from "@/src/components/Container";
 import { useTranslations, useLocale } from "next-intl";
-import { Link, locales } from "@/src/navigation"; // locale-aware Link
+import { Link, locales } from "@/src/navigation";
 import { usePathname as useNextPathname } from "next/navigation";
 
 // =====================
@@ -11,6 +11,8 @@ import { usePathname as useNextPathname } from "next/navigation";
 // =====================
 const SUPPORTED_LOCALES = ["en", "fr"] as const;
 type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
+const CONTACT_PHONE = "+1 (249) 800-5266";
+const CONTACT_PHONE_HREF = "tel:+12498005266";
 
 function normalizePath(p: string) {
   const clean = (p || "/").split("?")[0].split("#")[0];
@@ -41,19 +43,31 @@ export default function Footer() {
 
   const serviceLinks = [
     {
-      href: "/services?service=managed-it-support",
+      href: "/services/managed-it-support",
       label: tHome("services.items.0.title"),
     },
     {
-      href: "/services?service=secure-ai-development",
+      href: "/services/secure-ai-development",
       label: tHome("services.items.1.title"),
     },
-    { href: "/services?service=ssdlc", label: tHome("services.items.2.title") },
-    { href: "/services?service=cybersecurity", label: tHome("services.items.3.title") },
-    { href: "/services?service=business-analysis", label: tHome("services.items.4.title") },
-    { href: "/services?service=project-management", label: tHome("services.items.5.title") },
     {
-      href: "/services?service=business-strategy-consulting",
+      href: "/services",
+      label: tHome("services.items.2.title"),
+    },
+    {
+      href: "/services",
+      label: tHome("services.items.3.title"),
+    },
+    {
+      href: "/services",
+      label: tHome("services.items.4.title"),
+    },
+    {
+      href: "/services",
+      label: tHome("services.items.5.title"),
+    },
+    {
+      href: "/services",
       label: tHome("services.items.6.title"),
     },
   ];
@@ -63,33 +77,30 @@ export default function Footer() {
       className="border-t"
       style={{
         borderColor: "rgb(var(--border))",
-        background: "rgb(var(--background))"
+        background: "rgb(var(--background))",
       }}
     >
       <Container className="py-8 sm:py-10">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {/* BRAND */}
           <div>
             <div className="flex items-center justify-start">
               <span className="relative block h-16 w-[300px] sm:h-20 sm:w-[380px] lg:h-24 lg:w-[520px]">
-                {/* Light mode logo */}
                 <Image
                   src="/logo1.png"
                   alt={t("brand.logoAlt")}
                   fill
                   quality={100}
                   sizes="(min-width: 1024px) 520px, (min-width: 640px) 380px, 300px"
-                  className="absolute inset-0 object-contain object-left opacity-100 dark:opacity-0 transition-opacity duration-200"
+                  className="absolute inset-0 object-contain object-left opacity-100 transition-opacity duration-200 dark:opacity-0"
                 />
 
-                {/* Dark mode logo */}
                 <Image
                   src="/logo-w1.png"
                   alt={t("brand.logoAlt")}
                   fill
                   quality={100}
                   sizes="(min-width: 1024px) 520px, (min-width: 640px) 380px, 300px"
-                  className="absolute inset-0 object-contain object-left opacity-0 dark:opacity-100 transition-opacity duration-200"
+                  className="absolute inset-0 object-contain object-left opacity-0 transition-opacity duration-200 dark:opacity-100"
                 />
               </span>
             </div>
@@ -98,13 +109,27 @@ export default function Footer() {
             <p className="mt-2 text-sm text-[rgb(var(--muted))]">{t("brand.locationLine")}</p>
           </div>
 
-          {/* COMPANY */}
           <div>
             <p className="text-sm font-semibold">{t("company.title")}</p>
             <ul className="mt-3 space-y-2 text-sm">
               <li>
+                <Link className="text-[rgb(var(--foreground))] hover:underline" href="/">
+                  Home
+                </Link>
+              </li>
+              <li>
                 <Link className="text-[rgb(var(--foreground))] hover:underline" href="/about">
                   {t("company.about")}
+                </Link>
+              </li>
+              <li>
+                <Link className="text-[rgb(var(--foreground))] hover:underline" href="/services">
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link className="text-[rgb(var(--foreground))] hover:underline" href="/industries">
+                  Industries
                 </Link>
               </li>
               <li>
@@ -114,19 +139,21 @@ export default function Footer() {
               </li>
               <li>
                 <Link className="text-[rgb(var(--foreground))] hover:underline" href="/contact">
-                  {t("company.contact")}
+                  Contact Us
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* SERVICES */}
           <div>
             <p className="text-sm font-semibold">{t("services.title")}</p>
             <ul className="mt-3 space-y-2 text-sm text-[rgb(var(--muted))]">
-              {serviceLinks.map((item) => (
-                <li key={item.href}>
-                  <Link className="hover:underline hover:text-[rgb(var(--foreground))]" href={item.href}>
+              {serviceLinks.map((item, index) => (
+                <li key={`${item.href}-${index}`}>
+                  <Link
+                    className="hover:text-[rgb(var(--foreground))] hover:underline"
+                    href={item.href}
+                  >
                     {item.label}
                   </Link>
                 </li>
@@ -134,28 +161,34 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* CONTACT */}
           <div>
             <p className="text-sm font-semibold">{t("touch.title")}</p>
             <p className="mt-3 text-sm text-[rgb(var(--muted))]">{t("touch.blurb")}</p>
 
-            <Link href="/contact" className="btn btn-accent mt-4 px-4 py-2">
-              {t("touch.cta")}
-            </Link>
+            <div className="mt-4 flex flex-col items-start gap-3">
+              <Link href="/contact" className="btn btn-accent px-4 py-2">
+                Contact Us
+              </Link>
+
+              <a
+                href={CONTACT_PHONE_HREF}
+                className="block text-sm font-medium text-[rgb(var(--foreground))] hover:underline"
+              >
+                {CONTACT_PHONE}
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div
           className="mt-8 flex flex-col gap-3 pt-6 text-xs sm:flex-row sm:items-center sm:justify-between"
           style={{
             borderTop: "1px solid rgb(var(--border))",
-            color: "rgb(var(--muted))"
+            color: "rgb(var(--muted))",
           }}
         >
           <p>{t("legal.copyright", { year: new Date().getFullYear() })}</p>
 
-          {/* ✅ Inline language switch: ENGLISH | FRENCH (bold active) */}
           <div className="flex items-center gap-2">
             <Link
               href={pathnameNoLocale}
@@ -165,7 +198,7 @@ export default function Footer() {
                 "uppercase tracking-wide",
                 "hover:underline",
                 "text-[rgb(var(--foreground))]",
-                locale === "en" ? "font-bold" : "font-medium opacity-80"
+                locale === "en" ? "font-bold" : "font-medium opacity-80",
               ].join(" ")}
               aria-label="Switch language to English"
             >
@@ -182,7 +215,7 @@ export default function Footer() {
                 "uppercase tracking-wide",
                 "hover:underline",
                 "text-[rgb(var(--foreground))]",
-                locale === "fr" ? "font-bold" : "font-medium opacity-80"
+                locale === "fr" ? "font-bold" : "font-medium opacity-80",
               ].join(" ")}
               aria-label="Switch language to French"
             >

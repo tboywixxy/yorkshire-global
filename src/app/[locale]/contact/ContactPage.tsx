@@ -12,9 +12,9 @@ type FormState = {
   email: string;
   phone: string;
   organization: string;
-  service: string; // stable key
+  service: string;
   message: string;
-  companyWebsite: string; // honeypot
+  companyWebsite: string;
 };
 
 type PopupState =
@@ -32,6 +32,19 @@ function CanadaFlagIcon({ className = "" }: { className?: string }) {
         d="M320 70
            l-18 52 38-10 -10 38 42-12 -28 52 16 10 -38 0
            0 60 -22 0 0-60 -38 0 16-10 -28-52 42 12 -10-38 38 10 z"
+      />
+    </svg>
+  );
+}
+
+function PhoneIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M6.6 3.5h2.5c.38 0 .71.26.79.63l.64 3.01a.8.8 0 0 1-.23.74L8.58 9.64a13.3 13.3 0 0 0 5.78 5.78l1.76-1.77a.8.8 0 0 1 .74-.23l3.01.64c.37.08.63.41.63.79v2.5c0 .44-.36.8-.8.8C10.86 19.95 4.05 13.14 4.05 4.3c0-.44.36-.8.8-.8Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -85,6 +98,8 @@ const LIMITS = {
 };
 
 const MIN_SECONDS_BEFORE_SUBMIT = 3;
+const CONTACT_PHONE = "+1 (249) 800-5266";
+const CONTACT_PHONE_HREF = "tel:+12498005266";
 
 function countWords(text: string) {
   const trimmed = text.trim();
@@ -132,7 +147,7 @@ function Popup({
         className="absolute inset-0 bg-black/60"
       />
 
-      <div className="relative w-full max-w-md border border-white/15 bg-slate-950/80 backdrop-blur-xl p-5 shadow-[0_30px_120px_rgba(0,0,0,0.55)]">
+      <div className="relative w-full max-w-md border border-white/15 bg-slate-950/80 p-5 shadow-[0_30px_120px_rgba(0,0,0,0.55)] backdrop-blur-xl">
         <div className="flex items-start gap-3">
           <div
             className={[
@@ -196,8 +211,6 @@ export default function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [popup, setPopup] = useState<PopupState>({ open: false });
-
-  // ✅ Turnstile token
   const [turnstileToken, setTurnstileToken] = useState("");
   const turnstileContainerRef = useRef<HTMLDivElement>(null);
 
@@ -223,7 +236,6 @@ export default function ContactPage() {
     form.service.trim().length > 0 &&
     form.message.trim().length > 0;
 
-  // ✅ also require captcha token
   const canSubmit = allRequiredFilled && !messageTooLong && !submitting && !!turnstileToken;
 
   function validate() {
@@ -255,14 +267,13 @@ export default function ContactPage() {
     else if (form.message.length > LIMITS.messageCharsSoftMax)
       next.message = t("errors.messageCharsMax", { max: LIMITS.messageCharsSoftMax });
 
-    // honeypot
     if (form.companyWebsite.trim()) next.form = t("errors.blocked");
 
-    // minimum seconds check
     const elapsedMs = Date.now() - startedAtRef.current;
-    if (elapsedMs < MIN_SECONDS_BEFORE_SUBMIT * 1000) next.form = "Please take a moment to double-check your info.";
+    if (elapsedMs < MIN_SECONDS_BEFORE_SUBMIT * 1000) {
+      next.form = "Please take a moment to double-check your info.";
+    }
 
-    // captcha required
     if (!turnstileToken) next.form = "Please complete the security check.";
 
     setErrors(next);
@@ -281,14 +292,11 @@ export default function ContactPage() {
       companyWebsite: "",
     });
 
-    // reset captcha token and widget
     setTurnstileToken("");
     if (typeof window !== "undefined" && (window as any).turnstile?.reset) {
       try {
         (window as any).turnstile.reset();
-      } catch {
-        // ignore
-      }
+      } catch {}
     }
   }
 
@@ -340,7 +348,7 @@ export default function ContactPage() {
           message: form.message,
           companyWebsite: form.companyWebsite,
           startedAt: startedAtRef.current,
-          turnstileToken, // ✅ send to backend
+          turnstileToken,
         }),
       });
 
@@ -394,7 +402,7 @@ export default function ContactPage() {
     <>
       <Popup state={popup} onClose={() => setPopup({ open: false })} closeLabel={t("popup.close")} />
 
-      <section className="relative overflow-hidden -mt-14 pt-[6.75rem] pb-12 sm:pt-[7.75rem] sm:pb-14 text-white">
+      <section className="relative -mt-14 overflow-hidden pb-12 pt-[6.75rem] text-white sm:pb-14 sm:pt-[7.75rem]">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
           <div
             className="absolute inset-0 scale-110 bg-cover bg-center"
@@ -413,8 +421,7 @@ export default function ContactPage() {
           <SectionHeading title={t("heroTitle")} subtitle={t("heroSubtitle")} />
 
           <div className="mt-8 grid gap-7 lg:grid-cols-2">
-            {/* LEFT */}
-            <div className="border border-white/10 bg-white/10 backdrop-blur-xl p-3 sm:p-7 shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
+            <div className="border border-white/10 bg-white/10 p-3 shadow-[0_20px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-7">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-base font-semibold tracking-tight text-white sm:text-lg">
@@ -424,6 +431,14 @@ export default function ContactPage() {
                     {t("contactFormBlurbA")}{" "}
                     <span className="font-semibold text-white">{t("contactFormBlurbB")}</span>.
                   </p>
+
+                  <a
+                    href={CONTACT_PHONE_HREF}
+                    className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-white/90 transition hover:text-white"
+                  >
+                    <PhoneIcon className="h-4 w-4" />
+                    <span>Call us: {CONTACT_PHONE}</span>
+                  </a>
                 </div>
 
                 <div className="hidden sm:block">
@@ -438,7 +453,6 @@ export default function ContactPage() {
               ) : null}
 
               <form onSubmit={onSubmit} className="mt-5 space-y-3.5" aria-label={t("formAriaLabel")}>
-                {/* honeypot */}
                 <div
                   aria-hidden="true"
                   className="absolute left-[-10000px] top-auto h-[1px] w-[1px] overflow-hidden"
@@ -461,7 +475,7 @@ export default function ContactPage() {
                       required
                       maxLength={LIMITS.fullNameMax}
                       aria-invalid={!!errors.fullName}
-                      className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-white/40 focus:bg-white/15"
+                      className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-white/60 focus:border-white/40 focus:bg-white/15"
                       placeholder={t("placeholders.fullName")}
                       autoComplete="name"
                     />
@@ -483,7 +497,7 @@ export default function ContactPage() {
                       inputMode="email"
                       maxLength={LIMITS.emailMax}
                       aria-invalid={!!errors.email}
-                      className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-white/40 focus:bg-white/15"
+                      className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-white/60 focus:border-white/40 focus:bg-white/15"
                       placeholder={t("placeholders.email")}
                       autoComplete="email"
                     />
@@ -508,7 +522,7 @@ export default function ContactPage() {
                       inputMode="tel"
                       maxLength={LIMITS.phoneMax}
                       aria-invalid={!!errors.phone}
-                      className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-white/40 focus:bg-white/15"
+                      className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-white/60 focus:border-white/40 focus:bg-white/15"
                       placeholder={t("placeholders.phone")}
                       autoComplete="tel"
                     />
@@ -528,7 +542,7 @@ export default function ContactPage() {
                       required
                       maxLength={LIMITS.orgMax}
                       aria-invalid={!!errors.organization}
-                      className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-white/40 focus:bg-white/15"
+                      className="mt-2 w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-white/60 focus:border-white/40 focus:bg-white/15"
                       placeholder={t("placeholders.company")}
                       autoComplete="organization"
                     />
@@ -567,7 +581,7 @@ export default function ContactPage() {
                     required
                     rows={6}
                     aria-invalid={!!errors.message || messageTooLong}
-                    className="mt-2 w-full resize-none border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-white/60 outline-none transition focus:border-white/40 focus:bg-white/15"
+                    className="mt-2 w-full resize-none border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-white/60 focus:border-white/40 focus:bg-white/15"
                     placeholder={t("placeholders.message")}
                   />
                   <div className="mt-1 flex flex-wrap items-center justify-between gap-2 text-xs text-white/65">
@@ -578,15 +592,13 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                {/* ✅ Turnstile CAPTCHA */}
-                <div className="pt-2 max-w-full overflow-x-auto" ref={turnstileContainerRef}>
+                <div className="max-w-full overflow-x-auto pt-2" ref={turnstileContainerRef}>
                   <Turnstile
                     siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
                     onSuccess={(token) => setTurnstileToken(token)}
                     onExpire={() => setTurnstileToken("")}
                     onError={() => setTurnstileToken("")}
                   />
-
                 </div>
 
                 <div className="flex flex-col gap-3">
@@ -615,14 +627,13 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="sm:hidden pt-1">
+                <div className="pt-1 sm:hidden">
                   <LocationPill />
                 </div>
               </form>
             </div>
 
-            {/* RIGHT */}
-            <div className="border border-white/10 bg-white/10 backdrop-blur-xl p-5 shadow-[0_20px_80px_rgba(0,0,0,0.35)] sm:p-7">
+            <div className="border border-white/10 bg-white/10 p-5 shadow-[0_20px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-7">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-base font-semibold tracking-tight text-white sm:text-lg">
@@ -652,14 +663,25 @@ export default function ContactPage() {
 
               <div className="mt-7 border border-white/10 bg-white/10 p-5">
                 <p className="text-sm font-semibold text-white">{t("right.locationTitle")}</p>
-                <p className="mt-2 text-sm text-white/85 inline-flex items-center gap-2">
+                <p className="mt-2 inline-flex items-center gap-2 text-sm text-white/85">
                   <CanadaFlagIcon className="h-4 w-6" />
                   {t("right.locationLine")}
                 </p>
                 <p className="mt-4 text-sm text-white/85">{t("right.remoteLine")}</p>
+
+                <div className="mt-4 border-t border-white/10 pt-4">
+                  <p className="text-sm font-semibold text-white">Phone</p>
+                  <a
+                    href={CONTACT_PHONE_HREF}
+                    className="mt-2 inline-flex items-center gap-2 text-sm text-white/85 transition hover:text-white"
+                  >
+                    <PhoneIcon className="h-4 w-4" />
+                    <span>{CONTACT_PHONE}</span>
+                  </a>
+                </div>
               </div>
 
-              <div className="sm:hidden mt-6">
+              <div className="mt-6 sm:hidden">
                 <LocationPill />
               </div>
             </div>

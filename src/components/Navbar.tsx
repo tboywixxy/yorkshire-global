@@ -4,14 +4,8 @@ import Image from "next/image";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ThemeToggle from "@/src/components/ThemeToggle";
-
-// next-intl
 import { useLocale, useTranslations } from "next-intl";
-
-// locale-aware Link + locales list
 import { Link, locales } from "@/src/navigation";
-
-// Next real pathname (includes locale prefix)
 import { usePathname as useNextPathname } from "next/navigation";
 
 // =========================================================
@@ -26,11 +20,6 @@ function normalizePath(p: string) {
   return clean;
 }
 
-/**
- * "/fr/contact" -> "/contact"
- * "/en"         -> "/"
- * "/de/about/"  -> "/about"
- */
 function stripLocalePrefix(path: string) {
   const p = normalizePath(path || "/");
   const re = new RegExp(
@@ -41,7 +30,6 @@ function stripLocalePrefix(path: string) {
   return stripped === "" ? "/" : stripped;
 }
 
-// active check compares locale-less currentPath with locale-less href
 function isActive(pathnameNoLocale: string, href: string) {
   const path = normalizePath(pathnameNoLocale);
   const target = normalizePath(href);
@@ -49,7 +37,6 @@ function isActive(pathnameNoLocale: string, href: string) {
   return path === target || path.startsWith(`${target}/`);
 }
 
-// Save + restore scroll so locale switch doesn't jump to top
 function useScrollRestoreKey(key: string) {
   const keyRef = useRef(key);
   keyRef.current = key;
@@ -138,7 +125,7 @@ function langFullName(l: string) {
 }
 
 // =========================================================
-// ✅ Locale Dropdown (EN/FR only + optional tone)
+// Locale Dropdown
 // =========================================================
 function LocaleDropdown({
   className = "",
@@ -159,18 +146,18 @@ function LocaleDropdown({
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
 
-  // Persist scroll on locale switch
   const { save, restore } = useScrollRestoreKey(`localeSwitch:${raw}`);
 
-  // Close on outside click / Escape
   useEffect(() => {
     const onDown = (e: MouseEvent) => {
       if (!wrapRef.current) return;
       if (!wrapRef.current.contains(e.target as Node)) setOpen(false);
     };
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
+
     window.addEventListener("mousedown", onDown);
     window.addEventListener("keydown", onKey);
     return () => {
@@ -180,7 +167,6 @@ function LocaleDropdown({
   }, []);
 
   const otherLocales = SUPPORTED_LOCALES.filter((l) => l !== locale);
-
   const isLight = tone === "light";
 
   const triggerClasses = [
@@ -189,7 +175,6 @@ function LocaleDropdown({
     "backdrop-blur transition",
     "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
     "min-w-[110px]",
-
     isLight
       ? "border border-black/10 bg-black/[0.03] text-black hover:bg-black/[0.06] focus-visible:ring-black/40 focus-visible:ring-offset-white"
       : "border border-white/10 bg-white/5 text-white/95 hover:bg-white/10 focus-visible:ring-white/70 focus-visible:ring-offset-black/30"
@@ -212,7 +197,6 @@ function LocaleDropdown({
 
   return (
     <div ref={wrapRef} className={["relative", className].join(" ")}>
-      {/* Trigger */}
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -226,7 +210,6 @@ function LocaleDropdown({
         </span>
       </button>
 
-      {/* Menu */}
       <AnimatePresence>
         {open ? (
           <motion.div
@@ -253,7 +236,7 @@ function LocaleDropdown({
                   aria-label={t("switchTo", { lang: langFullName(l) })}
                 >
                   <span>{langFullName(l)}</span>
-                  <span className={isLight ? "opacity-60" : "opacity-60"}>↗</span>
+                  <span className="opacity-60">↗</span>
                 </Link>
               ))}
             </div>
@@ -264,9 +247,9 @@ function LocaleDropdown({
   );
 }
 
-// ===================================
+// =========================================================
 // Services Dropdown
-// ===================================
+// =========================================================
 function ServicesNavItem({
   isActive,
   onClose,
@@ -276,22 +259,36 @@ function ServicesNavItem({
 }) {
   const t = useTranslations("Nav");
   const tService = useTranslations("ServicesDropdown");
+
   const [open, setOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  let timeoutRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearMenuTimeout = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  };
 
   const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    clearMenuTimeout();
     setOpen(true);
   };
 
   const handleMouseLeave = () => {
+    clearMenuTimeout();
     timeoutRef.current = setTimeout(() => {
       setOpen(false);
-    }, 150);
+    }, 120);
   };
 
-  // Close on outside click
+  const closeMenu = () => {
+    clearMenuTimeout();
+    setOpen(false);
+    onClose?.();
+  };
+
   useEffect(() => {
     const onDown = (e: MouseEvent) => {
       if (!containerRef.current) return;
@@ -299,9 +296,32 @@ function ServicesNavItem({
         setOpen(false);
       }
     };
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+
     window.addEventListener("mousedown", onDown);
-    return () => window.removeEventListener("mousedown", onDown);
+    window.addEventListener("keydown", onKey);
+
+    return () => {
+      window.removeEventListener("mousedown", onDown);
+      window.removeEventListener("keydown", onKey);
+      clearMenuTimeout();
+    };
   }, []);
+
+  const triggerClasses = [
+    "relative rounded-lg whitespace-nowrap",
+    "px-2.5 py-2 md:px-2 lg:px-3",
+    "text-xs md:text-[11px] lg:text-xs",
+    "font-medium transition",
+    "inline-flex items-center",
+    isActive || open ? "text-black bg-white/10" : "text-white/90 hover:bg-white/10"
+  ].join(" ");
+
+  const menuItemClasses =
+    "block px-3 py-2 text-sm text-white hover:bg-white/10 rounded-lg transition";
 
   return (
     <div
@@ -310,18 +330,12 @@ function ServicesNavItem({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Link
-        href="/services"
-        className={[
-          "relative rounded-lg whitespace-nowrap",
-          "px-2.5 py-2 md:px-2 lg:px-3",
-          "text-xs md:text-[11px] lg:text-xs",
-          "font-medium transition",
-          isActive || open ? "text-black bg-white/10" : "text-white/90 hover:bg-white/10"
-        ].join(" ")}
-        onClick={(e) => {
-          if (onClose) onClose();
-        }}
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        className={triggerClasses}
       >
         {isActive ? (
           <motion.span
@@ -331,54 +345,62 @@ function ServicesNavItem({
             style={{ zIndex: 0 }}
           />
         ) : null}
-        <span className={isActive ? "relative z-10 text-black flex items-center gap-1" : "relative z-10 flex items-center gap-1"}>
+
+        <span
+          className={[
+            "relative z-10 flex items-center gap-1",
+            isActive ? "text-black" : ""
+          ].join(" ")}
+        >
           {t("services")} <ChevronDown open={open} />
         </span>
-      </Link>
+      </button>
 
       <AnimatePresence>
         {open && (
-           <motion.div
-             initial={{ opacity: 0, y: 10, scale: 0.95 }}
-             animate={{ opacity: 1, y: 0, scale: 1 }}
-             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-             transition={{ duration: 0.2 }}
-             className="absolute top-full left-0 mt-2 w-72 rounded-xl border border-white/10 bg-slate-900/95 backdrop-blur-xl shadow-2xl p-2 z-50 flex flex-col gap-1"
-           >
-              <Link
-                  href="/services/managed-it-support"
-                 className="block px-3 py-2 text-sm text-white hover:bg-white/10 rounded-lg transition"
-                 onClick={() => { setOpen(false); if(onClose) onClose(); }}
-              >
-                {tService("managedIT")}
-              </Link>
-              <Link
-                  href="/services/secure-ai-development"
-                 className="block px-3 py-2 text-sm text-white hover:bg-white/10 rounded-lg transition"
-                 onClick={() => { setOpen(false); if(onClose) onClose(); }}
-              >
-                {tService("secureAI")}
-              </Link>
-              <div className="h-px bg-white/10 my-1"/>
-              <Link
-                 href="/services"
-                 className="block px-3 py-2 text-sm text-white/70 hover:bg-white/10 rounded-lg transition"
-                 onClick={() => { setOpen(false); if(onClose) onClose(); }}
-              >
-                {tService("all")}
-              </Link>
-           </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            transition={{ duration: 0.18 }}
+            className="absolute top-full left-0 mt-2 w-72 rounded-xl border border-white/10 bg-slate-900/95 backdrop-blur-xl shadow-2xl p-2 z-50 flex flex-col gap-1"
+          >
+            <Link
+              href="/services/managed-it-support"
+              className={menuItemClasses}
+              onClick={closeMenu}
+            >
+              {tService("managedIT")}
+            </Link>
+
+            <Link
+              href="/services/secure-ai-development"
+              className={menuItemClasses}
+              onClick={closeMenu}
+            >
+              {tService("secureAI")}
+            </Link>
+
+            <div className="h-px bg-white/10 my-1" />
+
+            <Link
+              href="/services"
+              className="block px-3 py-2 text-sm text-white/70 hover:bg-white/10 rounded-lg transition"
+              onClick={closeMenu}
+            >
+              {tService("all")}
+            </Link>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }
 
 export default function Navbar() {
   const t = useTranslations("Nav");
   const tService = useTranslations("ServicesDropdown");
 
-  // current URL
   const raw = useNextPathname() || "/";
   const currentPath = stripLocalePrefix(raw);
 
@@ -401,16 +423,13 @@ export default function Navbar() {
 
   useEffect(() => setMounted(true), []);
 
-  // active helper
   const isLinkActive = (href: string) => isActive(currentPath, href);
 
-  // close mobile menu when route changes
   useEffect(() => {
     if (!mounted) return;
     setOpen(false);
   }, [mounted, currentPath]);
 
-  // lock scroll when mobile menu open
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -420,7 +439,6 @@ export default function Navbar() {
     };
   }, [open]);
 
-  // detect scroll for header background
   useEffect(() => {
     if (!mounted) return;
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -429,7 +447,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [mounted]);
 
-  // detect theme class changes
   useEffect(() => {
     if (!mounted) return;
 
@@ -473,7 +490,6 @@ export default function Navbar() {
       >
         <div className="mx-auto max-w-6xl px-2 sm:px-4 lg:px-6">
           <div className="flex h-16 items-center justify-between gap-2">
-            {/* LOGO */}
             <Link
               href="/"
               aria-label={t("ariaHome")}
@@ -492,14 +508,18 @@ export default function Navbar() {
               </span>
             </Link>
 
-            {/* DESKTOP NAV */}
             <nav className="hidden items-center lg:flex">
               <div className="relative flex items-center gap-1 rounded-xl p-1 whitespace-nowrap">
                 {navItems.map((item) => {
-                  const active = isActive(currentPath, item.href);
+                  const active = isLinkActive(item.href);
 
                   if (item.key === "services") {
-                    return <ServicesNavItem key={item.key} isActive={active} />;
+                    return (
+                      <ServicesNavItem
+                        key={item.key}
+                        isActive={active}
+                      />
+                    );
                   }
 
                   return (
@@ -530,14 +550,11 @@ export default function Navbar() {
               </div>
             </nav>
 
-            {/* DESKTOP RIGHT */}
             <div className="hidden items-center gap-2 lg:flex">
-              {/* Navbar is dark-style */}
               <LocaleDropdown tone="dark" />
               <ThemeToggle />
             </div>
 
-            {/* MOBILE RIGHT */}
             <div className="flex items-center gap-2 lg:hidden shrink-0">
               <ThemeToggle />
 
@@ -558,7 +575,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* MOBILE MENU */}
       <AnimatePresence>
         {open ? (
           <motion.div
@@ -605,14 +621,13 @@ export default function Navbar() {
 
               <div className="px-5 pt-6">
                 <div className="flex justify-end">
-                  {/* ✅ Mobile dropdown uses LIGHT tone in light mode so text is dark */}
                   <LocaleDropdown tone={themeMode === "dark" ? "dark" : "light"} />
                 </div>
 
                 <div className="pt-8">
                   <div className="flex flex-col items-end text-right">
                     {navItems.map((item, idx) => {
-                      const active = isActive(currentPath, item.href);
+                      const active = isLinkActive(item.href);
 
                       if (item.key === "services") {
                         return (
@@ -628,7 +643,7 @@ export default function Navbar() {
                               className="w-full"
                             >
                               <Link
-                                href={item.href}
+                                href="/services"
                                 onClick={() => setOpen(false)}
                                 className={[
                                   "group inline-flex items-center justify-end gap-3",
@@ -671,7 +686,6 @@ export default function Navbar() {
                               </Link>
                             </motion.div>
 
-                            {/* Sub-services list under Services */}
                             <motion.div
                               initial={{ x: 14, opacity: 0 }}
                               animate={{ x: 0, opacity: 1 }}
