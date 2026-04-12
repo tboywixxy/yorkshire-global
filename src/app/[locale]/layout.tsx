@@ -6,7 +6,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 
 import ThemeProvider from "@/src/components/ThemeProvider";
-import RouteLoadingOverlay from "@/src/components/RouteLoadingOverlay";
 import Navbar from "@/src/components/Navbar";
 import Footer from "@/src/components/Footer";
 

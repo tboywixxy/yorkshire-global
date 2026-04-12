@@ -225,6 +225,7 @@ function LocaleDropdown({
                 <Link
                   key={l}
                   href={pathnameNoLocale}
+                  prefetch={false}
                   locale={l as any}
                   scroll={false as any}
                   onClick={() => {
@@ -367,6 +368,7 @@ function ServicesNavItem({
           >
             <Link
               href="/services/managed-it-support"
+              prefetch={false}
               className={menuItemClasses}
               onClick={closeMenu}
             >
@@ -375,6 +377,7 @@ function ServicesNavItem({
 
             <Link
               href="/services/secure-ai-development"
+              prefetch={false}
               className={menuItemClasses}
               onClick={closeMenu}
             >
@@ -385,6 +388,7 @@ function ServicesNavItem({
 
             <Link
               href="/services"
+              prefetch={false}
               className="block px-3 py-2 text-sm text-white/70 hover:bg-white/10 rounded-lg transition"
               onClick={closeMenu}
             >
@@ -408,6 +412,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [themeMode, setThemeMode] = useState<"light" | "dark">("light");
+  const scrolledRef = useRef(false);
 
   const navItems = useMemo(
     () => [
@@ -426,9 +431,9 @@ export default function Navbar() {
   const isLinkActive = (href: string) => isActive(currentPath, href);
 
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted || !open) return;
     setOpen(false);
-  }, [mounted, currentPath]);
+  }, [mounted, currentPath, open]);
 
   useEffect(() => {
     if (!open) return;
@@ -441,10 +446,30 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!mounted) return;
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
+
+    let rafId: number | null = null;
+
+    const updateScrolled = () => {
+      const next = window.scrollY > 8;
+      if (scrolledRef.current === next) return;
+      scrolledRef.current = next;
+      setScrolled(next);
+    };
+
+    const onScroll = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        updateScrolled();
+      });
+    };
+
+    updateScrolled();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    };
   }, [mounted]);
 
   useEffect(() => {
@@ -492,6 +517,7 @@ export default function Navbar() {
           <div className="flex h-16 items-center justify-between gap-2">
             <Link
               href="/"
+              prefetch={false}
               aria-label={t("ariaHome")}
               onClick={() => setOpen(false)}
               className="flex items-center shrink-0 -ml-1 sm:-ml-2 min-w-0"
@@ -526,6 +552,7 @@ export default function Navbar() {
                     <Link
                       key={item.href}
                       href={item.href}
+                      prefetch={false}
                       className={[
                         "relative rounded-lg whitespace-nowrap",
                         "px-2.5 py-2 md:px-2 lg:px-3",
@@ -597,7 +624,12 @@ export default function Navbar() {
               <div className="pointer-events-none absolute -left-24 bottom-10 h-64 w-64 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-300/10" />
 
               <div className="flex items-center justify-between px-5 pt-5">
-                <Link href="/" onClick={() => setOpen(false)} aria-label={t("ariaHome")}>
+                <Link
+                  href="/"
+                  prefetch={false}
+                  onClick={() => setOpen(false)}
+                  aria-label={t("ariaHome")}
+                >
                   <span className="relative block h-12 w-[280px]">
                     <Image
                       src={!mounted ? "/logo1.png" : themeMode === "dark" ? "/logo-w1.png" : "/logo1.png"}
@@ -644,6 +676,7 @@ export default function Navbar() {
                             >
                               <Link
                                 href="/services"
+                                prefetch={false}
                                 onClick={() => setOpen(false)}
                                 className={[
                                   "group inline-flex items-center justify-end gap-3",
@@ -694,6 +727,7 @@ export default function Navbar() {
                             >
                               <Link
                                 href="/services/managed-it-support"
+                                prefetch={false}
                                 onClick={() => setOpen(false)}
                                 className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity"
                               >
@@ -701,6 +735,7 @@ export default function Navbar() {
                               </Link>
                               <Link
                                 href="/services/secure-ai-development"
+                                prefetch={false}
                                 onClick={() => setOpen(false)}
                                 className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity"
                               >
@@ -725,6 +760,7 @@ export default function Navbar() {
                         >
                           <Link
                             href={item.href}
+                            prefetch={false}
                             onClick={() => setOpen(false)}
                             className={[
                               "group inline-flex items-center justify-end gap-3",
@@ -773,6 +809,7 @@ export default function Navbar() {
                   <div className="mt-10 flex items-center justify-end gap-3">
                     <Link
                       href="/contact"
+                      prefetch={false}
                       onClick={() => setOpen(false)}
                       className="inline-flex items-center justify-center rounded-full px-6 py-3 bg-sky-950 text-white dark:bg-white dark:text-black text-sm font-semibold shadow-sm"
                     >

@@ -113,32 +113,56 @@ export default function Footer() {
             <p className="text-sm font-semibold">{t("company.title")}</p>
             <ul className="mt-3 space-y-2 text-sm">
               <li>
-                <Link className="text-[rgb(var(--foreground))] hover:underline" href="/">
+                <Link
+                  className="text-[rgb(var(--foreground))] hover:underline"
+                  href="/"
+                  prefetch={false}
+                >
                   Home
                 </Link>
               </li>
               <li>
-                <Link className="text-[rgb(var(--foreground))] hover:underline" href="/about">
+                <Link
+                  className="text-[rgb(var(--foreground))] hover:underline"
+                  href="/about"
+                  prefetch={false}
+                >
                   {t("company.about")}
                 </Link>
               </li>
               <li>
-                <Link className="text-[rgb(var(--foreground))] hover:underline" href="/services">
+                <Link
+                  className="text-[rgb(var(--foreground))] hover:underline"
+                  href="/services"
+                  prefetch={false}
+                >
                   Services
                 </Link>
               </li>
               <li>
-                <Link className="text-[rgb(var(--foreground))] hover:underline" href="/industries">
+                <Link
+                  className="text-[rgb(var(--foreground))] hover:underline"
+                  href="/industries"
+                  prefetch={false}
+                >
                   Industries
                 </Link>
               </li>
               <li>
-                <Link className="text-[rgb(var(--foreground))] hover:underline" href="/case-studies">
+                <Link
+                  className="text-[rgb(var(--foreground))] hover:underline"
+                  href="/case-studies"
+                  prefetch={false}
+                >
                   {t("company.caseStudies")}
                 </Link>
               </li>
               <li>
-                <Link className="text-[rgb(var(--foreground))] hover:underline" href="/contact">
+                <Link
+                  className="text-[rgb(var(--foreground))] hover:underline"
+                  href="/contact"
+                  prefetch={false}
+                >
                   Contact Us
                 </Link>
               </li>
@@ -153,6 +177,7 @@ export default function Footer() {
                   <Link
                     className="hover:text-[rgb(var(--foreground))] hover:underline"
                     href={item.href}
+                    prefetch={false}
                   >
                     {item.label}
                   </Link>
@@ -166,7 +191,7 @@ export default function Footer() {
             <p className="mt-3 text-sm text-[rgb(var(--muted))]">{t("touch.blurb")}</p>
 
             <div className="mt-4 flex flex-col items-start gap-3">
-              <Link href="/contact" className="btn btn-accent px-4 py-2">
+              <Link href="/contact" prefetch={false} className="btn btn-accent px-4 py-2">
                 Contact Us
               </Link>
 
@@ -174,7 +199,7 @@ export default function Footer() {
                 href={CONTACT_PHONE_HREF}
                 className="block text-sm font-medium text-[rgb(var(--foreground))] hover:underline"
               >
-                {CONTACT_PHONE}
+                Phone: {CONTACT_PHONE}
               </a>
             </div>
           </div>
@@ -192,6 +217,7 @@ export default function Footer() {
           <div className="flex items-center gap-2">
             <Link
               href={pathnameNoLocale}
+              prefetch={false}
               locale={"en" as any}
               scroll={false as any}
               className={[
@@ -209,6 +235,7 @@ export default function Footer() {
 
             <Link
               href={pathnameNoLocale}
+              prefetch={false}
               locale={"fr" as any}
               scroll={false as any}
               className={[
