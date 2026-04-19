@@ -30,6 +30,8 @@
     },
 
     "services": {
+      "managedIT": "Support IT gÃ©rÃ©",
+      "secureAI": "DÃ©veloppement dâ€™agents IA sÃ©curisÃ©s",
       "ssdlc": "Cycle de développement logiciel sécurisé (SSDLC)",
       "cybersecurity": "Services de cybersécurité",
       "businessAnalysis": "Analyse métier",
@@ -42,6 +44,14 @@
       "submitting": "Envoi...",
       "submit": "Envoyer",
       "consent": "En envoyant ce formulaire, vous acceptez d’être contacté au sujet de votre demande."
+    },
+
+    "verification": {
+      "verified": "VÃ©rification de sÃ©curitÃ© terminÃ©e.",
+      "required": "Veuillez terminer la vÃ©rification de sÃ©curitÃ© avant dâ€™envoyer.",
+      "expired": "La vÃ©rification a expirÃ©. Veuillez la relancer.",
+      "timeout": "La vÃ©rification a expirÃ© avant la fin. Veuillez rÃ©essayer.",
+      "error": "La vÃ©rification de sÃ©curitÃ© a Ã©chouÃ©. Veuillez rÃ©essayer."
     },
 
     "right": {

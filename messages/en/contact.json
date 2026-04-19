@@ -46,6 +46,14 @@
       "consent": "By submitting, you agree to be contacted about your inquiry."
     },
 
+    "verification": {
+      "verified": "Security check complete.",
+      "required": "Please complete the security check before submitting.",
+      "expired": "Verification expired. Please retry the security check.",
+      "timeout": "Verification timed out. Please retry the security check.",
+      "error": "We could not verify the security check. Please retry."
+    },
+
     "right": {
       "title": "What happens next?",
       "subtitle": "Clear steps, fast response, and structured delivery.",

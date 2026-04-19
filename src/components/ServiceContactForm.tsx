@@ -1,22 +1,34 @@
 "use client";
 
 import React, { useMemo, useRef, useState } from "react";
-import { Turnstile } from "@marsidev/react-turnstile";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { useTranslations } from "next-intl";
+
+type ContactApiPayload = {
+  error?: {
+    code?: string;
+    message?: string;
+    fieldErrors?: Record<string, string>;
+  };
+  message?: string;
+  retryAfterSeconds?: number;
+};
 
 type FormState = {
   fullName: string;
   email: string;
   phone: string;
   organization: string;
-  service: string; // stable key
+  service: string;
   message: string;
-  companyWebsite: string; // honeypot
+  companyWebsite: string;
 };
 
 type PopupState =
   | { open: false }
   | { open: true; type: "success" | "error"; title: string; message: string };
+
+type TurnstileStatus = "idle" | "verified" | "required" | "expired" | "timeout" | "error";
 
 const LIMITS = {
   fullNameMax: 80,
@@ -74,13 +86,13 @@ function ErrorIcon({ className = "h-5 w-5" }: { className?: string }) {
 
 function formatRetryMessage(retryAfterSeconds?: number) {
   if (!retryAfterSeconds || retryAfterSeconds <= 0) {
-    return "You’ve sent several messages recently. Please wait a little while and try again. If it’s urgent, contact us directly by email.";
+    return "You've sent several messages recently. Please wait a little while and try again. If it's urgent, contact us directly by email.";
   }
 
   const minutes = Math.max(1, Math.ceil(retryAfterSeconds / 60));
   const unit = minutes === 1 ? "minute" : "minutes";
 
-  return `You’ve sent several messages recently. Please wait about ${minutes} ${unit} and try again. If it’s urgent, contact us directly by email.`;
+  return `You've sent several messages recently. Please wait about ${minutes} ${unit} and try again. If it's urgent, contact us directly by email.`;
 }
 
 function RequiredLabel({ children }: { children: React.ReactNode }) {
@@ -169,6 +181,7 @@ export default function ServiceContactForm({
   );
 
   const startedAtRef = useRef<number>(Date.now());
+  const turnstileRef = useRef<TurnstileInstance | undefined>(undefined);
 
   const [form, setForm] = useState<FormState>({
     fullName: "",
@@ -183,10 +196,8 @@ export default function ServiceContactForm({
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [popup, setPopup] = useState<PopupState>({ open: false });
-
-  // ✅ Turnstile token
   const [turnstileToken, setTurnstileToken] = useState("");
-  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const [turnstileStatus, setTurnstileStatus] = useState<TurnstileStatus>("idle");
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((p) => ({ ...p, [key]: value }));
@@ -210,8 +221,41 @@ export default function ServiceContactForm({
     form.service.trim().length > 0 &&
     form.message.trim().length > 0;
 
-  // ✅ also require captcha token
   const canSubmit = allRequiredFilled && !messageTooLong && !submitting && !!turnstileToken;
+
+  const verificationMessage =
+    turnstileStatus === "verified"
+      ? t("verification.verified")
+      : turnstileStatus === "expired"
+        ? t("verification.expired")
+        : turnstileStatus === "timeout"
+          ? t("verification.timeout")
+          : turnstileStatus === "error"
+            ? t("verification.error")
+            : t("verification.required");
+
+  const verificationTone =
+    turnstileStatus === "verified"
+      ? "border-emerald-400/30 bg-emerald-400/10 text-emerald-100"
+      : "border-amber-300/30 bg-amber-300/10 text-amber-50";
+
+  function queueTurnstileReset() {
+    if (typeof window === "undefined") return;
+
+    window.setTimeout(() => {
+      try {
+        turnstileRef.current?.reset();
+      } catch {
+        // ignore widget reset failures
+      }
+    }, 0);
+  }
+
+  function clearTurnstile(state: Exclude<TurnstileStatus, "verified" | "idle">) {
+    setTurnstileToken("");
+    setTurnstileStatus(state);
+    queueTurnstileReset();
+  }
 
   function validate() {
     const next: Record<string, string> = {};
@@ -242,15 +286,17 @@ export default function ServiceContactForm({
     else if (form.message.length > LIMITS.messageCharsSoftMax)
       next.message = t("errors.messageCharsMax", { max: LIMITS.messageCharsSoftMax });
 
-    // honeypot
     if (form.companyWebsite.trim()) next.form = "This submission was flagged. Please contact us directly.";
 
-    // minimum seconds check
     const elapsedMs = Date.now() - startedAtRef.current;
     if (elapsedMs < MIN_SECONDS_BEFORE_SUBMIT * 1000) next.form = "Please take a moment to review your details.";
 
-    // captcha required
-    if (!turnstileToken) next.form = "Please complete the security check.";
+    if (!turnstileToken) {
+      setTurnstileStatus((current) =>
+        current === "verified" || current === "idle" ? "required" : current
+      );
+      next.form = t("verification.required");
+    }
 
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -268,26 +314,21 @@ export default function ServiceContactForm({
       companyWebsite: "",
     });
 
-    // reset captcha token and widget
     setTurnstileToken("");
-    if (typeof window !== "undefined" && (window as any).turnstile?.reset) {
-      try {
-        (window as any).turnstile.reset();
-      } catch {
-        // ignore
-      }
-    }
+    setTurnstileStatus("idle");
+    queueTurnstileReset();
   }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (!turnstileToken) {
+      setTurnstileStatus("required");
       setPopup({
         open: true,
         type: "error",
         title: "Security Check Needed",
-        message: "Please complete the 'Verify you are human' check.",
+        message: t("verification.required"),
       });
       return;
     }
@@ -327,19 +368,27 @@ export default function ServiceContactForm({
           message: form.message,
           companyWebsite: form.companyWebsite,
           startedAt: startedAtRef.current,
-          turnstileToken, // ✅ send to backend
+          turnstileToken,
         }),
       });
 
-      const data = await res.json().catch(() => ({}));
+      const data = (await res.json().catch(() => ({}))) as ContactApiPayload;
 
       if (!res.ok) {
+        const apiCode = data?.error?.code;
+        if (typeof apiCode === "string" && apiCode.startsWith("TURNSTILE_")) {
+          clearTurnstile(apiCode === "TURNSTILE_REQUIRED" ? "required" : "error");
+        }
+
         const friendlyMessage =
           res.status === 429
             ? formatRetryMessage(Number(data?.retryAfterSeconds))
-            : data?.error ?? t("errors.failedGeneric");
+            : data?.error?.message ?? data?.message ?? t("errors.failedGeneric");
 
-        setErrors({ form: friendlyMessage });
+        setErrors({
+          ...((data?.error?.fieldErrors as Record<string, string> | undefined) ?? {}),
+          form: friendlyMessage,
+        });
         setPopup({
           open: true,
           type: "error",
@@ -397,7 +446,6 @@ export default function ServiceContactForm({
         ) : null}
 
         <form onSubmit={onSubmit} className="mt-5 space-y-3.5" aria-label={t("formAriaLabel")}>
-          {/* honeypot */}
           <div
             aria-hidden="true"
             className="absolute left-[-10000px] top-auto h-[1px] w-[1px] overflow-hidden"
@@ -537,14 +585,32 @@ export default function ServiceContactForm({
             </div>
           </div>
 
-          {/* ✅ Turnstile CAPTCHA */}
-          <div className="pt-2 max-w-full overflow-x-auto" ref={turnstileContainerRef}>
+          <div className="pt-2 max-w-full overflow-x-auto">
             <Turnstile
+              ref={turnstileRef}
               siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-              onSuccess={(token) => setTurnstileToken(token)}
-              onExpire={() => setTurnstileToken("")}
-              onError={() => setTurnstileToken("")}
+              options={{
+                refreshExpired: "manual",
+                refreshTimeout: "manual",
+              }}
+              onSuccess={(token) => {
+                setTurnstileToken(token);
+                setTurnstileStatus("verified");
+                setErrors((prev) => {
+                  const next = { ...prev };
+                  if (next.form === t("verification.required")) {
+                    delete next.form;
+                  }
+                  return next;
+                });
+              }}
+              onExpire={() => clearTurnstile("expired")}
+              onTimeout={() => clearTurnstile("timeout")}
+              onError={() => clearTurnstile("error")}
             />
+            <p className={`mt-3 border px-3 py-2 text-xs ${verificationTone}`}>
+              {verificationMessage}
+            </p>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

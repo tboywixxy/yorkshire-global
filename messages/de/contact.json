@@ -30,6 +30,8 @@
     },
 
     "services": {
+      "managedIT": "Managed IT Support",
+      "secureAI": "Sichere KI-Agentenentwicklung",
       "ssdlc": "Secure Software Development Lifecycle (SSDLC)",
       "cybersecurity": "Cybersicherheitsleistungen",
       "businessAnalysis": "Business-Analyse",
@@ -42,6 +44,14 @@
       "submitting": "Wird gesendet...",
       "submit": "Senden",
       "consent": "Mit dem Absenden stimmen Sie zu, bezüglich Ihrer Anfrage kontaktiert zu werden."
+    },
+
+    "verification": {
+      "verified": "SicherheitsprÃ¼fung abgeschlossen.",
+      "required": "Bitte schlieÃŸen Sie die SicherheitsprÃ¼fung vor dem Senden ab.",
+      "expired": "Die SicherheitsprÃ¼fung ist abgelaufen. Bitte erneut versuchen.",
+      "timeout": "Die SicherheitsprÃ¼fung hat ein Zeitlimit erreicht. Bitte erneut versuchen.",
+      "error": "Die SicherheitsprÃ¼fung konnte nicht abgeschlossen werden. Bitte erneut versuchen."
     },
 
     "right": {

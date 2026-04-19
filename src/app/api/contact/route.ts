@@ -1,5 +1,3 @@
-// app/api/contact/route.ts
-import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import path from "path";
 import fs from "fs/promises";
@@ -9,199 +7,167 @@ import {
   ackEmailTemplate,
   type ContactPayload,
 } from "@/src/email/contactTemplates";
+import { errorResponse, successResponse } from "@/src/lib/contact/api";
+import { RATE_LIMIT_MAX_REQUESTS, RATE_LIMIT_WINDOW_MS } from "@/src/lib/contact/constants";
+import { logContactEvent, maskEmail } from "@/src/lib/contact/logger";
+import { consumeRateLimit } from "@/src/lib/contact/rateLimit";
+import { verifyTurnstileToken } from "@/src/lib/contact/turnstile";
+import { validateAndSanitizeContactBody } from "@/src/lib/contact/validation";
 
-const MIN_SECONDS_BEFORE_SUBMIT = 3;
-const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
-const RATE_LIMIT_MAX_REQUESTS = 5;
-
-type RateLimitEntry = {
-  count: number;
-  resetAt: number;
-};
-
-const globalForRateLimit = globalThis as typeof globalThis & {
-  __contactRateLimitStore?: Map<string, RateLimitEntry>;
-};
-
-const contactRateLimitStore = globalForRateLimit.__contactRateLimitStore ?? new Map<string, RateLimitEntry>();
-
-globalForRateLimit.__contactRateLimitStore = contactRateLimitStore;
-
-function getClientKey(req: Request) {
-  const forwardedFor = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+function getClientIp(req: Request) {
   const cfIp = req.headers.get("cf-connecting-ip")?.trim();
+  const forwardedFor = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
   const realIp = req.headers.get("x-real-ip")?.trim();
 
   return cfIp || forwardedFor || realIp || "anonymous";
 }
 
-function enforceRateLimit(key: string) {
-  const now = Date.now();
-  const existing = contactRateLimitStore.get(key);
-
-  if (!existing || existing.resetAt <= now) {
-    contactRateLimitStore.set(key, {
-      count: 1,
-      resetAt: now + RATE_LIMIT_WINDOW_MS,
-    });
-
-    return {
-      limited: false,
-      remaining: RATE_LIMIT_MAX_REQUESTS - 1,
-      resetAt: now + RATE_LIMIT_WINDOW_MS,
-    };
-  }
-
-  if (existing.count >= RATE_LIMIT_MAX_REQUESTS) {
-    return {
-      limited: true,
-      remaining: 0,
-      resetAt: existing.resetAt,
-    };
-  }
-
-  existing.count += 1;
-  contactRateLimitStore.set(key, existing);
-
-  return {
-    limited: false,
-    remaining: RATE_LIMIT_MAX_REQUESTS - existing.count,
-    resetAt: existing.resetAt,
-  };
+function getRateLimitKey(req: Request, ip: string) {
+  const userAgent = req.headers.get("user-agent")?.trim() || "unknown";
+  return ip !== "anonymous" ? `ip:${ip}` : `ip:${ip}:ua:${userAgent.slice(0, 120)}`;
 }
 
 export async function POST(req: Request) {
+  const requestId = crypto.randomUUID();
+  const ip = getClientIp(req);
+  const userAgent = req.headers.get("user-agent")?.trim() || "unknown";
+  const originHost = req.headers.get("host")?.trim() || new URL(req.url).host;
+
   try {
     const body = await req.json();
-    const clientKey = getClientKey(req);
-    const rateLimit = enforceRateLimit(clientKey);
+    const rateLimit = await consumeRateLimit({
+      key: getRateLimitKey(req, ip),
+      limit: RATE_LIMIT_MAX_REQUESTS,
+      windowMs: RATE_LIMIT_WINDOW_MS,
+    });
 
     if (rateLimit.limited) {
-      const retryAfterSeconds = Math.max(1, Math.ceil((rateLimit.resetAt - Date.now()) / 1000));
+      logContactEvent("warn", "rate_limited", {
+        requestId,
+        ip,
+        userAgent,
+        originHost,
+        remaining: rateLimit.remaining,
+        retryAfterSeconds: rateLimit.retryAfterSeconds,
+        count: rateLimit.count,
+      });
 
-      return NextResponse.json(
-        {
-          error: "You have sent several messages recently. Please wait a little while and try again.",
-          retryAfterSeconds,
-        },
+      return errorResponse(
+        "RATE_LIMITED",
+        "You have sent several messages recently. Please wait a little while and try again.",
         {
           status: 429,
+          retryAfterSeconds: rateLimit.retryAfterSeconds,
           headers: {
-            "Retry-After": String(retryAfterSeconds),
+            "Retry-After": String(rateLimit.retryAfterSeconds),
           },
         }
       );
     }
 
-    /* =====================================================
-       1) TURNSTILE VERIFICATION (SERVER-SIDE)
-    ====================================================== */
-    const token = String(body.turnstileToken || "").trim();
-    if (!token) {
-      // User-friendly client side will catch this, but backend must be strict
-      return NextResponse.json({ error: "Please complete the security check." }, { status: 400 });
-    }
-
-    const secret = process.env.TURNSTILE_SECRET_KEY;
-    if (!secret) {
-      console.error("Missing TURNSTILE_SECRET_KEY");
-      return NextResponse.json(
-        { error: "System configuration error. Please contact us directly." },
-        { status: 500 }
+    const validation = validateAndSanitizeContactBody(body);
+    if (!validation.ok) {
+      logContactEvent(
+        "warn",
+        validation.code === "HONEYPOT_FILLED" ? "honeypot_hit" : "validation_failed",
+        {
+          requestId,
+          ip,
+          userAgent,
+          originHost,
+          code: validation.code,
+          fieldErrors: validation.fieldErrors,
+          details: validation.details,
+        }
       );
+
+      return errorResponse(validation.code, validation.message, {
+        status:
+          validation.code === "HONEYPOT_FILLED"
+            ? 400
+            : validation.code === "SUBMISSION_TOO_FAST"
+              ? 400
+              : 422,
+        fieldErrors: validation.fieldErrors,
+      });
     }
 
-    const ip =
-      req.headers.get("cf-connecting-ip") ||
-      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-      undefined;
-
-    // Use URLSearchParams for application/x-www-form-urlencoded
-    const formData = new URLSearchParams();
-    formData.append("secret", secret);
-    formData.append("response", token);
-    if (ip) formData.append("remoteip", ip);
-
-    const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      body: formData,
+    const token = String((body as Record<string, unknown>)?.turnstileToken || "").trim();
+    const turnstile = await verifyTurnstileToken({
+      token,
+      remoteIp: ip !== "anonymous" ? ip : undefined,
     });
 
-    const verify = await verifyRes.json().catch(() => null);
-
-    if (!verify?.success) {
-      return NextResponse.json(
-        { error: "Security check failed. Please refresh and try again." },
-        { status: 403 }
+    if (!turnstile.ok) {
+      logContactEvent(
+        turnstile.code === "CONFIGURATION_ERROR" ? "error" : "warn",
+        "turnstile_failed",
+        {
+          requestId,
+          ip,
+          userAgent,
+          originHost,
+          code: turnstile.code,
+          hostname: turnstile.hostname,
+          errorCodes: turnstile.errorCodes,
+        }
       );
-    }
 
-    /* =====================================================
-       2) SERVER-SIDE ANTI-BOT CHECKS
-    ====================================================== */
-    if (body.companyWebsite?.trim()) {
-      return NextResponse.json({ error: "Submission pattern identified as spam." }, { status: 400 });
-    }
-
-    if (typeof body.startedAt === "number") {
-      const elapsedMs = Date.now() - body.startedAt;
-      if (elapsedMs < MIN_SECONDS_BEFORE_SUBMIT * 1000) {
-        return NextResponse.json({ error: "Please take a moment to review your details before submitting." }, { status: 400 });
-      }
-    }
-
-    /* =====================================================
-       3) REQUIRED FIELDS
-    ====================================================== */
-    const required = ["fullName", "email", "phone", "organization", "service", "message"];
-    for (const k of required) {
-      if (!String(body[k] ?? "").trim()) {
-        return NextResponse.json({ error: "Please fill in all required fields." }, { status: 400 });
-      }
+      return errorResponse(
+        turnstile.code,
+        turnstile.code === "CONFIGURATION_ERROR"
+          ? "System configuration error. Please contact us directly."
+          : turnstile.message,
+        {
+          status: turnstile.code === "CONFIGURATION_ERROR" ? 500 : 403,
+        }
+      );
     }
 
     const payload: ContactPayload = {
-      fullName: String(body.fullName),
-      email: String(body.email),
-      phone: String(body.phone),
-      organization: String(body.organization),
-      service: String(body.service),
-      message: String(body.message),
+      fullName: validation.data.fullName,
+      email: validation.data.email,
+      phone: validation.data.phone,
+      organization: validation.data.organization,
+      service: validation.data.service,
+      message: validation.data.message,
     };
 
-    /* =====================================================
-       4) ZOHO SMTP
-    ====================================================== */
     const user = process.env.ZOHO_MAIL_USER;
     const pass = process.env.ZOHO_MAIL_PASS;
 
     if (!user || !pass) {
-      console.warn("⚠️  Email service not configured (missing ZOHO_MAIL_USER/ZOHO_MAIL_PASS). Skipping email send for testing.");
-      return NextResponse.json({ ok: true });
+      logContactEvent("error", "email_config_missing", {
+        requestId,
+        ip,
+        originHost,
+      });
+
+      return errorResponse(
+        "CONFIGURATION_ERROR",
+        "System configuration error. Please contact us directly.",
+        { status: 500 }
+      );
     }
 
     const transporter = nodemailer.createTransport({
       host: "smtp.zoho.com",
-      port: 587,      // Using STARTTLS port instead of 465 SSL
-      secure: false,  // false for 587, true for 465
+      port: 587,
+      secure: false,
       auth: { user, pass },
       tls: {
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
       },
-      connectionTimeout: 10000, 
+      connectionTimeout: 10000,
     });
 
     const ownerEmail = process.env.CONTACT_OWNER_EMAIL || user;
     const fromEmail = user;
 
-    /* =====================================================
-       5) ATTACHMENTS (LOGO)
-    ====================================================== */
     const logoPath = path.join(process.cwd(), "public", "email", "yorkshire-logo.png");
     let attachments: { filename: string; content: Buffer; cid: string }[] = [];
 
     try {
-      // Check if file exists before reading
       await fs.access(logoPath);
       const logoBuffer = await fs.readFile(logoPath);
       attachments.push({
@@ -210,12 +176,12 @@ export async function POST(req: Request) {
         cid: "yorkshire_logo",
       });
     } catch (err) {
-      console.warn("[CONTACT_API] Logo file not found or readable, sending email without logo attachment.", err);
+      logContactEvent("warn", "logo_attachment_missing", {
+        requestId,
+        error: err,
+      });
     }
 
-    /* =====================================================
-       6) SEND EMAILS
-    ====================================================== */
     const ownerTpl = ownerEmailTemplate(payload);
     await transporter.sendMail({
       from: `"Yorkshire Global" <${fromEmail}>`,
@@ -242,19 +208,38 @@ export async function POST(req: Request) {
       attachments,
     });
 
-    return NextResponse.json({ ok: true });
-  } catch (err: any) {
-    console.error("[CONTACT_API_ERROR]", err);
+    logContactEvent("info", "submission_accepted", {
+      requestId,
+      ip,
+      originHost,
+      userAgent,
+      hostname: turnstile.hostname,
+      service: payload.service,
+      email: maskEmail(payload.email),
+      messageLength: payload.message.length,
+      wordCount: payload.message.split(/\s+/).filter(Boolean).length,
+      rateLimitRemaining: rateLimit.remaining,
+    });
 
-    // If strictly authentication error, warn about 2FA/App Password
-    if (err.responseCode === 535) {
-      console.error(
-        "Make sure you are using an App Password if 2FA is enabled on Zoho."
-      );
+    return successResponse("Thanks! We received your message and will reply within 24 hours.");
+  } catch (err: any) {
+    logContactEvent("error", "submission_error", {
+      requestId,
+      ip,
+      originHost,
+      error: err,
+    });
+
+    if (err?.responseCode === 535) {
+      logContactEvent("error", "zoho_auth_failed", {
+        requestId,
+        message: "Make sure you are using an App Password if 2FA is enabled on Zoho.",
+      });
     }
 
-    return NextResponse.json(
-      { error: err.message || "Server error." },
+    return errorResponse(
+      "INTERNAL_ERROR",
+      "We could not submit your message right now. Please try again shortly.",
       { status: 500 }
     );
   }
