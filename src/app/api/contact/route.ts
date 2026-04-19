@@ -133,14 +133,25 @@ export async function POST(req: Request) {
       message: validation.data.message,
     };
 
-    const user = process.env.ZOHO_MAIL_USER;
-    const pass = process.env.ZOHO_MAIL_PASS;
+    const user =
+      process.env.SMTP_USER ||
+      process.env.GMAIL_USER ||
+      process.env.ZOHO_MAIL_USER;
+    const pass =
+      process.env.SMTP_PASS ||
+      process.env.GMAIL_APP_PASSWORD ||
+      process.env.ZOHO_MAIL_PASS;
+    const host = process.env.SMTP_HOST || "smtp.gmail.com";
+    const port = Number(process.env.SMTP_PORT || "465");
+    const secure = String(process.env.SMTP_SECURE || "true").toLowerCase() !== "false";
 
     if (!user || !pass) {
       logContactEvent("error", "email_config_missing", {
         requestId,
         ip,
         originHost,
+        hasUser: Boolean(user),
+        hasPass: Boolean(pass),
       });
 
       return errorResponse(
@@ -151,13 +162,10 @@ export async function POST(req: Request) {
     }
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.zoho.com",
-      port: 587,
-      secure: false,
+      host,
+      port,
+      secure,
       auth: { user, pass },
-      tls: {
-        rejectUnauthorized: false,
-      },
       connectionTimeout: 10000,
     });
 
@@ -231,9 +239,9 @@ export async function POST(req: Request) {
     });
 
     if (err?.responseCode === 535) {
-      logContactEvent("error", "zoho_auth_failed", {
+      logContactEvent("error", "smtp_auth_failed", {
         requestId,
-        message: "Make sure you are using an App Password if 2FA is enabled on Zoho.",
+        message: "Make sure you are using a valid SMTP app password for the configured mailbox.",
       });
     }
 
