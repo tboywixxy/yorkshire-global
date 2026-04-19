@@ -18,16 +18,44 @@ export type ContactPayload = {
   message: string;
 };
 
-// ✅ LIGHT MODE THEME (single theme — no dark mode)
-const BRAND = {
-  pageBg: "#f6f7fb",        // very light grey background
-  cardBg: "#ffffff",        // white card
-  border: "#e5e7eb",        // light grey border
-  text: "#111827",          // slate-900
-  muted: "#4b5563",         // slate-600
-  subtle: "#6b7280",        // slate-500
-  accent: "#2563eb",        // blue-600
+const SERVICE_LABELS: Record<string, string> = {
+  managedIT: "Managed IT",
+  secureAI: "Secure AI",
+  ssdlc: "SSDLC",
+  cybersecurity: "Cybersecurity",
+  businessAnalysis: "Business Analysis",
+  projectManagement: "Project Management",
+  strategy: "Strategy",
+  other: "Other",
 };
+
+const BRAND = {
+  pageBg: "#f6f7fb",
+  cardBg: "#ffffff",
+  border: "#e5e7eb",
+  text: "#111827",
+  muted: "#4b5563",
+  subtle: "#6b7280",
+  accent: "#2563eb",
+};
+
+function humanizeKey(value: string) {
+  return value
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function formatServiceLabel(service: string) {
+  return SERVICE_LABELS[service] || humanizeKey(service);
+}
+
+function displayText(value: string, fallback = "Not provided") {
+  const trimmed = value.trim();
+  return trimmed ? trimmed : fallback;
+}
 
 function shell({
   title,
@@ -46,7 +74,6 @@ function shell({
     <title>${escapeHtml(title)}</title>
 
     <style>
-      /* Email-safe-ish responsive helpers */
       @media screen and (max-width: 520px) {
         .container { width: 100% !important; }
         .stack { display: block !important; width: 100% !important; }
@@ -56,7 +83,7 @@ function shell({
         .pad-sm { padding-left: 10px !important; padding-right: 10px !important; }
         .logo-sm { margin-left: auto !important; margin-right: auto !important; }
       }
-      /* default states */
+
       .show-sm { display: none; }
     </style>
   </head>
@@ -70,12 +97,11 @@ function shell({
       <tr>
         <td align="center" class="pad-sm">
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="640" class="container" style="width:640px;max-width:640px;">
-            <!-- HEADER ROW (desktop layout) -->
             <tr>
-              <td style="padding:0 0 8px 0;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <td style="padding:0 0 12px 0;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border:1px solid ${BRAND.border};">
                   <tr>
-                    <td class="stack center-sm" align="left" style="padding:0;">
+                    <td class="stack center-sm" align="left" style="padding:18px 20px;">
                       <img
                         src="cid:yorkshire_logo"
                         width="260"
@@ -84,9 +110,7 @@ function shell({
                         style="display:block;border:0;outline:none;text-decoration:none;max-width:260px;height:auto;"
                       />
                     </td>
-
-                    <!-- desktop only location -->
-                    <td class="hide-sm" align="right" style="padding:0;color:${BRAND.subtle};font-size:12px;vertical-align:middle;">
+                    <td class="hide-sm" align="right" style="padding:18px 20px;color:${BRAND.subtle};font-size:12px;vertical-align:middle;">
                       Ontario, Canada
                     </td>
                   </tr>
@@ -94,24 +118,21 @@ function shell({
               </td>
             </tr>
 
-            <!-- MOBILE LOCATION (below logo, centered) -->
             <tr class="show-sm">
-              <td class="show-sm center-sm" style="padding:0 0 10px 0;color:${BRAND.subtle};font-size:12px;">
+              <td class="show-sm center-sm" style="padding:0 0 12px 0;color:${BRAND.subtle};font-size:12px;">
                 Ontario, Canada
               </td>
             </tr>
 
-            <!-- CARD -->
             <tr>
               <td style="background:${BRAND.cardBg};border:1px solid ${BRAND.border};padding:20px;">
                 ${bodyHtml}
               </td>
             </tr>
 
-            <!-- FOOTER -->
             <tr>
               <td style="padding:14px 6px 0 6px;color:${BRAND.subtle};font-size:12px;line-height:1.5;">
-                © ${new Date().getFullYear()} Yorkshire Global Consulting Inc.
+                &copy; ${new Date().getFullYear()} Yorkshire Global Consulting Inc.
               </td>
             </tr>
           </table>
@@ -123,7 +144,9 @@ function shell({
 }
 
 export function ownerEmailTemplate(p: ContactPayload) {
-  const subject = `New Inquiry: ${p.service} — ${p.organization}`;
+  const serviceLabel = formatServiceLabel(p.service);
+  const companyLabel = displayText(p.organization);
+  const subject = `New Inquiry: ${serviceLabel} - ${companyLabel}`;
   const messageHtml = escapeHtml(p.message).replace(/\n/g, "<br/>");
 
   const bodyHtml = `
@@ -145,8 +168,8 @@ export function ownerEmailTemplate(p: ContactPayload) {
         )}" style="color:${BRAND.accent};text-decoration:none;">${escapeHtml(p.email)}</a>`
       )}
       ${row("Phone", escapeHtml(p.phone))}
-      ${row("Company", escapeHtml(p.organization))}
-      ${row("Service", escapeHtml(p.service))}
+      ${row("Company", escapeHtml(companyLabel))}
+      ${row("Service", escapeHtml(serviceLabel))}
     </table>
 
     <div style="height:1px;background:${BRAND.border};margin:14px 0;"></div>
@@ -164,7 +187,7 @@ export function ownerEmailTemplate(p: ContactPayload) {
 
   const html = shell({
     title: "New Contact Form Submission",
-    preheader: `New inquiry from ${p.fullName} (${p.organization})`,
+    preheader: `New inquiry from ${p.fullName} (${companyLabel})`,
     bodyHtml,
   });
 
@@ -173,31 +196,34 @@ export function ownerEmailTemplate(p: ContactPayload) {
     `Full name: ${p.fullName}\n` +
     `Email: ${p.email}\n` +
     `Phone: ${p.phone}\n` +
-    `Company: ${p.organization}\n` +
-    `Service: ${p.service}\n\n` +
+    `Company: ${companyLabel}\n` +
+    `Service: ${serviceLabel}\n\n` +
     `Message:\n${p.message}\n`;
 
   return { subject, html, text };
 }
 
 export function ackEmailTemplate(p: Pick<ContactPayload, "fullName" | "service" | "organization">) {
+  const serviceLabel = formatServiceLabel(p.service);
+  const companyLabel = displayText(p.organization);
   const subject = "We received your message";
 
   const bodyHtml = `
     <h1 style="margin:0 0 8px 0;color:${BRAND.text};font-size:18px;line-height:1.3;">
-      Thanks — we got your message
+      Thanks - we got your message
     </h1>
     <p style="margin:0 0 14px 0;color:${BRAND.text};font-size:13px;line-height:1.7;">
       Hi <b style="color:${BRAND.text};">${escapeHtml(p.fullName)}</b>,<br/><br/>
-      We’ve received your inquiry and will respond within <b style="color:${BRAND.text};">24 hours</b>.
+      We've received your inquiry and will respond within <b style="color:${BRAND.text};">24 hours</b>.
     </p>
 
-    <div style="background:#f9fafb;border:1px solid ${BRAND.border};padding:14px;">
-      <div style="color:${BRAND.muted};font-size:12px;margin-bottom:8px;">Summary</div>
-      <div style="color:${BRAND.text};font-size:13px;line-height:1.6;">
-        <div><span style="color:${BRAND.muted};">Service:</span> ${escapeHtml(p.service)}</div>
-        <div><span style="color:${BRAND.muted};">Company:</span> ${escapeHtml(p.organization)}</div>
-      </div>
+    <div style="background:#f9fafb;border:1px solid ${BRAND.border};padding:16px;">
+      <div style="color:${BRAND.text};font-size:14px;font-weight:700;margin-bottom:12px;">Inquiry Summary</div>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+        ${row("Contact", escapeHtml(p.fullName))}
+        ${row("Service", escapeHtml(serviceLabel))}
+        ${row("Company", escapeHtml(companyLabel))}
+      </table>
     </div>
 
     <p style="margin:14px 0 0 0;color:${BRAND.subtle};font-size:12px;line-height:1.6;">
@@ -207,15 +233,18 @@ export function ackEmailTemplate(p: Pick<ContactPayload, "fullName" | "service" 
 
   const html = shell({
     title: "We received your message",
-    preheader: "Thanks — your message has been received.",
+    preheader: "Thanks - your message has been received.",
     bodyHtml,
   });
 
   const text =
     `Hi ${p.fullName},\n\n` +
-    `We’ve received your inquiry and will respond within 24 hours.\n\n` +
-    `Summary:\nService: ${p.service}\nCompany: ${p.organization}\n\n` +
-    `— Yorkshire Global Consulting Inc.`;
+    `We've received your inquiry and will respond within 24 hours.\n\n` +
+    `Inquiry Summary:\n` +
+    `Contact: ${p.fullName}\n` +
+    `Service: ${serviceLabel}\n` +
+    `Company: ${companyLabel}\n\n` +
+    `- Yorkshire Global Consulting Inc.`;
 
   return { subject, html, text };
 }
